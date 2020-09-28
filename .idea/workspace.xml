@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="6e9a4d66-4d73-4572-ab13-15dbef2f5350" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.env.test" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/OC-P6-SnowTricks.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/deployment.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/console" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/phpunit" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/bundles.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/packages/cache.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/packages/dev/debug.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/packages/dev/monolog.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/packages/dev/web_profiler.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/packages/doctrine.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/packages/doctrine_migrations.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/packages/framework.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/packages/mailer.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/packages/notifier.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/packages/prod/deprecations.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/packages/prod/doctrine.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/packages/prod/monolog.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/packages/prod/routing.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/packages/routing.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/packages/security.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/packages/sensio_framework_extra.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/packages/test/framework.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/packages/test/monolog.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/packages/test/twig.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/packages/test/validator.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/packages/test/web_profiler.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/packages/translation.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/packages/twig.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/packages/validator.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/routes.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/routes/annotations.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/routes/dev/framework.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/routes/dev/web_profiler.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/services.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/diagrams/Annexe projet 6 - Spécifications_détaillées.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/migrations/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/phpunit.xml.dist" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/index.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Controller/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Entity/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Kernel.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Repository/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/base.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/bootstrap.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/translations/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings">
+    <execution />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1hV6V5g1fBovSCg5UagDIrpx8WA" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+    <option name="showMembers" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="true" />
+    <property name="WebServerToolWindowPanel.toolwindow.highlight.mappings" value="true" />
+    <property name="WebServerToolWindowPanel.toolwindow.highlight.symlinks" value="true" />
+    <property name="WebServerToolWindowPanel.toolwindow.show.date" value="false" />
+    <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
+    <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/.." />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="web.server" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="P:\DEV\parcours\P6\OC-P6-SnowTricks\diagrams" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="6e9a4d66-4d73-4572-ab13-15dbef2f5350" name="Default Changelist" comment="" />
+      <created>1600083935714</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1600083935714</updated>
+      <workItem from="1600083937472" duration="387000" />
+      <workItem from="1600084343250" duration="1043000" />
+      <workItem from="1600291443489" duration="599000" />
+      <workItem from="1600677383889" duration="6000" />
+      <workItem from="1600931514529" duration="656000" />
+      <workItem from="1601041350945" duration="630000" />
+      <workItem from="1601295430180" duration="4232000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="552" y="183" key="#Deployment" timestamp="1601302439150">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state x="552" y="183" key="#Deployment/0.0.1920.1050@0.0.1920.1050" timestamp="1601302439150" />
+    <state x="536" y="170" key="#SSH_Configurations" timestamp="1601302437271">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state x="536" y="170" key="#SSH_Configurations/0.0.1920.1050@0.0.1920.1050" timestamp="1601302437271" />
+    <state x="771" y="176" key="ftp.server.browser" timestamp="1601302288769">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state x="771" y="176" key="ftp.server.browser/0.0.1920.1050@0.0.1920.1050" timestamp="1601302288769" />
+  </component>
+</project>
