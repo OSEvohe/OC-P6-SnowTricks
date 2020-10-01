@@ -1,10 +1,17 @@
 <!DOCTYPE html>
-<html>
+<html prefix="og: https://ogp.me/ns#" lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
-    <meta name="description" content="Le site communautaire de figures de Snowboard">
     <title>{% block title %}SnowTricks{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}Le site communautaire de figures de Snowboard{% endblock %}">
+
+    <meta property="og:title" content="{{ block('title') }}" />
+    <meta property="og:type" content="{% block og_type %}website{% endblock %}" />
+    <meta property="og:description" content="{{ block('meta_description') }}" />
+    <meta property="og:url" content="{% block og_url %}{{ app.request.uri }}{% endblock %}" />
+    <meta property="og:image" content="{% block og_image %}{{  app.request.getSchemeAndHttpHost ~ asset('build/images/logo_bg_light.png') }}{% endblock %}" />
+
     <link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light&family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
     {% block stylesheets %}
         {{ encore_entry_link_tags('app') }}
