@@ -1,0 +1,25 @@
+@import "~bootstrap/scss/bootstrap";
+@import "vars";
+
+
+body {
+  font-family: $font-family-base;
+  color:$dark-color;
+}
+
+.top-header {
+  background-color: $dark-color!important;
+}
+
+.section-hero{
+  background-image: url("../images/felipe-giacometti-sawa7hivsRs-unsplash.jpg");
+  height:100vh;
+  width:100%;
+  background-size: cover;
+}
+
+.section-hero #hero-teasing{
+  font-family: $font-family-hero;
+  font-size:60px;
+  text-align: center;
+}
