@@ -7,6 +7,33 @@
     <section class="container-fluid col-12 section-hero">
         <div class="row h-100">
             <h1 id="hero-teasing" class="m-auto">Le site communautaire de Snowboard</h1>
+            <span class="scroll-down"><a href="{{ path("home") }}#tricks"><i class="fas fa-arrow-circle-down"></i></a></span>
+        </div>
+    </section>
+    <div id="tricks"></div>
+    <section class="container pt-5 mt-5">
+        <div class="row">
+            <div class="col-12">
+                <h2 class="text-center pb-5">Les Tricks</h2>
+            </div>
+        </div>
+
+        <div class="row tricks-list">
+            {% for i in 1..10 %}
+                <div class="col-sm-12 col-md-6 col-lg-4 trick-item mb-3 py-3 px-4">
+                    <div class="trick-item-content">
+                        <img class="trick-image" src="{{ asset("uploads/tricks/figure1.jpg") }}" alt="Figure 1"/>
+                        <div class="trick-infos p-3">
+                            <span><a href="#">Trick Name</a></span>
+                            <div class="trick-action-button">
+                                <i class="fas fa-pen"></i>&nbsp;
+                                <i class="fas fa-trash"></i>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            {% endfor %}
         </div>
     </section>
 {% endblock %}
