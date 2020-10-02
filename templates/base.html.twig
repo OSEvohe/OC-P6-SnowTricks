@@ -4,15 +4,18 @@
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
     <title>{% block title %}SnowTricks{% endblock %}</title>
-    <meta name="description" content="{% block meta_description %}Le site communautaire de figures de Snowboard{% endblock %}">
+    <meta name="description"
+          content="{% block meta_description %}Le site communautaire de figures de Snowboard{% endblock %}">
 
-    <meta property="og:title" content="{{ block('title') }}" />
-    <meta property="og:type" content="{% block og_type %}website{% endblock %}" />
-    <meta property="og:description" content="{{ block('meta_description') }}" />
-    <meta property="og:url" content="{% block og_url %}{{ app.request.uri }}{% endblock %}" />
-    <meta property="og:image" content="{% block og_image %}{{  app.request.getSchemeAndHttpHost ~ asset('build/images/logo_bg_light.png') }}{% endblock %}" />
+    <meta property="og:title" content="{{ block('title') }}"/>
+    <meta property="og:type" content="{% block og_type %}website{% endblock %}"/>
+    <meta property="og:description" content="{{ block('meta_description') }}"/>
+    <meta property="og:url" content="{% block og_url %}{{ app.request.uri }}{% endblock %}"/>
+    <meta property="og:image"
+          content="{% block og_image %}{{ app.request.getSchemeAndHttpHost ~ asset('build/images/logo_bg_light.png') }}{% endblock %}"/>
 
-    <link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light&family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light&family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&display=swap"
+          rel="stylesheet">
     {% block stylesheets %}
         {{ encore_entry_link_tags('app') }}
     {% endblock %}
@@ -20,7 +23,7 @@
 <body>
 <div class="top-header bg-dark fixed-top">
     <nav class="navbar navbar-expand-lg navbar-dark container" id="main-navbar">
-        <a class="navbar-brand p-0" href="{{ path("home") }}"><img src="{{ asset("build/images/logo_bg_dark.png") }}" /></a>
+        <a class="navbar-brand p-0" href="{{ path("home") }}"><img src="{{ asset("build/images/logo_bg_dark.png") }}"/></a>
         <button aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation"
                 class="navbar-toggler ml-auto"
                 data-target="#main-menu" data-toggle="collapse" type="button">
@@ -47,11 +50,13 @@
 {% block body %}{% endblock %}
 
 <!-- Footer -->
-<section class="footer row mt-5 p-2 bg-dark text-light">
-    <div class="col-12 small text-center">
-        Copyright Snowtricks 2020
-    </div>
-</section>
+<div class="footer container-fluid">
+    <section class="row mt-5 bg-dark text-light">
+        <div class="col-12 small text-center p-3">
+            Copyright Snowtricks 2020
+        </div>
+    </section>
+</div>
 
 {% block javascripts %}
     {{ encore_entry_script_tags('app') }}
