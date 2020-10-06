@@ -16,6 +16,22 @@ const $ = require('jquery');
 // the bootstrap module doesn't export/return anything
 require('bootstrap');
 
-$(document).ready(function() {
+$(document).ready(function () {
     $('[data-toggle="popover"]').popover();
+
+    let resizeTimer;
+    showMediaList();
+    $(window).resize(function () {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(showMediaList, 100);
+    });
 });
+
+function showMediaList() {
+    let cssValue = $('#show-media-button').css('display');
+    if (cssValue === 'none') {
+        $('#media-list').collapse('show');
+    } else {
+        $('#media-list').collapse('hide');
+    }
+}

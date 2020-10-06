@@ -3,9 +3,9 @@
 {% block title %}Trick Name - {{ parent() }}{% endblock %}
 
 {% block body %}
-    <div class="container">
-        <div class="trick-body">
-            <section class="trick-name row mb-5 pt-5">
+    <div class="trick-body">
+        <div class="container p-0 my-0">
+            <section class="trick-name row">
                 <div class="col-12">
                     <div class="trick-image">
                         <img src="{{ asset("uploads/tricks/figure1.jpg") }}" alt="figure1">
@@ -17,13 +17,22 @@
                     <h1>Trick 1</h1>
                 </div>
             </section>
-
-            <section class="trick-media-list row d-flex justify-content-center pb-5">
-                {% for i in 1..5 %}
-                    <div class="trick-media-item col-md-4 col-lg-3 col-xl-2">
-                        <img class="trick-media-cover" src="{{ asset("uploads/tricks/figure1.jpg") }}" alt=""/>
-                    </div>
-                {% endfor %}
+        </div>
+        <div class="container pt-5">
+            <div id="show-media-button" class="col-12 text-center d-block d-lg-none pb-5">
+                <button class="btn btn-primary" type="button" data-toggle="collapse"
+                        data-target="#media-list" aria-expanded="false" aria-controls="mediaList">
+                    Voir les médias
+                </button>
+            </div>
+            <section class="collapse" id="media-list">
+                <div class="trick-media-list row d-flex justify-content-center pb-5">
+                    {% for i in 1..5 %}
+                        <div class="trick-media-item col-md-2 pb-sm-3 pb-md-0">
+                            <img class="trick-media-cover" src="{{ asset("uploads/tricks/figure1.jpg") }}" alt=""/>
+                        </div>
+                    {% endfor %}
+                </div>
             </section>
             <section class="trick-description row justify-content-center pb-5">
                 <div class="col-sm-12 col-md-10">
@@ -83,22 +92,31 @@
             <section class="row justify-content-center pb-5 comments-list">
                 <div class="col-sm-12 col-md-9 col-lg-6">
                     {% for i in 1..5 %}
-                    <div class="comment-item row">
-                        <div class="user-photo d-inline-block p-2 col-2">
-                           <img src="{{ asset("build/images/user-icon-image-18.jpg") }}" style="width:48px" alt=""/>
-                        </div>
-                        <div class="comment d-inline-block p-2 col-10">
-                           <div class="comment-meta">
-                               Message de user42 le 17/11/2020 à 13h37
-                           </div>
-                            <div class="comment-content">
-                                Super mais sans les mains c'est encore mieux.  Super mais sans les mains c'est encore mieux.  Super mais sans les mains c'est encore mieux.  Super mais sans les mains c'est encore mieux.  Super mais sans les mains c'est encore mieux.
+                        <div class="comment-item row">
+                            <div class="user-photo d-inline-block p-2 col-2">
+                                <div>
+                                    <img src="{{ asset("build/images/user-icon-image-18.jpg") }}" alt=""/>
+                                </div>
+                            </div>
+                            <div class="comment d-inline-block p-2 col-10">
+                                <div class="comment-meta">
+                                    Message de user42 le 17/11/2020 à 13h37
+                                </div>
+                                <div class="comment-content">
+                                    Super mais sans les mains c'est encore mieux. Super mais sans les mains c'est encore
+                                    mieux. Super mais sans les mains c'est encore mieux. Super mais sans les mains c'est
+                                    encore mieux. Super mais sans les mains c'est encore mieux.
+                                </div>
                             </div>
                         </div>
-                    </div>
                     {% endfor %}
                 </div>
             </section>
+            <div class="row">
+                <div class="col-12 text-center pb-5">
+                    <button id="loadmorecomment" class="btn-primary">Voir plus...</button>
+                </div>
+            </div>
 
         </div>
     </div>

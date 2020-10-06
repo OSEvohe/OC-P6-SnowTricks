@@ -1,6 +1,5 @@
-@import "~bootstrap/scss/bootstrap";
 @import "vars";
-
+@import "~bootstrap";
 
 body {
   font-family: $font-family-base;
@@ -32,7 +31,7 @@ a {
 .top-header {
   background-color: $dark-color !important;
   height: 72px;
-  box-shadow: 2px 2px 20px rgba(0,0,0,0.5);
+  box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.5);
 }
 
 .section-hero {
@@ -92,17 +91,17 @@ a {
 
   .trick-name {
 
-    .trick-image{
+    .trick-image {
       position: relative;
       background-color: #222222;
 
       .trick-action-button {
-        position:absolute;
-        right:5px;
-        top:5px;
-        padding:5px 20px;
-        background-color:$dark-with-opacity;
-        color:$light-color;
+        position: absolute;
+        right: 5px;
+        top: 5px;
+        padding: 5px 20px;
+        background-color: $dark-with-opacity;
+        color: $light-color;
       }
     }
 
@@ -113,10 +112,10 @@ a {
 
     h1 {
       @extend #hero-teasing;
-      position:absolute;
-      top:50%;
-      left:0;
-      right:0;
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
     }
   }
 
@@ -129,4 +128,21 @@ a {
 
   }
 
+}
+
+.comment-item {
+
+  .user-photo {
+    div {
+      width:48px;
+      height:48px;
+      border-radius: 24px;
+      overflow: hidden;
+      border: $dark-color solid 1px;
+    }
+
+    img {
+      width: 48px;
+    }
+  }
 }
