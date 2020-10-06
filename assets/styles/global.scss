@@ -5,6 +5,11 @@
 body {
   font-family: $font-family-base;
   color: $dark-color;
+  padding-top: 72px;
+  background-color: #222222;
+  font-size: 15px;
+  line-height: 1.6;
+  letter-spacing: 0.2px;
 }
 
 a {
@@ -16,8 +21,18 @@ a {
   }
 }
 
+.container {
+  background-color: #fffafa;
+}
+
+#main-navbar {
+  background: none;
+}
+
 .top-header {
   background-color: $dark-color !important;
+  height: 72px;
+  box-shadow: 2px 2px 20px rgba(0,0,0,0.5);
 }
 
 .section-hero {
@@ -27,7 +42,7 @@ a {
   background-size: cover;
 }
 
-.section-hero #hero-teasing {
+#hero-teasing {
   font-family: $font-family-hero;
   font-size: 60px;
   text-align: center;
@@ -44,7 +59,7 @@ a {
   color: $dark-color;
 
   i {
-    font-size:60px;
+    font-size: 60px;
   }
 }
 
@@ -71,4 +86,47 @@ a {
       }
     }
   }
+}
+
+.trick-body {
+
+  .trick-name {
+
+    .trick-image{
+      position: relative;
+      background-color: #222222;
+
+      .trick-action-button {
+        position:absolute;
+        right:5px;
+        top:5px;
+        padding:5px 20px;
+        background-color:$dark-with-opacity;
+        color:$light-color;
+      }
+    }
+
+    img {
+      width: 100%;
+      opacity: 0.7;
+    }
+
+    h1 {
+      @extend #hero-teasing;
+      position:absolute;
+      top:50%;
+      left:0;
+      right:0;
+    }
+  }
+
+  .trick-media-list {
+
+    .trick-media-item img {
+      width: 100%;
+      display: block;
+    }
+
+  }
+
 }
