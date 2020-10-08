@@ -94,13 +94,15 @@ a {
     .trick-image {
       position: relative;
       background-color: #222222;
+      max-height: 576px;
+      overflow: hidden;
+
 
       .trick-action-button {
         position: absolute;
         right: 5px;
         top: 5px;
         padding: 5px 20px;
-        background-color: $dark-with-opacity;
         color: $light-color;
       }
     }
@@ -121,21 +123,34 @@ a {
 
   .trick-media-list {
 
-    .trick-media-item img {
-      width: 100%;
-      display: block;
+    .trick-media-item {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      .trick-media-item-content {
+        text-align: center;
+      }
+
+      img {
+        width: 100%;
+        display: block;
+      }
+
+      i.fa-plus-circle {
+        font-size:48px;
+      }
     }
 
   }
-
 }
 
 .comment-item {
 
   .user-photo {
     div {
-      width:48px;
-      height:48px;
+      width: 48px;
+      height: 48px;
       border-radius: 24px;
       overflow: hidden;
       border: $dark-color solid 1px;

@@ -26,8 +26,8 @@
                         <div class="trick-infos p-3">
                             <span><a href="#">Trick Name</a></span>
                             <div class="trick-action-button">
-                                <i class="fas fa-pen"></i>&nbsp;
-                                <i class="fas fa-trash"></i>
+                                <a class="btn btn-primary" role="button" href=""><i class="fas fa-pen"></i></a>
+                                <a class="btn btn-primary" role="button" data-toggle="modal" data-target="#deleteTrickModal" data-trickid="{{ i }}" data-trickname="Trick {{ i }}"><i class="fas fa-trash"></i></a>
                             </div>
                         </div>
 
@@ -36,4 +36,6 @@
             {% endfor %}
         </div>
     </section>
+
+    {% include 'modals/deleteTrick.html.twig' %}
 {% endblock %}
