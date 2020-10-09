@@ -26,7 +26,7 @@ $(document).ready(function () {
 });
 
 
-// collapse or reduce the media list
+// hide or show the media list
 function showMediaList() {
     let cssValue = $('#show-media-button').css('display');
     if (cssValue === 'none') {
@@ -37,15 +37,14 @@ function showMediaList() {
 }
 
 /**
- * Set form values, allow to use the same modal for multiple item
+ * Set form and modal value
  * event :          show modal event
- * modalValue :     Object of Objects following this structure 'dataname : {type: 'type', selector: 'css-selector'}
- * example          HTML : <button data-myid="1">My Button</button><input type='hidden' class='my-id' name='id' />
- *                  JS : modalValues = {myid : {type: 'val, selector: '.my-id}}
+ * modalValue :     Object of Objects following this structure 'dataname : {value: 'value', type: 'type', selector: 'css-selector'}
+ * example          HTML : <button data-myid='{"value":"1","type":"val","selector":".my-id"}'>My Button</button><input type='hidden' class='my-id' name='id' />
+ *                  JS :  {value: '1', type: 'val', selector: '.my-id'}
  * modal            The modal
  */
 function setModalFormValue(event,field, modal) {
-    console.log(field)
     let item = modal.find(field.selector)
     if (field.type === 'val') {
         item.val(field.value)

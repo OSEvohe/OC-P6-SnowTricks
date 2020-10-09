@@ -11,7 +11,7 @@
                         <img src="{{ asset("uploads/tricks/figure1.jpg") }}" alt="figure1">
                         <div class="trick-action-button">
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#selectTrickCoverModal"><i class="fas fa-pen"></i></button>
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deleteMediaModal" data-mediaid="1" data-medianame="Media 1"><i class="fas fa-trash"></i></button>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deleteModal" data-id='{"id":"1", "type":"val", "selector":"modal-form-id"}' data-name='{"value":"Media 1","selector":".modal-title"}'><i class="fas fa-trash"></i></button>
                         </div>
                     </div>
                     <h1>Trick 1</h1>
@@ -33,7 +33,7 @@
                                 <img class="trick-media-cover" src="{{ asset("uploads/tricks/figure1.jpg") }}" alt=""/>
                                 <div class="trick-action-button">
                                     <button class="btn btn-primary"><i class="fas fa-pen"></i></button>&nbsp;
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deleteMediaModal" data-mediaid="{{ i }}" data-medianame="Media {{ i }}"><i class="fas fa-trash"></i></button>
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deleteModal" data-title='{"value":"Supprimer Media {{ i }}","selector":".modal-title"}' data-id='{"value":"{{ i }}","type":"val","selector":".modal-form-id"}'><i class="fas fa-trash"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -52,7 +52,7 @@
             </section>
         </div>
     </div>
-    {% include 'modals/deleteMedia.html.twig' %}
+    {% include 'modals/delete.html.twig' %}
     {% include 'modals/addMedia.html.twig' %}
     {% include 'modals/selectTrickCover.html.twig' %}
 {% endblock %}
