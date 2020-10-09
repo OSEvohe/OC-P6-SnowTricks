@@ -16,7 +16,12 @@ $(document).ready(function () {
 
     // Display delete modal
     $('#deleteModal').on('show.bs.modal', function (event) {
-        setModalFormValues(event, $(event.relatedTarget).data(), $(this))
+        let data = $(event.relatedTarget).data()
+        for (let key in data) {
+            if (data.hasOwnProperty(key) && data[key].selector !== undefined) {
+                setModalFormValue(event, data[key], $(this))
+            }
+        }
     })
 });
 
@@ -39,16 +44,12 @@ function showMediaList() {
  *                  JS : modalValues = {myid : {type: 'val, selector: '.my-id}}
  * modal            The modal
  */
-function setModalFormValues(event, modalValues, modal) {
-    for (let key in modalValues) {
-        if (modalValues.hasOwnProperty(key) && modalValues[key].selector !== undefined) {
-            let field = modalValues[key]
-            let item = modal.find(field.selector)
-            if (field.type === 'val') {
-                item.val(field.value)
-            } else {
-                item.text(field.value)
-            }
-        }
+function setModalFormValue(event,field, modal) {
+    console.log(field)
+    let item = modal.find(field.selector)
+    if (field.type === 'val') {
+        item.val(field.value)
+    } else {
+        item.text(field.value)
     }
 }
