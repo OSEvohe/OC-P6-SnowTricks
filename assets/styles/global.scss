@@ -1,10 +1,14 @@
-@import "~bootstrap/scss/bootstrap";
 @import "vars";
-
+@import "~bootstrap";
 
 body {
   font-family: $font-family-base;
   color: $dark-color;
+  padding-top: 72px;
+  background-color: $body-bg;
+  font-size: 15px;
+  line-height: 1.6;
+  letter-spacing: 0.2px;
 }
 
 a {
@@ -16,8 +20,18 @@ a {
   }
 }
 
+.container {
+  background-color: $content-bg;
+}
+
+#main-navbar {
+  background: none;
+}
+
 .top-header {
   background-color: $dark-color !important;
+  height: 72px;
+  box-shadow: $box-shadow;
 }
 
 .section-hero {
@@ -27,7 +41,7 @@ a {
   background-size: cover;
 }
 
-.section-hero #hero-teasing {
+#hero-teasing {
   font-family: $font-family-hero;
   font-size: 60px;
   text-align: center;
@@ -44,7 +58,7 @@ a {
   color: $dark-color;
 
   i {
-    font-size:60px;
+    font-size: 60px;
   }
 }
 
@@ -69,6 +83,88 @@ a {
           float: right;
         }
       }
+    }
+  }
+}
+
+.trick-body {
+
+  .trick-name {
+
+
+    .trick-image {
+      position: relative;
+      background-color: $body-bg;
+      max-height: 576px;
+      overflow: hidden;
+
+
+      .trick-action-button {
+        position: absolute;
+        right: 5px;
+        top: 5px;
+        padding: 5px 20px;
+        color: $light-color;
+      }
+    }
+
+    img {
+      width: 100%;
+      opacity: 0.7;
+    }
+
+    h1 {
+      @extend #hero-teasing;
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+    }
+  }
+
+  .trick-media-list {
+
+    .trick-media-item {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      .trick-media-item-content {
+        text-align: center;
+      }
+
+      img {
+        width: 100%;
+        display: block;
+      }
+
+      i.fa-plus-circle {
+        font-size: 48px;
+      }
+    }
+
+  }
+}
+
+.trick-add {
+  .trick-image {
+    height: 200px;
+  }
+}
+
+.comment-item {
+
+  .user-photo {
+    div {
+      width: 48px;
+      height: 48px;
+      border-radius: 24px;
+      overflow: hidden;
+      border: $dark-color solid 1px;
+    }
+
+    img {
+      width: 48px;
     }
   }
 }
