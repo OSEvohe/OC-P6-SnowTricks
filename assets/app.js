@@ -1,4 +1,5 @@
 import './styles/global.scss';
+
 const $ = require('jquery');
 require('bootstrap');
 
@@ -15,22 +16,20 @@ $(document).ready(function () {
 
     // Display delete trick modal
     $('#deleteTrickModal').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget)
-        var trickId = button.data('trickid')
-        var trickName = button.data('trickname')
-        var modal = $(this)
-        modal.find('.modal-title-trickName').text(trickName)
-        modal.find('.modal-body #trickId').val(trickId)
+        let modalValues = {
+            trickid: {type: 'val', selector: '.trickId'},
+            trickname: {type: 'text', selector: '.trickName'}
+        }
+        setModalFormValue(event, modalValues, $(this))
     })
 
     // Display delete media modal
     $('#deleteMediaModal').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget)
-        var mediaId = button.data('mediaid')
-        var mediaName = button.data('medianame')
-        var modal = $(this)
-        modal.find('.modal-title-mediaName').text(mediaName)
-        modal.find('.modal-body #mediaId').val(mediaId)
+        let modalValues = {
+            mediaid: {type: 'val', selector: '.mediaId'},
+            medianame: {type: 'text', selector: '.mediaName'}
+        }
+        setModalFormValue(event, modalValues, $(this))
     })
 });
 
@@ -42,5 +41,32 @@ function showMediaList() {
         $('#media-list').collapse('show');
     } else {
         $('#media-list').collapse('hide');
+    }
+}
+
+/**
+ * Set form value, allow to use the same modal for multiple item
+ * event :          show modal event
+ * modalValue :     Object of Objects following this structure 'dataname : {type: 'type', selector: 'css-selector'}
+ * example          HTML : <button data-myid="1">My Button</button><input type='hidden' class='my-id' name='id' />
+ *                  JS : modalValues = {myid : {type: 'val, selector: '.my-id}}
+ * modal            The modal
+ */
+function setModalFormValue(event, modalValue, modal) {
+    let button = $(event.relatedTarget)
+    let field
+
+    for (let key in modalValue) {
+        if (modalValue.hasOwnProperty(key)) {
+            field = modalValue[key]
+            switch (field.type) {
+                case 'val':
+                    modal.find(field.selector).val(button.data(key))
+                    break
+                case 'text':
+                    modal.find(field.selector).text(button.data(key))
+                    break
+            }
+        }
     }
 }
