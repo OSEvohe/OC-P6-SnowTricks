@@ -16,20 +16,22 @@ $(document).ready(function () {
 
     // Display delete trick modal
     $('#deleteTrickModal').on('show.bs.modal', function (event) {
-        let modalValues = {
-            trickid: {type: 'val', selector: '.trickId'},
-            trickname: {type: 'text', selector: '.trickName'}
-        }
-        setModalFormValue(event, modalValues, $(this))
+        setModalFormValue(event,
+            {
+                trickid: {type: 'val', selector: '.trickId'},
+                trickname: {type: 'text', selector: '.trickName'}
+            },
+            $(this))
     })
 
     // Display delete media modal
     $('#deleteMediaModal').on('show.bs.modal', function (event) {
-        let modalValues = {
-            mediaid: {type: 'val', selector: '.mediaId'},
-            medianame: {type: 'text', selector: '.mediaName'}
-        }
-        setModalFormValue(event, modalValues, $(this))
+        setModalFormValue(event,
+            {
+                mediaid: {type: 'val', selector: '.mediaId'},
+                medianame: {type: 'text', selector: '.mediaName'}
+            },
+            $(this))
     })
 });
 
@@ -53,18 +55,14 @@ function showMediaList() {
  * modal            The modal
  */
 function setModalFormValue(event, modalValue, modal) {
-    let button = $(event.relatedTarget)
-    let field
-
     for (let key in modalValue) {
         if (modalValue.hasOwnProperty(key)) {
-            field = modalValue[key]
-            switch (field.type) {
+            switch (modalValue[key].type) {
                 case 'val':
-                    modal.find(field.selector).val(button.data(key))
+                    modal.find(modalValue[key].selector).val($(event.relatedTarget).data(key))
                     break
                 case 'text':
-                    modal.find(field.selector).text(button.data(key))
+                    modal.find(modalValue[key].selector).text($(event.relatedTarget).data(key))
                     break
             }
         }
