@@ -56,10 +56,12 @@ function showMediaList() {
  */
 function setModalFormValue(event, modalValue, modal) {
     for (let key in modalValue) {
+        let item = modal.find(modalValue[key].selector)
+        let value = $(event.relatedTarget).data(key)
         if (modalValue[key].type === 'val') {
-            modal.find(modalValue[key].selector).val($(event.relatedTarget).data(key))
+            item.val(value)
         } else {
-            modal.find(modalValue[key].selector).text($(event.relatedTarget).data(key))
+            item.text(value)
         }
     }
 }
