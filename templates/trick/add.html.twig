@@ -3,41 +3,18 @@
 {% block title %}Trick Name - {{ parent() }}{% endblock %}
 
 {% block body %}
-    <div class="trick-body">
+    <div class="trick-body trick-add">
         <div class="container p-0 my-0">
             <section class="trick-name row">
                 <div class="col-12">
                     <div class="trick-image">
-                        <img src="{{ asset("build/images/img-not-found.png") }}" alt="Pas d'image trouvé">
-                        <div class="trick-action-button">
-                            <i class="fas fa-pen"></i>&nbsp;
-                            <i class="fas fa-trash"></i>
-                        </div>
+
                     </div>
-                    <h1>Trick Name</h1>
+                    <h1>Ajout d'un nouveau Trick</h1>
                 </div>
             </section>
         </div>
         <div class="container pt-5">
-            <div id="show-media-button" class="col-12 text-center d-block d-lg-none pb-5">
-                <button class="btn btn-primary" type="button" data-toggle="collapse"
-                        data-target="#media-list" aria-expanded="false" aria-controls="mediaList">
-                    Voir les médias
-                </button>
-            </div>
-            <section class="collapse" id="media-list">
-                <div class="trick-media-list row d-flex justify-content-center pb-5">
-                    {% for i in 1..5 %}
-                        <div class="trick-media-item col-md-2 pb-sm-3 pb-md-0">
-                            <img class="trick-media-cover" src="{{ asset("uploads/tricks/figure1.jpg") }}" alt=""/>
-                            <div class="trick-action-button">
-                                <i class="fas fa-pen"></i>&nbsp;
-                                <i class="fas fa-trash"></i>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-            </section>
             <section class="trick-description row justify-content-center pb-5">
                 <div class="col-sm-12 col-md-10">
                     FORMULAIRE D'AJOUT

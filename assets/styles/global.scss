@@ -5,7 +5,7 @@ body {
   font-family: $font-family-base;
   color: $dark-color;
   padding-top: 72px;
-  background-color: #222222;
+  background-color: $body-bg;
   font-size: 15px;
   line-height: 1.6;
   letter-spacing: 0.2px;
@@ -21,7 +21,7 @@ a {
 }
 
 .container {
-  background-color: #fffafa;
+  background-color: $content-bg;
 }
 
 #main-navbar {
@@ -31,7 +31,7 @@ a {
 .top-header {
   background-color: $dark-color !important;
   height: 72px;
-  box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.5);
+  box-shadow: $box-shadow;
 }
 
 .section-hero {
@@ -91,9 +91,10 @@ a {
 
   .trick-name {
 
+
     .trick-image {
       position: relative;
-      background-color: #222222;
+      background-color: $body-bg;
       max-height: 576px;
       overflow: hidden;
 
@@ -138,10 +139,16 @@ a {
       }
 
       i.fa-plus-circle {
-        font-size:48px;
+        font-size: 48px;
       }
     }
 
+  }
+}
+
+.trick-add {
+  .trick-image {
+    height: 200px;
   }
 }
 
