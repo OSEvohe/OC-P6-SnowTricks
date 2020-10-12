@@ -46,6 +46,16 @@ class User implements UserInterface
      */
     private $userTricks;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $photo;
+
+    /**
+     * @ORM\Column(type="string", length=30, unique=true)
+     */
+    private $displayName;
+
     public function __construct()
     {
         $this->tricks = new ArrayCollection();
@@ -188,6 +198,37 @@ class User implements UserInterface
                 $userTrick->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function setUsername(string $username): self
+    {
+        $this->username = $username;
+
+        return $this;
+    }
+
+    public function getPhoto(): ?string
+    {
+        return $this->photo;
+    }
+
+    public function setPhoto(?string $photo): self
+    {
+        $this->photo = $photo;
+
+        return $this;
+    }
+
+    public function getDisplayName(): ?string
+    {
+        return $this->displayName;
+    }
+
+    public function setDisplayName(string $displayName): self
+    {
+        $this->displayName = $displayName;
 
         return $this;
     }
