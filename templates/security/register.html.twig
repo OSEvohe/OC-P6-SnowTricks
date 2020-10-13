@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}S'enregistrer - {{ parent() }}{% endblock %}
+
+{% block body %}
+
+    <section class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                {{ form_start(registrationForm) }}
+                {{ form_widget(registrationForm) }}
+
+                <button class="btn btn-lg btn-primary btn-block" type="submit">
+                    S'enregistrer
+                </button>
+                {{ form_end(registrationForm) }}
+            </div>
+        </div>
+    </section>
+{% endblock %}
