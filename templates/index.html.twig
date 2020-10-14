@@ -32,9 +32,9 @@
                     <div class="trick-item-content">
                         <img class="trick-image" src="{{ asset("uploads/tricks/figure1.jpg") }}" alt="Figure 1"/>
                         <div class="trick-infos p-3">
-                            <span><a href="#">Trick Name</a></span>
+                            <span><a href="{{ path("trick_detail", {'slug' : i}) }}">Trick Name</a></span>
                             <div class="trick-action-button">
-                                <a class="btn btn-primary" role="button" href=""><i class="fas fa-pen"></i></a>
+                                <a class="btn btn-primary" role="button" href="{{ path("trick_edit", {'slug' : i}) }}"><i class="fas fa-pen"></i></a>
                                 <a class="btn btn-primary" role="button" data-toggle="modal" data-target="#deleteModal" data-id='{"value":"{{ i }}", "type":"val", "selector":"modal-form-id"}' data-title='{"value":"Supprimer Trick {{ i }}?", "selector":".modal-title"}'><i class="fas fa-trash"></i></a>
                             </div>
                         </div>
