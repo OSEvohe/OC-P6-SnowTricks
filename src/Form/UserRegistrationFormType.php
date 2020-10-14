@@ -26,6 +26,7 @@ class UserRegistrationFormType extends AbstractType
                     new Email(['message'=>'"{{ value }}" n\'est pas une adresse e-mail valide.']),
                     new NotBlank(['message' => self::NOTEMPTY_MESSAGE])]])
             ->add('password', PasswordType::class, [
+                'empty_data' => '',
                 'constraints' => [
                     new Length([
                         'normalizer' => 'trim',
