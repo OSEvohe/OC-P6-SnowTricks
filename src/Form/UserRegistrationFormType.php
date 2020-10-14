@@ -22,39 +22,24 @@ class UserRegistrationFormType extends AbstractType
         $builder
             ->add('email', EmailType::class, [
                 'constraints' => [
-                    new NotBlank([
-                        'message' => self::NOTEMPTY_MESSAGE
-                    ])
-                ]
-            ])
+                    new NotBlank(['message' => self::NOTEMPTY_MESSAGE])]])
             ->add('password', PasswordType::class, [
                 'constraints' => [
                     new Length([
                         'normalizer' => 'trim',
-                        'max' => 255,
-                        'maxMessage' => 'Le mot de passe ne doit pas dépasser {{limit}} caractères',
+                        'max' => 255, 'maxMessage' => 'Le mot de passe ne doit pas dépasser {{limit}} caractères',
                         'allowEmptyString' => false,
                     ]),
-                    new NotBlank([
-                        'message' => self::NOTEMPTY_MESSAGE
-                    ])
-                ]
-            ])
+                    new NotBlank(['message' => self::NOTEMPTY_MESSAGE])]])
             ->add('displayName', TextType::class, [
                 'constraints' => [
                     new Length([
                         'normalizer' => 'trim',
-                        'min' => 2,
-                        'max' => 30,
-                        'minMessage' => 'Le Pseudo doit contenir au minimum {{ limit }} caractères',
-                        'maxMessage' => 'Le Pseudo doit contenir au maximum {{ limit }} caractères',
+                        'min' => 2, 'minMessage' => 'Le Pseudo doit contenir au minimum {{ limit }} caractères',
+                        'max' => 30, 'maxMessage' => 'Le Pseudo doit contenir au maximum {{ limit }} caractères',
                         'allowEmptyString' => false
                     ]),
-                    new NotBlank([
-                        'message' => self::NOTEMPTY_MESSAGE
-                    ])
-                ]
-            ]);
+                    new NotBlank(['message' => self::NOTEMPTY_MESSAGE])]]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
