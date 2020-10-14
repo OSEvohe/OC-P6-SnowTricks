@@ -73,12 +73,7 @@ class SecurityController extends AbstractController
 
             $this->addFlash('success', 'Bienvenue dans la communauté Snowtricks ' . $user->getDisplayName() . '! Votre compte a bien été créé');
 
-            return $guardHandler->authenticateUserAndHandleSuccess(
-                $user,
-                $request,
-                $formAuthenticator,
-                'main'
-            );
+            return $this->redirectToRoute('home');
 
         }
         return $this->render('security/register.html.twig', [
