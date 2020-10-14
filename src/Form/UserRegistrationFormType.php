@@ -34,18 +34,7 @@ class UserRegistrationFormType extends AbstractType
                         'max' => 255, 'maxMessage' => 'Le mot de passe ne doit pas dépasser {{limit}} caractères',
                         'allowEmptyString' => false,
                     ]),
-                    new PasswordRequirements([
-                        'minLength' => 8,
-                        'tooShortMessage' => 'Le mot de passe doit avoir au moins {{length}} caractères.',
-                        'requireLetters' => true,
-                        'missingLettersMessage' => 'Le mot de passe doit contenir au moins une lettre.',
-                        'requireCaseDiff' => true,
-                        'requireCaseDiffMessage' => 'Le mot de passe doit contenir des lettres majuscules et minuscules.',
-                        'requireNumbers' => true,
-                        'missingNumbersMessage' => 'Le mot de passe doit contenir au moins un chiffre.',
-                        'requireSpecialCharacter' => true,
-                        'missingSpecialCharacterMessage' => 'Le mot de passe doit contenir au moins un caractère spécial.',
-                    ]),
+                    $this->passwordRequirement(),
                     new NotBlank(['message' => self::NOTEMPTY_MESSAGE])]])
             ->add('displayName', TextType::class, [
                 'constraints' => [
@@ -72,6 +61,22 @@ class UserRegistrationFormType extends AbstractType
                     'message' => 'Ce pseudo est déjà utilisé par un autre utilisateur'
                 ))
             )
+        ]);
+    }
+
+    private function passwordRequirement()
+    {
+        return new PasswordRequirements([
+            'minLength' => 8,
+            'tooShortMessage' => 'Le mot de passe doit avoir au moins {{length}} caractères.',
+            'requireLetters' => true,
+            'missingLettersMessage' => 'Le mot de passe doit contenir au moins une lettre.',
+            'requireCaseDiff' => true,
+            'requireCaseDiffMessage' => 'Le mot de passe doit contenir des lettres majuscules et minuscules.',
+            'requireNumbers' => true,
+            'missingNumbersMessage' => 'Le mot de passe doit contenir au moins un chiffre.',
+            'requireSpecialCharacter' => true,
+            'missingSpecialCharacterMessage' => 'Le mot de passe doit contenir au moins un caractère spécial.',
         ]);
     }
 }
