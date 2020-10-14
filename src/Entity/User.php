@@ -34,7 +34,6 @@ class User implements UserInterface
     private $roles = [];
 
     /**
-     * @RollerworksPassword\PasswordStrength(minLength=7, minStrength=3)
      * @var string The hashed password
      * @ORM\Column(type="string")
      */

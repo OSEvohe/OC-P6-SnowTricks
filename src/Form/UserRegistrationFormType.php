@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\User;
+use Rollerworks\Component\PasswordStrength\Validator\Constraints\PasswordRequirements;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -32,6 +33,18 @@ class UserRegistrationFormType extends AbstractType
                         'normalizer' => 'trim',
                         'max' => 255, 'maxMessage' => 'Le mot de passe ne doit pas dépasser {{limit}} caractères',
                         'allowEmptyString' => false,
+                    ]),
+                    new PasswordRequirements([
+                        'minLength' => 8,
+                        'tooShortMessage' => 'Le mot de passe doit avoir au moins {{length}} caractères.',
+                        'requireLetters' => true,
+                        'missingLettersMessage' => 'Le mot de passe doit contenir au moins une lettre.',
+                        'requireCaseDiff' => true,
+                        'requireCaseDiffMessage' => 'Le mot de passe doit contenir des lettres majuscules et minuscules.',
+                        'requireNumbers' => true,
+                        'missingNumbersMessage' => 'Le mot de passe doit contenir au moins un chiffre.',
+                        'requireSpecialCharacter' => true,
+                        'missingSpecialCharacterMessage' => 'Le mot de passe doit contenir au moins un caractère spécial.',
                     ]),
                     new NotBlank(['message' => self::NOTEMPTY_MESSAGE])]])
             ->add('displayName', TextType::class, [
