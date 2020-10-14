@@ -12,6 +12,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class TrickMedia
 {
+    public const MEDIA_TYPE_IMAGE = 1;
+    public const MEDIA_TYPE_VIDEO = 2;
+
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
