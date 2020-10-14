@@ -14,7 +14,6 @@ use Rollerworks\Component\PasswordStrength\Validator\Constraints as RollerworksP
  */
 class User implements UserInterface
 {
-    public const ROLE_ADMIN = 'ROLE_ADMIN';
 
     /**
      * @ORM\Id
