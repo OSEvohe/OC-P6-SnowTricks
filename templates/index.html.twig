@@ -9,6 +9,9 @@
             {% for message in app.flashes('success') %}
                 <div class="col-12 alert-success text-center p-2 m-auto">{{ message }}</div>
             {% endfor %}
+            {% for message in app.flashes('error') %}
+                <div class="col-12 alert-danger text-center p-2 m-auto">{{ message }}</div>
+            {% endfor %}
         </div>
         <div class="row h-100">
             <h1 id="hero-teasing" class="m-auto">Le site communautaire de Snowboard</h1>
