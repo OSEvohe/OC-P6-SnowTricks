@@ -83,14 +83,26 @@
                 </div>
             </section>
             <hr/>
-            <section class="row justify-content-center pb-5">
-                <div class="col-sm-12 col-md-6">
-                    <p class="text-center">FORMULAIRE COMMENTAIRE</p>
-                </div>
-            </section>
+            {% if is_granted('ROLE_USER') %}
+                <section class="row justify-content-center pb-5">
+                    <div class="col-sm-12 col-md-6">
+                        {{ form_start(commentForm) }}
+                        <div class="form-group">
+                            {{ form_widget(commentForm.content) }}
+                        </div>
+                        <div class="form-group text-center">
+                            <button class="btn btn-lg btn-primary" type="submit">
+                                Laisser un commentaire
+                            </button>
+                        </div>
+                        {{ form_end(commentForm) }}
+                    </div>
+                </section>
+            {% endif %}
             <hr/>
             <section class="row justify-content-center pb-5 comments-list">
                 <div class="col-sm-12 col-md-9 col-lg-6">
+                    <h2 class="text-center mb-4">Commentaires</h2>
                     {% for i in 1..5 %}
                         <div class="comment-item row">
                             <div class="user-photo d-inline-block p-2 col-2">
