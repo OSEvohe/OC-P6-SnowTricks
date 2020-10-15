@@ -35,11 +35,9 @@ class TrickController extends AbstractController
         if ($commentForm->isSubmitted() && $commentForm->isValid()) {
             /** @var Comment $comment */
             $comment = $commentForm->getData();
-            /** @var User $user */
-            $user = $this->getUser();
 
             $comment->setTrick($trick);
-            $comment->setUser($user);
+            $comment->setUser($this->getUser());
             $em = $this->getDoctrine()->getManager();
             $em->persist($comment);
             $em->flush();
