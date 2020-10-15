@@ -38,20 +38,30 @@
                     <a class="nav-link" href="{{ path("home") }}#tricks">Les Tricks</a>
                 </li>
                 {% if is_granted('ROLE_USER') %}
-                <li class="px-2 nav-item">
-                    <a class="nav-link" href="{{ path("app_logout") }}">Deconnexion</a>
-                </li>
+                    <li class="px-2 nav-item">
+                        <a class="nav-link" href="{{ path("app_logout") }}">Deconnexion</a>
+                    </li>
                 {% else %}
-                <li class="px-2 nav-item">
-                    <a class="nav-link" href="{{ path("app_login") }}">Connexion</a>
-                </li>
-                <li class="px-2 nav-item">
-                    <a class="nav-link" href="{{ path("app_register") }}">Inscription</a>
-                </li>
+                    <li class="px-2 nav-item">
+                        <a class="nav-link" href="{{ path("app_login") }}">Connexion</a>
+                    </li>
+                    <li class="px-2 nav-item">
+                        <a class="nav-link" href="{{ path("app_register") }}">Inscription</a>
+                    </li>
                 {% endif %}
             </ul>
         </div>
     </nav>
+</div>
+<div class="container fixed-top">
+    <div class="row">
+        {% for message in app.flashes('success') %}
+            <div class="col-12 alert-success text-center p-2 m-auto">{{ message }}</div>
+        {% endfor %}
+        {% for message in app.flashes('error') %}
+            <div class="col-12 alert-danger text-center p-2 m-auto">{{ message }}</div>
+        {% endfor %}
+    </div>
 </div>
 {% block body %}{% endblock %}
 
