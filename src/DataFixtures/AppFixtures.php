@@ -2,10 +2,12 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Comment;
 use App\Entity\Trick;
 use App\Entity\TrickGroup;
 use App\Entity\TrickMedia;
 use App\Entity\User;
+use App\Entity\UserTrick;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -47,10 +49,16 @@ EOF;
         $user = new User();
         $user
             ->setDisplayName("Sebastien")
-            ->setEmail("sebastien@o-pa.fr")
-            ->setPassword($this->passwordEncoder->encodePassword($user, 'dummy_password'));
+            ->setEmail("user1@mail.com")
+            ->setPassword($this->passwordEncoder->encodePassword($user, 'password'));
         $manager->persist($user);
 
+        $user2 = new User();
+        $user2
+            ->setDisplayName("Nicolas")
+            ->setEmail("user2@mail.com")
+            ->setPassword($this->passwordEncoder->encodePassword($user, 'password'));
+        $manager->persist($user2);
 
         /*
          * Trick Medias
@@ -63,8 +71,8 @@ EOF;
             ->setAlt('Figure 1');
         $manager->persist($media);
 
-       $media2 = new TrickMedia();
-       $media2
+        $media2 = new TrickMedia();
+        $media2
             ->setContent(self::trickMediaVideo)
             ->setType(TrickMedia::MEDIA_TYPE_VIDEO)
             ->setAlt('Video de la figure');
@@ -85,6 +93,25 @@ EOF;
             ->addTrickMedium($media)
             ->addTrickMedium($media2);
         $manager->persist($trick);
+
+        /*
+         * Comments
+         */
+        $comment = new Comment();
+        $comment
+            ->setContent("Pas mal mais je pense qu'on peut faire cette figure plus facilement")
+            ->setUser($user)
+            ->setTrick($trick);
+        $manager->persist($comment);
+
+        /*
+         * Contributors (UserTrick)
+         */
+        $contributor = new UserTrick();
+        $contributor
+            ->setTrick($trick)
+            ->setUser($user2);
+        $manager->persist($contributor);
 
         $manager->flush();
     }
