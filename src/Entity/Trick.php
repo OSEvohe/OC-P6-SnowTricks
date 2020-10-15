@@ -35,13 +35,13 @@ class Trick
     private $description;
 
     /**
-     * @ORM\ManyToOne(targetEntity=TrickGroup::class, inversedBy="tricks")
+     * @ORM\ManyToOne(targetEntity=TrickGroup::class, inversedBy="tricks", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
-    private $trickgroup;
+    private $trickGroup;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="tricks")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="tricks", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
@@ -57,7 +57,8 @@ class Trick
     private $trickMedia;
 
     /**
-     * @ORM\OneToOne(targetEntity=TrickMedia::class, inversedBy="cover", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=TrickMedia::class, inversedBy="cover", cascade={"persist"})
+     * @ORM\JoinColumn(onDelete="SET NULL")
      */
     private $cover;
 
@@ -117,12 +118,12 @@ class Trick
 
     public function getTrickGroup(): ?TrickGroup
     {
-        return $this->TrickGroup;
+        return $this->trickGroup;
     }
 
     public function setTrickGroup(?TrickGroup $TrickGroup): self
     {
-        $this->TrickGroup = $TrickGroup;
+        $this->trickGroup = $TrickGroup;
 
         return $this;
     }
