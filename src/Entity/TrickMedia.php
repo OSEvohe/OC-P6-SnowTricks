@@ -6,15 +6,17 @@ use App\Repository\TrickMediaRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
  * @ORM\Entity(repositoryClass=TrickMediaRepository::class)
  */
 class TrickMedia
 {
+    use TimestampableEntity;
+
     public const MEDIA_TYPE_IMAGE = 1;
     public const MEDIA_TYPE_VIDEO = 2;
-
 
     /**
      * @ORM\Id
