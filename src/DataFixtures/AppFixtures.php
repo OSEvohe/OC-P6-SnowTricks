@@ -84,8 +84,7 @@ EOF;
          */
         $trick = new Trick();
         $trick
-            ->setName('720')
-            ->setSlug('720')
+            ->setName('Le Trick "720"')
             ->setDescription(self::trickDescription)
             ->setTrickGroup($trickGroup)
             ->setUser($user)
