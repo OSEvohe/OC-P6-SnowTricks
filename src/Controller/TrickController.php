@@ -8,10 +8,13 @@ use App\Entity\Comment;
 use App\Entity\Trick;
 use App\Entity\User;
 use App\Form\CommentType;
+use App\Form\TrickType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class TrickController extends AbstractController
 {
@@ -25,9 +28,7 @@ class TrickController extends AbstractController
      */
     public function view(Request $request, Trick $trick): Response
     {
-        if (!$trick) {
-            throw $this->createNotFoundException('Cette figure n\'existe pas');
-        }
+        $this->checkTrickExists($trick);
 
         $commentForm = $this->createForm(CommentType::class);
         $commentForm->handleRequest($request);
@@ -70,11 +71,36 @@ class TrickController extends AbstractController
      * Add trick
      *
      * @Route ("/trick/add", name="trick_add", priority="3")
-     *
+     * @param Request $request
+     * @param SluggerInterface $slugger
+     * @return Response
      */
-    public function add(): Response
+    public function add(Request $request, SluggerInterface $slugger): Response
     {
-        return $this->render('trick/add.html.twig');
+        $form = $this->createForm(TrickType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var Trick $trick */
+            $trick = $form->getData();
+            $cover = $form->get('cover')->getData();
+
+            $trick->getCover()->setContent('figure1');
+            $trick->setUser($this->getUser())
+                ->setCover($trick->getCover());
+            $trick->getCover()->setTrick($trick);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($trick);
+            $em->flush();
+
+
+            //$this->addFlash('success', 'Le Trick a été crée');
+            //return $this->redirectToRoute('trick_detail', ['slug' => $trick->getSlug()]);
+        }
+
+        return $this->render('trick/add.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
 
 
@@ -88,5 +114,11 @@ class TrickController extends AbstractController
     public function delete(string $slug): Response
     {
 
+    }
+
+    private function checkTrickExists($trick){
+        if (!$trick) {
+            throw $this->createNotFoundException('Cette figure n\'existe pas');
+        }
     }
 }
