@@ -4,7 +4,12 @@
 namespace App\Controller;
 
 
+use App\Entity\Comment;
+use App\Entity\Trick;
+use App\Entity\User;
+use App\Form\CommentType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -14,12 +19,38 @@ class TrickController extends AbstractController
      * View single trick
      *
      * @Route ("/trick/{slug}" , name="trick_detail")
-     * @param string $slug
+     * @param Request $request
+     * @param Trick $trick
      * @return Response
      */
-    public function view(string $slug): Response
+    public function view(Request $request, Trick $trick): Response
     {
-        return $this->render('trick/view.html.twig');
+        if (!$trick) {
+            throw $this->createNotFoundException('Cette figure n\'existe pas');
+        }
+
+        $commentForm = $this->createForm(CommentType::class);
+        $commentForm->handleRequest($request);
+
+        if ($commentForm->isSubmitted() && $commentForm->isValid()) {
+            /** @var Comment $comment */
+            $comment = $commentForm->getData();
+
+            $comment->setTrick($trick);
+            $comment->setUser($this->getUser());
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($comment);
+            $em->flush();
+
+            $this->addFlash('success', 'Votre commentaire a été ajouté');
+
+            return $this->redirectToRoute('trick_detail', ['slug' => $trick->getSlug()]);
+        }
+
+        return $this->render('trick/view.html.twig', [
+            'trick' => $trick,
+            'commentForm' => $commentForm->createView()
+        ]);
     }
 
     /**
