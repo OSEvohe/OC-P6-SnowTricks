@@ -39,8 +39,7 @@ EOF;
          */
         $trickGroup = new TrickGroup();
         $trickGroup
-            ->setName("Groupe 1")
-            ->setSlug("groupe1");
+            ->setName("Groupe 1");
         $manager->persist($trickGroup);
 
         /*

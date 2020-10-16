@@ -6,6 +6,7 @@ use App\Repository\TrickGroupRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
@@ -29,6 +30,7 @@ class TrickGroup
 
     /**
      * @ORM\Column(type="string", length=60, unique=true)
+     * @Gedmo\Slug(fields={"name"})
      */
     private $slug;
 
