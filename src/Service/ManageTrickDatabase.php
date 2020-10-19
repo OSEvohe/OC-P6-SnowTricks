@@ -9,7 +9,6 @@ use App\Entity\TrickMedia;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class ManageTrickDatabase
 {
@@ -31,6 +30,12 @@ class ManageTrickDatabase
     }
 
 
+    /**
+     * @param Trick $trick
+     * @param FormInterface $coverForm
+     * @param ImageUploader $imageUploader
+     * @return bool
+     */
     public function setUploadedCover(Trick $trick, FormInterface $coverForm, ImageUploader $imageUploader): bool{
         $coverFile = $coverForm->get('content')->getData();
         if ($coverFile) {

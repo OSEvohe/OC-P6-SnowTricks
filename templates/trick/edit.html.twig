@@ -11,7 +11,8 @@
                         <img src="{{ asset("uploads/tricks/figure1.jpg") }}" alt="figure1">
                         <div class="trick-action-button">
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#selectTrickCoverModal"><i class="fas fa-pen"></i></button>
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deleteModal" data-id='{"id":"1", "type":"val", "selector":"modal-form-id"}' data-name='{"value":"Media 1","selector":".modal-title"}'><i class="fas fa-trash"></i></button>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deleteModal" data-id='{"id":"1", "type":"val", "selector":"modal-form-id"}'
+                                    data-name='{"value":"Media 1","selector":".modal-title"}'><i class="fas fa-trash"></i></button>
                         </div>
                     </div>
                     <h1>Trick 1</h1>
@@ -33,7 +34,8 @@
                                 <img class="trick-media-cover" src="{{ asset("uploads/tricks/figure1.jpg") }}" alt=""/>
                                 <div class="trick-action-button">
                                     <button class="btn btn-primary"><i class="fas fa-pen"></i></button>&nbsp;
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deleteModal" data-title='{"value":"Supprimer Media {{ i }}","selector":".modal-title"}' data-id='{"value":"{{ i }}","type":"val","selector":".modal-form-id"}'><i class="fas fa-trash"></i></button>
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deleteModal" data-title='{"value":"Supprimer Media {{ i }}","selector":".modal-title"}'
+                                            data-id='{"value":"{{ i }}","type":"val","selector":".modal-form-id"}'><i class="fas fa-trash"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -45,11 +47,17 @@
                     </div>
                 </div>
             </section>
+
             <section class="trick-description row justify-content-center pb-5">
                 <div class="col-sm-12 col-md-10">
-                    FORMULAIRE D'EDITION
+                   {{ form_start(form) }}
+
+
+                    <a href="#" id="add_trickMedia" class="btn btn-success">Ajouter un Media</a>
+                    {{ form_end(form) }}
                 </div>
             </section>
+
         </div>
     </div>
     {% include 'modals/delete.html.twig' %}

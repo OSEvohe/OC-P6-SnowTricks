@@ -27,7 +27,13 @@ class TrickType extends AbstractType
             ->add('cover', TrickMediaImageType::class)
             ->add('trickMedia', CollectionType::class, [
                 'entry_type' => TrickMediaType::class,
+                'mapped' => true
+            ])
+            ->add('trickMediaPicture', CollectionType::class, [
+                'entry_type' => TrickMediaImageType::class,
+                'mapped' => false,
                 'allow_add' => true,
+                'prototype' => true
             ])
             ->add('save', SubmitType::class, ['label' => 'Enregistrer']);
     }

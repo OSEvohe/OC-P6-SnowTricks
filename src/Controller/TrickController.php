@@ -3,7 +3,6 @@
 
 namespace App\Controller;
 
-
 use App\Entity\Comment;
 use App\Entity\Trick;
 use App\Form\CommentType;
@@ -14,7 +13,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\String\Slugger\SluggerInterface;
 
 class TrickController extends AbstractController
 {
@@ -44,7 +42,6 @@ class TrickController extends AbstractController
             $em->flush();
 
             $this->addFlash('success', 'Votre commentaire a été ajouté');
-
             return $this->redirectToRoute('trick_detail', ['slug' => $trick->getSlug()]);
         }
 
@@ -59,12 +56,17 @@ class TrickController extends AbstractController
      *
      * @Route ("/trick/{slug}/edit" , name="trick_edit", priority="2")
      *
-     * @param string $slug
+     * @param Trick $trick
+     * @param Request $request
      * @return Response
      */
-    public function edit(string $slug): Response
+    public function edit(Trick $trick, Request $request): Response
     {
-        return $this->render('trick/edit.html.twig');
+        $form = $this->createForm(TrickType::class,$trick);
+        $form->handleRequest($request);
+        return $this->render('trick/edit.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
 
     /**
