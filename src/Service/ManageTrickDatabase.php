@@ -7,6 +7,9 @@ namespace App\Service;
 use App\Entity\Trick;
 use App\Entity\TrickMedia;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class ManageTrickDatabase
 {
@@ -28,10 +31,18 @@ class ManageTrickDatabase
     }
 
 
-    public function setCover(Trick $trick, TrickMedia $cover){
-        $trick->getCover()->setContent('figure1');
-        $trick->setCover($trick->getCover());
-        $trick->getCover()->setTrick($trick);
+    public function setUploadedCover(Trick $trick, FormInterface $coverForm, ImageUploader $imageUploader): bool{
+        $coverFile = $coverForm->get('content')->getData();
+        if ($coverFile) {
+            /** @var TrickMedia $cover */
+            $cover = $coverForm->getData();
+            $cover->setContent($imageUploader->upload($coverFile));
+            $cover->setTrick($trick);
+        } else {
+            $coverForm->addError(new FormError('Veuillez choisir un fichier à uploader en tant qu\'image principale'));
+            return false;
+        }
+        return true;
     }
 
 

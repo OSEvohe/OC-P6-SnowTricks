@@ -27,8 +27,8 @@ class TrickMediaImageType extends AbstractType
                             'image/gif',
                             'image/png'
                         ],
-                        'mimeTypesMessage' => 'Type de fichier invalide, les formats acceptés sont JPG, GIG et PNG uniquement.'
-                    ])
+                        'mimeTypesMessage' => 'Type de fichier invalide, les formats acceptés sont JPG, GIG et PNG uniquement.',
+                    ]),
                 ]
 
             ])
