@@ -7,9 +7,10 @@ namespace App\Controller;
 use App\Entity\Comment;
 use App\Entity\Trick;
 use App\Entity\User;
+use App\Entity\TrickMedia;
 use App\Form\CommentType;
 use App\Form\TrickType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use App\Service\ManageTrickDatabase;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -73,9 +74,10 @@ class TrickController extends AbstractController
      * @Route ("/trick/add", name="trick_add", priority="3")
      * @param Request $request
      * @param SluggerInterface $slugger
+     * @param ManageTrickDatabase $manageTrickDatabase
      * @return Response
      */
-    public function add(Request $request, SluggerInterface $slugger): Response
+    public function add(Request $request, SluggerInterface $slugger, ManageTrickDatabase $manageTrickDatabase): Response
     {
         $form = $this->createForm(TrickType::class);
         $form->handleRequest($request);
@@ -83,12 +85,10 @@ class TrickController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var Trick $trick */
             $trick = $form->getData();
-            $cover = $form->get('cover')->getData();
+            $trick->setUser($this->getUser());
+            $manageTrickDatabase->setCover($trick, $form->get('cover')->getData());
 
-            $trick->getCover()->setContent('figure1');
-            $trick->setUser($this->getUser())
-                ->setCover($trick->getCover());
-            $trick->getCover()->setTrick($trick);
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($trick);
             $em->flush();
