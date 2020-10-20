@@ -1,0 +1,11 @@
+{% macro trickMediaPicture(children) %}
+    <div class="px-5 py-2 mx-auto bg-primary text-light mt-1 trick-media-form">
+        {% for row in children %}
+            <div class="form-group">
+                {{ form_label(row) }}
+                {{ form_widget(row) }}
+                <div class="alert-danger">{{ form_errors(row) }}</div>
+            </div>
+        {% endfor %}
+    </div>
+{% endmacro %}
