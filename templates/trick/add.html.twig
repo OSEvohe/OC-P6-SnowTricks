@@ -2,17 +2,12 @@
 
 {% form_theme form _self %}
 
-{% import 'prototypes/trickMediaPicture_prototype.html.twig' as formPrototype %}
-{% block _trick_trickMediaPicture_row %}
-    <div id="trick_trickMediaPicture" data-prototype="{{ formPrototype.trickMediaPicture(prototype.children)|e('html_attr') }}">
-    </div>
-    {% for childForm in form.children %}
-        {{ formPrototype.trickMediaPicture(childForm.children, true) }}
-    {% endfor %}
-{% endblock %}
+{% import 'prototypes/trickMedia_prototype.html.twig' as formPrototype %}
+
+{% block _trick_trickMediaPicture_row %}{{ formPrototype.trickMediaPrototype('Picture', prototype, form) }}{% endblock %}
+{% block _trick_trickMediaVideo_row %}{{ formPrototype.trickMediaPrototype('Video', prototype, form) }}{% endblock %}
 
 {% block title %}Trick Name - {{ parent() }}{% endblock %}
-
 
 {% block body %}
     <div class="trick-body trick-add">
@@ -70,7 +65,7 @@
                 </div>
                 <div id="additional_medias" class="col-11 p-0 mx-auto">
                     {{ form_row(form.trickMediaPicture) }}
-                    {{ form_widget(form.trickMediaVideo) }}
+                    {{ form_row(form.trickMediaVideo) }}
                 </div>
                 <div class="col-12 text-center p-3">
                     <div class="form-group">
