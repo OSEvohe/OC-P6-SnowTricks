@@ -24,24 +24,19 @@ $(document).ready(function () {
         }
     })
 
-    // Display additional media form
+    /** Display additional media form **/
+
+    // set containers
     let addMediaImagePrototype = $('div#trick_trickMediaPicture')
     let addMediaVideoPrototype = $('div#trick_trickMediaVideo')
     let addMediaContainer = $('div#additional_medias')
-    let index = {nb: 0}
+    let index = {nb: addMediaContainer.find('.trick-media-form').length}
 
-    $('#add_trickMediaPicture').click(function (e) {
-        addTrickMedia(addMediaImagePrototype, addMediaContainer, index);
-        e.preventDefault();
-        return false;
-    });
+    // bind addLink event for each Media type
+    bindAddLink(addMediaVideoPrototype,addMediaContainer, $('#add_trickMediaVideo'), index )
+    bindAddLink(addMediaImagePrototype,addMediaContainer, $('#add_trickMediaPicture'), index )
 
-    $('#add_trickMediaVideo').click(function (e) {
-        addTrickMedia(addMediaVideoPrototype, addMediaContainer, index);
-        e.preventDefault();
-        return false;
-    });
-
+    // add delete link to already existing media type
     addMediaContainer.find('.trick-media-form').each(function() {
         addDeleteLink($(this));
     });
@@ -58,6 +53,13 @@ $(document).ready(function () {
         container.append(form);
     }
 
+    function bindAddLink(prototype, container, link, index){
+        $(link).click(function (e) {
+            addTrickMedia(prototype, container, index);
+            e.preventDefault();
+            return false;
+        });
+    }
 
     function addDeleteLink(prototype) {
         let deleteLink = $('<a href="#" class="btn btn-danger">Supprimer</a>');
