@@ -32,23 +32,35 @@ class ManageTrickDatabase
 
     /**
      * @param Trick $trick
-     * @param FormInterface $coverForm
+     * @param FormInterface $trickMediaImageForm
      * @param ImageUploader $imageUploader
      * @return bool
      */
-    public function setUploadedCover(Trick $trick, FormInterface $coverForm, ImageUploader $imageUploader): bool{
-        $coverFile = $coverForm->get('content')->getData();
-        if ($coverFile) {
-            /** @var TrickMedia $cover */
-            $cover = $coverForm->getData();
-            $cover->setContent($imageUploader->upload($coverFile));
-            $cover->setTrick($trick);
-        } else {
-            $coverForm->addError(new FormError('Veuillez choisir un fichier à uploader en tant qu\'image principale'));
-            return false;
+    public function addUploadedTrickMediaImage(Trick $trick, FormInterface $trickMediaImageForm, ImageUploader $imageUploader) {
+        $uploadedFile = $trickMediaImageForm->get('content')->getData();
+        if ($uploadedFile) {
+            /** @var TrickMedia $trickMedia */
+            $trickMedia = $trickMediaImageForm->getData();
+            $trickMedia->setContent($imageUploader->upload($uploadedFile));
+            $trick->addTrickMedium($trickMedia);
         }
-        return true;
     }
 
+    public function addNewTrick(Trick $trick, FormInterface $form, ImageUploader $imageUploader)
+    {
+        /** Process cover image */
+       $this->addUploadedTrickMediaImage($trick, $form->get('cover'), $imageUploader);
+
+        /** Process additional TrickMedia */
+        $collectionOfImage = $form->get('trickMediaPicture');
+        foreach ($collectionOfImage as $trickMedia) {
+            $this->addUploadedTrickMediaImage($trick, $trickMedia, $imageUploader);
+        }
+
+        $collectionOfVideo =$form->get('trickMediaVideo');
+        foreach ($collectionOfVideo as $trickMedia) {
+            $trick->addTrickMedium($trickMedia->getData());
+        }
+    }
 
 }

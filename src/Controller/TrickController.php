@@ -62,7 +62,7 @@ class TrickController extends AbstractController
      */
     public function edit(Trick $trick, Request $request): Response
     {
-        $form = $this->createForm(TrickType::class,$trick);
+        $form = $this->createForm(TrickType::class, $trick);
         $form->handleRequest($request);
         return $this->render('trick/edit.html.twig', [
             'form' => $form->createView()
@@ -88,19 +88,17 @@ class TrickController extends AbstractController
             $trick = $form->getData();
             $trick->setUser($this->getUser());
 
-            if ($manageTrickDatabase->setUploadedCover($trick, $form->get('cover'), $imageUploader)) {
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($trick);
-                $em->flush();
+            $manageTrickDatabase->addNewTrick($trick, $form, $imageUploader);
 
-                $this->addFlash('success', 'Le Trick a été crée');
-                return $this->redirectToRoute('trick_detail', ['slug' => $trick->getSlug()]);
-            }
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($trick);
+            $em->flush();
+
+            $this->addFlash('success', 'Le Trick a été crée');
+            return $this->redirectToRoute('trick_detail', ['slug' => $trick->getSlug()]);
         }
 
-        return $this->render('trick/add.html.twig', [
-            'form' => $form->createView()
-        ]);
+        return $this->render('trick/add.html.twig', ['form' => $form->createView()]);
     }
 
 
@@ -111,12 +109,15 @@ class TrickController extends AbstractController
      * @param string $slug
      * @return Response
      */
-    public function delete(string $slug): Response
+    public
+    function delete(string $slug): Response
     {
 
     }
 
-    private function checkTrickExists($trick){
+    private
+    function checkTrickExists($trick)
+    {
         if (!$trick) {
             throw $this->createNotFoundException('Cette figure n\'existe pas');
         }
