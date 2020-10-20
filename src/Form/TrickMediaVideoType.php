@@ -6,18 +6,22 @@ use App\Entity\TrickMedia;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class TrickMediaVideoType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('content', TextType::class, [
+            ->add('content', UrlType::class, [
                 'label' => 'URI de la vidéo',
-                'mapped' => false,
-                'required' => false,
+                'required' => true,
+                'constraints' => [
+                    new NotBlank(['message' => TrickType::NOTEMPTY_MESSAGE])
+                ]
             ])
             ->add('alt', TextType::class)
             ->add('type', HiddenType::class, [
