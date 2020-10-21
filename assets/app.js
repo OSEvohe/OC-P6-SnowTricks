@@ -23,6 +23,55 @@ $(document).ready(function () {
             }
         }
     })
+
+    /** Display additional media form **/
+
+    // set containers
+    let addMediaImagePrototype = $('div#trick_trickMediaPicture')
+    let addMediaVideoPrototype = $('div#trick_trickMediaVideo')
+    let addMediaContainer = $('div#additional_medias')
+    let index = {nb: addMediaContainer.find('.trick-media-form').length}
+
+    // bind addLink event for each Media type
+    bindAddLink(addMediaVideoPrototype,addMediaContainer, $('#add_trickMediaVideo'), index )
+    bindAddLink(addMediaImagePrototype,addMediaContainer, $('#add_trickMediaPicture'), index )
+
+    // add delete link to already existing media type
+    addMediaContainer.find('.trick-media-form').each(function() {
+        addDeleteLink($(this));
+    });
+
+    function addTrickMedia(prototype, container, index) {
+        index.nb++
+        console.log(index)
+        let template = prototype.attr('data-prototype')
+            .replace(/__name__label__/g, 'Media')
+            .replace(/__name__/g, index.nb);
+
+        let form = $(template);
+        addDeleteLink(form);
+        container.append(form);
+    }
+
+    function bindAddLink(prototype, container, link, index){
+        $(link).click(function (e) {
+            addTrickMedia(prototype, container, index);
+            e.preventDefault();
+            return false;
+        });
+    }
+
+    function addDeleteLink(prototype) {
+        let deleteLink = $('<a href="#" class="btn btn-danger">Supprimer</a>');
+        prototype.append(deleteLink);
+
+        deleteLink.click(function (e) {
+            prototype.remove();
+            e.preventDefault();
+            return false;
+        })
+    }
+
 });
 
 
@@ -44,7 +93,7 @@ function showMediaList() {
  *                  JS :  {value: '1', type: 'val', selector: '.my-id'}
  * modal            The modal
  */
-function setModalFormValue(event,field, modal) {
+function setModalFormValue(event, field, modal) {
     let item = modal.find(field.selector)
     if (field.type === 'val') {
         item.val(field.value)

@@ -57,7 +57,7 @@ class Trick
     private $userTricks;
 
     /**
-     * @ORM\OneToMany(targetEntity=TrickMedia::class, mappedBy="trick")
+     * @ORM\OneToMany(targetEntity=TrickMedia::class, mappedBy="trick", cascade={"persist"})
      */
     private $trickMedia;
 
