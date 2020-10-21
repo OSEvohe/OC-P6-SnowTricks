@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Trick Name - {{ parent() }}{% endblock %}
+{% block title %}{{ trick.name }} - {{ parent() }}{% endblock %}
 
 {% block body %}
     <div class="trick-body">
@@ -8,13 +8,13 @@
             <section class="trick-name row">
                 <div class="col-12">
                     <div class="trick-image">
-                        <img src="{{ asset("uploads/tricks/figure1.jpg") }}" alt="figure1">
+                        <img src="{{ asset("uploads/tricks/"~trick.cover.content) }}" alt="figure1">
                         <div class="trick-action-button">
                             <i class="fas fa-pen"></i>&nbsp;
                             <i class="fas fa-trash"></i>
                         </div>
                     </div>
-                    <h1>Trick 1</h1>
+                    <h1>{{ trick.name }}</h1>
                 </div>
             </section>
         </div>
@@ -27,9 +27,13 @@
             </div>
             <section class="collapse" id="media-list">
                 <div class="trick-media-list row d-flex justify-content-center pb-5">
-                    {% for i in 1..5 %}
+                    {% for trickMedia in trick.trickMedia%}
                         <div class="trick-media-item col-md-2 pb-sm-3 pb-md-0">
-                            <img class="trick-media-cover" src="{{ asset("uploads/tricks/figure1.jpg") }}" alt=""/>
+                            {% if trickMedia.type == 1 %}
+                            <img class="trick-media-cover" src="{{ asset("uploads/tricks/"~trickMedia.content) }}" alt=""/>
+                            {% elseif trickMedia.type == 2 %}
+                                <iframe height="100%" src="https://www.youtube.com/embed/{{ youtube.getId(trickMedia.content) }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                {% endif %}
                         </div>
                     {% endfor %}
                 </div>
@@ -37,38 +41,7 @@
             <section class="trick-description row justify-content-center pb-5">
                 <div class="col-sm-12 col-md-10">
                     <h2 class="text-center mb-3">Description</h2>
-                    <p>Le mieux c’est de s’entrainer à le faire sur un trampoline car le mouvement est le même.</p>
-                    <ul>
-                        <li>Choisissez un kicker de bord de piste, qui kicke un peu de préférence, pour vous aider à
-                            envoyer
-                            facilement
-                        </li>
-                        <li>Arrivez bien fléchi en appui sur les 2 jambes et fixez le bout du kicker.
-                            L’impulsion
-                            se fait à 2 pieds au bout du kicker et pas avant : si on envoie trop tôt on risque de taper
-                            la
-                            tête
-                            dans le kicker ou de trop tourner, de faire un tour et demi et de tomber sur la tête. Deux
-                            situations à éviter...
-                        </li>
-                        <li>Donc impulsion à deux pieds, et on envoie la tête en arrière pour
-                            chercher
-                            le mouvement. Dès que l’on a décollé il faut remonter les genoux pour enrouler le mouvement.
-                            Les
-                            profs de gym ont tendance à dire que l’on envoie le mouvement avec le bassin, ce qui n’est
-                            pas
-                            faux
-                            mais c’est surtout quand on a compris le mouvement et que l’on est à l’aise avec.
-                        </li>
-                        <li>
-                            Donc
-                            regrouper
-                            les jambes en les montant. A ce moment on peut aussi penser à grabber mais ce n’est pas
-                            obligé
-                            pour
-                            commencer... On continue d’emmener la rotation avec la tête en arrière.
-                        </li>
-                    </ul>
+                    <p>{{ trick.description }}</p>
                 </div>
             </section>
             <section class="row trick-meta d-flex justify-content-center pb-3">
