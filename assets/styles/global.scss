@@ -24,13 +24,27 @@ a {
   background-color: $content-bg;
 }
 
-.modal-image, .modal-youtube {
+.modal-youtube {
+
+  iframe {
+    margin: 30px auto;
+    width: 85%;
+    display: block;
+    height: 80%
+  }
+
+  button {
+    color:$light-color;
+  }
+}
+
+.modal-image {
   height: 100%;
 
   .modal-dialog {
     display: inline-block;
     left: 50%;
-    transform: translateX(-50%)!important;
+    transform: translateX(-50%) !important;
 
     .modal-content {
       background-color: unset;
@@ -40,7 +54,7 @@ a {
         padding: 0;
 
         button {
-          color:$light-color;
+          color: $light-color;
         }
 
 
@@ -136,6 +150,11 @@ a {
         top: 5px;
         padding: 5px 20px;
         color: $light-color;
+
+        a {
+          color:$light-color;
+        }
+
       }
     }
 
@@ -177,6 +196,19 @@ a {
         background-position: center;
         border: solid $dark-color 1px;
         border-radius: 3px;
+        text-align: center;
+
+        :hover {
+          cursor: pointer;
+        }
+
+        i {
+          color: $red-youtube;
+          font-size: 47px;
+          margin: auto;
+          vertical-align: middle;
+          line-height: 150px;
+        }
       }
 
       i.fa-plus-circle {
@@ -185,27 +217,29 @@ a {
     }
 
   }
-}
 
-.trick-add {
-  .trick-image {
-    height: 200px;
-  }
-}
 
-.comment-item {
-
-  .user-photo {
-    div {
-      width: 48px;
-      height: 48px;
-      border-radius: 24px;
-      overflow: hidden;
-      border: $dark-color solid 1px;
-    }
-
-    img {
-      width: 48px;
+  .trick-add {
+    .trick-image {
+      height: 200px;
     }
   }
+
+  .comment-item {
+
+    .user-photo {
+      div {
+        width: 48px;
+        height: 48px;
+        border-radius: 24px;
+        overflow: hidden;
+        border: $dark-color solid 1px;
+      }
+
+      img {
+        width: 48px;
+      }
+    }
+  }
+
 }
