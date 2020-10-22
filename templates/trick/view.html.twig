@@ -27,13 +27,17 @@
             </div>
             <section class="collapse" id="media-list">
                 <div class="trick-media-list row d-flex justify-content-center pb-5">
-                    {% for trickMedia in trick.trickMedia%}
+                    {% for trickMedia in trick.trickMedia %}
                         <div class="trick-media-item col-md-2 pb-sm-3 pb-md-0">
                             {% if trickMedia.type == 1 %}
-                            <img class="trick-media-cover" src="{{ asset("uploads/tricks/"~trickMedia.content) }}" alt=""/>
+                                <a data-toggle="modal" data-target="#imageModal" data-src='{"value":"{{ asset("uploads/tricks/"~trickMedia.content) }}", "type":"src", "selector":".modal-image-img"}'
+                                   data-alt='{"value":"{{ trickMedia.alt }}", "selector":".modal-image-img"}' href="{{ asset("uploads/tricks/"~trickMedia.content) }}" title="{{ trickMedia.alt }}"
+                                   style="background-image: url('{{ asset("uploads/tricks/"~trickMedia.content) }}')">
+                                </a>
                             {% elseif trickMedia.type == 2 %}
-                                <iframe height="100%" src="https://www.youtube.com/embed/{{ youtube.getId(trickMedia.content) }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                                {% endif %}
+                                <a data-toggle="modal" data-target="#youtubeModal" data-src='{"value":"https://www.youtube.com/embed/{{ youtube.getId(trickMedia.content) }}", "type":"src", "selector":".modal-video-iframe"}'>
+                                </a>
+                            {% endif %}
                         </div>
                     {% endfor %}
                 </div>
@@ -47,11 +51,9 @@
             <section class="row trick-meta d-flex justify-content-center pb-3">
                 <div class="col-sm-12 col-lg-9">
                     <ul class="list-unstyled list-inline text-center">
-                        <li class="list-inline-item trick-date-created"><i class="fas fa-calendar"></i> 02/10/2020 11:30
-                        </li>
-                        <li class="list-inline-item trick-group"><i class="fas fa-layer-group"></i> Groupe 1</li>
-                        <li class="list-inline-item trick-date-modified"><i class="fas fa-edit"></i> 03/10/2020 15:34
-                        </li>
+                        <li class="list-inline-item trick-date-created" title="Article crée le"><i class="fas fa-calendar"></i> {{ trick.createdAt.format('d/m/Y H:i') }}</li>
+                        <li class="list-inline-item trick-group" title="Type de trick"><i class="fas fa-layer-group"></i> {{ trick.trickGroup.name }}</li>
+                        <li class="list-inline-item trick-date-modified" title="Article modifié le"><i class="fas fa-edit"></i> {{ trick.updatedAt.format('d/m/Y H:i') }}</li>
                     </ul>
                 </div>
             </section>
@@ -76,7 +78,7 @@
             <section class="row justify-content-center pb-5 comments-list">
                 <div class="col-sm-12 col-md-9 col-lg-6">
                     <h2 class="text-center mb-4">Commentaires</h2>
-                    {% for i in 1..5 %}
+                    {% for comment in trick.comments %}
                         <div class="comment-item row">
                             <div class="user-photo d-inline-block p-2 col-2">
                                 <div>
@@ -85,12 +87,10 @@
                             </div>
                             <div class="comment d-inline-block p-2 col-10">
                                 <div class="comment-meta">
-                                    Message de user42 le 17/11/2020 à 13h37
+                                    Message de {{ comment.user.displayName }} le {{ comment.createdAt.format('d/m/Y à H:i') }}
                                 </div>
                                 <div class="comment-content">
-                                    Super mais sans les mains c'est encore mieux. Super mais sans les mains c'est encore
-                                    mieux. Super mais sans les mains c'est encore mieux. Super mais sans les mains c'est
-                                    encore mieux. Super mais sans les mains c'est encore mieux.
+                                    {{ comment.content }}
                                 </div>
                             </div>
                         </div>
@@ -105,4 +105,7 @@
 
         </div>
     </div>
+
+    {% include 'modals/viewImage.html.twig' %}
+    {% include 'modals/viewYoutubeVideo.html.twig' %}
 {% endblock %}

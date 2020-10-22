@@ -7,7 +7,6 @@ namespace App\Service;
 use App\Entity\Trick;
 use App\Entity\TrickMedia;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
 
 class ManageTrickDatabase
@@ -34,7 +33,7 @@ class ManageTrickDatabase
      * @param Trick $trick
      * @param FormInterface $trickMediaImageForm
      * @param ImageUploader $imageUploader
-     * @return bool
+     * @return void
      */
     public function addUploadedTrickMediaImage(Trick $trick, FormInterface $trickMediaImageForm, ImageUploader $imageUploader) {
         $uploadedFile = $trickMediaImageForm->get('content')->getData();

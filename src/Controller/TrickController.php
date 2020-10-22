@@ -50,7 +50,7 @@ class TrickController extends AbstractController
         return $this->render('trick/view.html.twig', [
             'trick' => $trick,
             'commentForm' => $commentForm->createView(),
-            'youtube' => $youtubeHelper
+            'youtube' => $youtubeHelper,
         ]);
     }
 

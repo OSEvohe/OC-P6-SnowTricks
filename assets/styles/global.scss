@@ -24,6 +24,37 @@ a {
   background-color: $content-bg;
 }
 
+.modal-image, .modal-youtube {
+  height: 100%;
+
+  .modal-dialog {
+    display: inline-block;
+    left: 50%;
+    transform: translateX(-50%)!important;
+
+    .modal-content {
+      background-color: unset;
+      border: none;
+
+      .modal-body {
+        padding: 0;
+
+        button {
+          color:$light-color;
+        }
+
+
+        .modal-image-img {
+          display: block;
+          max-width: 100%;
+          max-height: 100%;
+          margin: auto;
+        }
+      }
+    }
+  }
+}
+
 #main-navbar {
   background: none;
 }
@@ -122,6 +153,13 @@ a {
     }
   }
 
+  .trick-meta {
+
+    li {
+      margin: 0 30px;
+    }
+  }
+
   .trick-media-list {
 
     .trick-media-item {
@@ -133,9 +171,12 @@ a {
         text-align: center;
       }
 
-      img {
-        width: 100%;
-        display: block;
+      a {
+        height: 150px;
+        background-size: cover;
+        background-position: center;
+        border: solid $dark-color 1px;
+        border-radius: 3px;
       }
 
       i.fa-plus-circle {
