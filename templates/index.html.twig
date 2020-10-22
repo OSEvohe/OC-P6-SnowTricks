@@ -19,19 +19,24 @@
         </div>
 
         <div class="row tricks-list">
-            {% for i in 1..10 %}
-                <div class="col-sm-12 col-md-6 col-lg-4 trick-item mb-3 py-3 px-4">
+            {% for trick in tricks %}
+                <div class="col-sm-12 col-md-6 col-lg-3 trick-item mb-3 py-3 px-4">
                     <div class="trick-item-content">
-                        <img class="trick-image" src="{{ asset("uploads/tricks/figure1.jpg") }}" alt="Figure 1"/>
-                        <div class="trick-infos p-3">
-                            <span><a href="{{ path("trick_detail", {'slug' : i}) }}">Trick Name</a></span>
-                            <div class="trick-action-button">
-                                <a class="btn btn-primary" role="button" href="{{ path("trick_edit", {'slug' : i}) }}"><i class="fas fa-pen"></i></a>
-                                <a class="btn btn-primary" role="button" data-toggle="modal" data-target="#deleteModal" data-id='{"value":"{{ i }}", "type":"val", "selector":"modal-form-id"}' data-title='{"value":"Supprimer Trick {{ i }}?", "selector":".modal-title"}'><i class="fas fa-trash"></i></a>
-                            </div>
+                        <div class="trick-image-container">
+                            <a href="{{ path("trick_detail", {'slug' : trick.slug}) }}" title="{{ trick.cover.alt }}" style="background-image:url('{{ asset("uploads/tricks/"~trick.cover.content) }}')">
+                            </a>
                         </div>
-
+                        <div class="trick-infos p-3">
+                            <span><a href="{{ path("trick_detail", {'slug' : trick.slug}) }}">{{ trick.name }}</a></span>
+                        </div>
                     </div>
+                    {% if is_granted('ROLE_USER') %}
+                    <div class="trick-action-button">
+                        <a class="btn btn-primary" role="button" href="{{ path("trick_edit", {'slug' : trick.slug}) }}"><i class="fas fa-pen"></i></a>
+                        <a class="btn btn-primary" role="button" data-toggle="modal" data-target="#deleteModal" data-id='{"value":"{{ trick.id }}", "type":"val", "selector":"modal-form-id"}'
+                           data-title='{"value":"Supprimer Trick : {{ trick.name }}?", "selector":".modal-title"}'><i class="fas fa-trash"></i></a>
+                    </div>
+                    {% endif %}
                 </div>
             {% endfor %}
         </div>
