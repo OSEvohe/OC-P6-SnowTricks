@@ -63,9 +63,10 @@ class TrickController extends AbstractController
      * @param Trick $trick
      * @param Request $request
      * @param YoutubeHelper $youtubeHelper
+     * @param ManageTrickDatabase $manageTrickDatabase
      * @return Response
      */
-    public function edit(Trick $trick, Request $request, YoutubeHelper $youtubeHelper): Response
+    public function edit(Trick $trick, Request $request, YoutubeHelper $youtubeHelper, ManageTrickDatabase $manageTrickDatabase): Response
     {
         $form = $this->createForm(TrickType::class, $trick);
         $form->remove('cover')
@@ -77,6 +78,16 @@ class TrickController extends AbstractController
         $trickMediaForm->handleRequest($request);
 
         $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $trick->addContributor($this->getUser());
+            $manageTrickDatabase->trick($form);
+
+            $this->addFlash('success', 'Les informations de base du trick ont été modifiées');
+            return $this->redirectToRoute('trick_detail', ['slug' => $trick->getSlug()]);
+        }
+
+
+
         return $this->render('trick/edit.html.twig', [
             'form' => $form->createView(),
             'trick' => $trick,
@@ -121,14 +132,12 @@ class TrickController extends AbstractController
      * @param string $slug
      * @return Response
      */
-    public
-    function delete(string $slug): Response
+    public function delete(string $slug): Response
     {
 
     }
 
-    private
-    function checkTrickExists($trick)
+    private function checkTrickExists($trick)
     {
         if (!$trick) {
             throw $this->createNotFoundException('Cette figure n\'existe pas');

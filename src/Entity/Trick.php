@@ -51,10 +51,6 @@ class Trick
      */
     private $user;
 
-    /**
-     * @ORM\OneToMany(targetEntity=UserTrick::class, mappedBy="trick")
-     */
-    private $userTricks;
 
     /**
      * @ORM\OneToMany(targetEntity=TrickMedia::class, mappedBy="trick", cascade={"persist"})
@@ -72,12 +68,18 @@ class Trick
      */
     private $comments;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=User::class, mappedBy="contributions")
+     * @ORM\JoinTable(name="trick_contributors")
+     */
+    private $contributors;
+
 
     public function __construct()
     {
-        $this->userTricks = new ArrayCollection();
         $this->trickMedia = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->contributors = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -141,37 +143,6 @@ class Trick
     public function setUser(?User $user): self
     {
         $this->user = $user;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|UserTrick[]
-     */
-    public function getUserTricks(): Collection
-    {
-        return $this->userTricks;
-    }
-
-    public function addUserTrick(UserTrick $userTrick): self
-    {
-        if (!$this->userTricks->contains($userTrick)) {
-            $this->userTricks[] = $userTrick;
-            $userTrick->setTrick($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUserTrick(UserTrick $userTrick): self
-    {
-        if ($this->userTricks->contains($userTrick)) {
-            $this->userTricks->removeElement($userTrick);
-            // set the owning side to null (unless already changed)
-            if ($userTrick->getTrick() === $this) {
-                $userTrick->setTrick(null);
-            }
-        }
 
         return $this;
     }
@@ -245,6 +216,34 @@ class Trick
             if ($comment->getTrick() === $this) {
                 $comment->setTrick(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getContributors(): Collection
+    {
+        return $this->contributors;
+    }
+
+    public function addContributor(User $contributor): self
+    {
+        if (!$this->contributors->contains($contributor)) {
+            $this->contributors[] = $contributor;
+            $contributor->addContribution($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContributor(User $contributor): self
+    {
+        if ($this->contributors->contains($contributor)) {
+            $this->contributors->removeElement($contributor);
+            $contributor->removeContribution($this);
         }
 
         return $this;
