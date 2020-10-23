@@ -10,7 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\Regex;
+use Symfony\Component\Validator\Constraints\Url;
 
 class TrickMediaVideoType extends AbstractType
 {
@@ -22,7 +22,7 @@ class TrickMediaVideoType extends AbstractType
                 'trim' => true,
                 'required' => true,
                 'constraints' => [
-                    new Regex('%^(?:https?://)?(?:www\.)?(?:youtube\.com/watch\?v=([^&\n]+)|youtu\.be/([a-zA-Z\d]+))$%iu'),
+                    new Url(['message' => 'Ceci n\'est pas une URL valide']),
                     new NotBlank(['message' => TrickType::NOTEMPTY_MESSAGE])
                 ]
             ])

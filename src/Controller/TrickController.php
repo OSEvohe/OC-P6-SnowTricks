@@ -9,6 +9,7 @@ use App\Form\CommentType;
 use App\Form\TrickType;
 use App\Service\ImageUploader;
 use App\Service\ManageTrickDatabase;
+use App\Service\YoutubeHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,9 +23,10 @@ class TrickController extends AbstractController
      * @Route ("/trick/{slug}" , name="trick_detail")
      * @param Request $request
      * @param Trick $trick
+     * @param YoutubeHelper $youtubeHelper
      * @return Response
      */
-    public function view(Request $request, Trick $trick): Response
+    public function view(Request $request, Trick $trick, YoutubeHelper $youtubeHelper): Response
     {
         $this->checkTrickExists($trick);
 
@@ -47,7 +49,8 @@ class TrickController extends AbstractController
 
         return $this->render('trick/view.html.twig', [
             'trick' => $trick,
-            'commentForm' => $commentForm->createView()
+            'commentForm' => $commentForm->createView(),
+            'youtube' => $youtubeHelper,
         ]);
     }
 

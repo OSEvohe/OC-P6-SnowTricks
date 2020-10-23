@@ -3,6 +3,7 @@ import './styles/global.scss';
 const $ = require('jquery');
 require('bootstrap');
 
+
 $(document).ready(function () {
     $('[data-toggle="popover"]').popover();
 
@@ -14,12 +15,13 @@ $(document).ready(function () {
         resizeTimer = setTimeout(showMediaList, 100);
     });
 
-    // Display delete modal
-    $('#deleteModal').on('show.bs.modal', function (event) {
+    // Display a modal
+    $('.modal').on('show.bs.modal', function (event) {
+        event.stopPropagation();
         let data = $(event.relatedTarget).data()
         for (let key in data) {
             if (data.hasOwnProperty(key) && data[key].selector !== undefined) {
-                setModalFormValue(event, data[key], $(this))
+                setModalValue(event, data[key], $(this))
             }
         }
     })
@@ -88,15 +90,18 @@ function showMediaList() {
 /**
  * Set form and modal value
  * event :          show modal event
- * modalValue :     Object of Objects following this structure 'dataname : {value: 'value', type: 'type', selector: 'css-selector'}
- * example          HTML : <button data-myid='{"value":"1","type":"val","selector":".my-id"}'>My Button</button><input type='hidden' class='my-id' name='id' />
- *                  JS :  {value: '1', type: 'val', selector: '.my-id'}
+ * modalValue :     Object of Objects following this structure 'dataname : {value: 'value', type: 'html-attribute', selector: 'css-selector'}
+ * example          HTML : <button data-myid='{"value":"1","type":"value","selector":".my-id"}'>My Button</button><input type='hidden' class='my-id' name='id' value=""/>
+ *                  JS :  {value: '1', type: 'value', selector: '.my-id'}
  * modal            The modal
  */
-function setModalFormValue(event, field, modal) {
+function setModalValue(event, field, modal) {
     let item = modal.find(field.selector)
-    if (field.type === 'val') {
-        item.val(field.value)
+    console.log(field)
+    console.log(field.type)
+    console.log(field.value)
+    if (field.type) {
+        item.attr(field.type, field.value)
     } else {
         item.text(field.value)
     }

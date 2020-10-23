@@ -33,7 +33,7 @@
                     {% if is_granted('ROLE_USER') %}
                     <div class="trick-action-button">
                         <a class="btn btn-primary" role="button" href="{{ path("trick_edit", {'slug' : trick.slug}) }}"><i class="fas fa-pen"></i></a>
-                        <a class="btn btn-primary" role="button" data-toggle="modal" data-target="#deleteModal" data-id='{"value":"{{ trick.id }}", "type":"val", "selector":"modal-form-id"}'
+                        <a class="btn btn-primary" role="button" data-toggle="modal" data-target="#deleteModal" data-id='{"value":"{{ trick.id }}", "type":"value", "selector":".modal-form-id"}'
                            data-title='{"value":"Supprimer Trick : {{ trick.name }}?", "selector":".modal-title"}'><i class="fas fa-trash"></i></a>
                     </div>
                     {% endif %}
