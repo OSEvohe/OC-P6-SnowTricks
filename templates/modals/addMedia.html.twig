@@ -8,13 +8,17 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+            {{ form_start(formImage) }}
             <div class="modal-body">
-                <p>FORMULAIRE AJOUT DE MEDIA</p>
+                {{ form_row(formImage.content) }}
+                {{ form_row(formImage.alt) }}
+                {{ form_row(formImage.type) }}
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary">Ajouter</button>
+                <button type="submit" class="btn btn-primary">Ajouter</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
             </div>
+            {{ form_end(formImage) }}
         </div>
     </div>
 </div>

@@ -6,6 +6,7 @@ namespace App\Controller;
 use App\Entity\Comment;
 use App\Entity\Trick;
 use App\Form\CommentType;
+use App\Form\TrickMediaImageType;
 use App\Form\TrickType;
 use App\Service\ImageUploader;
 use App\Service\ManageTrickDatabase;
@@ -61,14 +62,26 @@ class TrickController extends AbstractController
      *
      * @param Trick $trick
      * @param Request $request
+     * @param YoutubeHelper $youtubeHelper
      * @return Response
      */
-    public function edit(Trick $trick, Request $request): Response
+    public function edit(Trick $trick, Request $request, YoutubeHelper $youtubeHelper): Response
     {
         $form = $this->createForm(TrickType::class, $trick);
+        $form->remove('cover')
+            ->remove('trickMedia')
+            ->remove('trickMediaPicture')
+            ->remove('trickMediaVideo');
+
+        $trickMediaForm = $this->createForm(TrickMediaImageType::class);
+        $trickMediaForm->handleRequest($request);
+
         $form->handleRequest($request);
         return $this->render('trick/edit.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'trick' => $trick,
+            'youtube' => $youtubeHelper,
+            'formImage' => $trickMediaForm->createView()
         ]);
     }
 
@@ -83,19 +96,15 @@ class TrickController extends AbstractController
      */
     public function add(Request $request, ManageTrickDatabase $manageTrickDatabase, ImageUploader $imageUploader): Response
     {
-        $form = $this->createForm(TrickType::class);
+        $trick = new Trick();
+
+        $form = $this->createForm(TrickType::class, $trick);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            /** @var Trick $trick */
-            $trick = $form->getData();
-            $trick->setUser($this->getUser());
-
-            $manageTrickDatabase->addNewTrick($trick, $form, $imageUploader);
-
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($trick);
-            $em->flush();
+            $manageTrickDatabase->addCover($form, $imageUploader);
+            $manageTrickDatabase->addTrickMediaCollection($form, $imageUploader);
+            $manageTrickDatabase->trick($form);
 
             $this->addFlash('success', 'Le Trick a été crée');
             return $this->redirectToRoute('trick_detail', ['slug' => $trick->getSlug()]);
