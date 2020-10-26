@@ -5,13 +5,17 @@ namespace App\Controller;
 
 use App\Entity\Comment;
 use App\Entity\Trick;
+use App\Entity\TrickMedia;
 use App\Form\CommentType;
+use App\Form\CoverType;
 use App\Form\TrickMediaImageType;
+use App\Form\TrickMediaVideoType;
 use App\Form\TrickType;
 use App\Service\ImageUploader;
-use App\Service\ManageTrickDatabase;
+use App\Service\ManageTrick;
 use App\Service\YoutubeHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -63,36 +67,46 @@ class TrickController extends AbstractController
      * @param Trick $trick
      * @param Request $request
      * @param YoutubeHelper $youtubeHelper
-     * @param ManageTrickDatabase $manageTrickDatabase
+     * @param ManageTrick $manageTrickDatabase
+     * @param ImageUploader $imageUploader
      * @return Response
      */
-    public function edit(Trick $trick, Request $request, YoutubeHelper $youtubeHelper, ManageTrickDatabase $manageTrickDatabase): Response
+    public function edit(Trick $trick, Request $request, YoutubeHelper $youtubeHelper, ManageTrick $manageTrickDatabase, ImageUploader $imageUploader): Response
     {
+        $trickCover = $this->createForm(CoverType::class, $trick);
+        $trickMediaImageForm = $this->createForm(TrickMediaImageType::class);
+        $trickMediaVideoForm = $this->createForm(TrickMediaVideoType::class);
         $form = $this->createForm(TrickType::class, $trick);
-        $form->remove('cover')
-            ->remove('trickMedia')
+
+        /**
+         * Only basic trick information with this form, Medias are handled separately
+         */
+        $form
             ->remove('trickMediaPicture')
             ->remove('trickMediaVideo');
 
-        $trickMediaForm = $this->createForm(TrickMediaImageType::class);
-        $trickMediaForm->handleRequest($request);
-
+        $trickCover->handleRequest($request);
+        $trickMediaImageForm->handleRequest($request);
+        $trickMediaVideoForm->handleRequest($request);
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $trick->addContributor($this->getUser());
-            $manageTrickDatabase->trick($form);
 
-            $this->addFlash('success', 'Les informations de base du trick ont été modifiées');
+
+        if ($this->processUpdateForm($trick, $form, 'Les informations de base du trick ont été modifiées', $manageTrickDatabase) ||
+            $this->processUpdateForm($trick, $trickCover, 'L\'image principale a été modifiée', $manageTrickDatabase) ||
+            $this->processUpdateForm($trick, $trickMediaImageForm, 'Une image a été ajoutée au trick', $manageTrickDatabase, $imageUploader) ||
+            $this->processUpdateForm($trick, $trickMediaVideoForm, 'Une vidéo a été ajoutée au trick', $manageTrickDatabase)
+        ) {
             return $this->redirectToRoute('trick_detail', ['slug' => $trick->getSlug()]);
         }
 
 
-
         return $this->render('trick/edit.html.twig', [
             'form' => $form->createView(),
+            'formVideo' => $trickMediaVideoForm->createView(),
+            'formImage' => $trickMediaImageForm->createView(),
+            'formCover' => $trickCover->createView(),
             'trick' => $trick,
             'youtube' => $youtubeHelper,
-            'formImage' => $trickMediaForm->createView()
         ]);
     }
 
@@ -101,11 +115,11 @@ class TrickController extends AbstractController
      *
      * @Route ("/trick/add", name="trick_add", priority="3")
      * @param Request $request
-     * @param ManageTrickDatabase $manageTrickDatabase
+     * @param ManageTrick $manageTrickDatabase
      * @param ImageUploader $imageUploader
      * @return Response
      */
-    public function add(Request $request, ManageTrickDatabase $manageTrickDatabase, ImageUploader $imageUploader): Response
+    public function add(Request $request, ManageTrick $manageTrickDatabase, ImageUploader $imageUploader): Response
     {
         $trick = new Trick();
 
@@ -113,9 +127,10 @@ class TrickController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $trick->setUser($this->getUser());
             $manageTrickDatabase->addCover($form, $imageUploader);
             $manageTrickDatabase->addTrickMediaCollection($form, $imageUploader);
-            $manageTrickDatabase->trick($form);
+            $manageTrickDatabase->update($form);
 
             $this->addFlash('success', 'Le Trick a été crée');
             return $this->redirectToRoute('trick_detail', ['slug' => $trick->getSlug()]);
@@ -142,5 +157,28 @@ class TrickController extends AbstractController
         if (!$trick) {
             throw $this->createNotFoundException('Cette figure n\'existe pas');
         }
+    }
+
+
+    private function processUpdateForm(Trick $trick, FormInterface $form, string $flash, ManageTrick $manageTrickDatabase, ImageUploader $imageUploader = null)
+    {
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            if ($imageUploader){
+                $manageTrickDatabase->addUploadedTrickMediaImage($trick, $form, $imageUploader);
+            } elseif (get_class($form->getConfig()->getType()->getInnerType()) == TrickMediaVideoType::class) {
+                $trick->addTrickMedium($form->getData());
+            } else {
+                $trick = $form->getData();
+            }
+
+            $trick->addContributor($this->getUser());
+            $manageTrickDatabase->update($trick);
+
+            $this->addFlash('success', $flash);
+            return true;
+        }
+
+        return false;
     }
 }

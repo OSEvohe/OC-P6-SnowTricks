@@ -7,11 +7,10 @@ namespace App\Service;
 use App\Entity\Trick;
 use App\Entity\TrickMedia;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Security\Core\Security;
 
-class ManageTrickDatabase
+class ManageTrick
 {
     /** @var ImageUploader */
     private $imageUploader;
@@ -53,16 +52,8 @@ class ManageTrickDatabase
         }
     }
 
-    public function trick(FormInterface $form)
+    public function update(Trick $trick)
     {
-        /** @var Trick $trick */
-        $trick = $form->getData();
-
-        /** set Owner for new trick */
-        if (NULL === $trick->getUser()) {
-            $trick->setUser($this->security->getUser());
-        }
-
         $this->em->persist($trick);
         $this->em->flush();
     }
@@ -88,6 +79,11 @@ class ManageTrickDatabase
         foreach ($collectionOfVideo as $trickMedia) {
             $trick->addTrickMedium($trickMedia->getData());
         }
+    }
+
+    public function updateTrick($trick, $form, $flash)
+    {
+
     }
 
 }

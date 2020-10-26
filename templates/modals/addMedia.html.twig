@@ -1,17 +1,18 @@
-<!-- Delete Media Modal -->
+<!-- Add Media Modal -->
 <div class="modal" tabindex="-1" role="dialog" id="addMediaModal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Ajouter un Media</h5>
+                <h5 class="modal-title">Ajouter un Image ou Une Vidéo</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             {{ form_start(formImage) }}
             <div class="modal-body">
-                {{ form_row(formImage.content) }}
-                {{ form_row(formImage.alt) }}
+                <h5>Ajout d'une Image</h5>
+                {{ form_row(formImage.content, {'attr' : {'class': 'form-control-file'}}) }}
+                {{ form_row(formImage.alt, {'attr' : {'class': 'form-control'}}) }}
                 {{ form_row(formImage.type) }}
             </div>
             <div class="modal-footer">
@@ -19,6 +20,23 @@
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
             </div>
             {{ form_end(formImage) }}
+            <div class="text-center">
+                <hr />
+                OU
+                <hr />
+            </div>
+            {{ form_start(formImage) }}
+            <div class="modal-body">
+                <h5>Ajout d'une video</h5>
+                {{ form_row(formVideo.content,{'attr' : {'class': 'form-control'}}) }}
+                {{ form_row(formVideo.alt,{'attr' : {'class': 'form-control'}}) }}
+                {{ form_row(formVideo.type) }}
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Ajouter</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+            </div>
+            {{ form_end(formVideo) }}
         </div>
     </div>
 </div>

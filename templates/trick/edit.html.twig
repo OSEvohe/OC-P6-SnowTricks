@@ -1,5 +1,12 @@
 {% extends 'base.html.twig' %}
 
+{% form_theme formCover _self %}
+
+{% block _cover_cover_entry_label %}
+<img src="{{ asset("uploads/tricks/"~form.vars.label) }}" style="max-width: 100px; max-height: 100px" alt="{{ form.parent.vars.data.cover.cover.alt}}" />
+{% endblock %}
+
+
 {% block title %}Trick Name - {{ parent() }}{% endblock %}
 
 {% block body %}
