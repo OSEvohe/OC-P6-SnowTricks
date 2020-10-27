@@ -1,5 +1,5 @@
 <!-- Edit Media Modal -->
-<div class="modal" tabindex="-1" role="dialog" id="editMedia__{{ media.vars.data.id }}">
+<div class="modal editMedia" tabindex="-1" role="dialog" id="editMedia__{{ media.vars.data.id }}">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -25,7 +25,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                <button type="button" class="btn btn-secondary btn-close" data-dismiss="modal" data-id="{{ media.vars.data.id }}">Fermer</button>
             </div>
         </div>
     </div>
