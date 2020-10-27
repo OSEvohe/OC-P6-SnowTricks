@@ -162,4 +162,27 @@ class TrickMedia
 
         return $this;
     }
+
+    /** Additional setters & getters to map image or video field in form */
+
+    public function getImage()
+    {
+        return $this->getContent();
+    }
+
+    public function getVideo()
+    {
+        return $this->getContent();
+    }
+
+    public function setImage($image)
+    {
+        $this->setContent($image);
+    }
+
+    public function setVideo($video)
+    {
+        $this->setContent($video);
+    }
+
 }

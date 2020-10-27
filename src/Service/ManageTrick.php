@@ -37,16 +37,16 @@ class ManageTrick
 
     /**
      * @param Trick $trick
-     * @param FormInterface $trickMediaImageForm
+     * @param FormInterface $form
      * @param ImageUploader $imageUploader
      * @return void
      */
-    public function addUploadedTrickMediaImage(Trick $trick, FormInterface $trickMediaImageForm, ImageUploader $imageUploader)
+    public function addUploadedTrickMediaImage(Trick $trick, FormInterface $form, ImageUploader $imageUploader)
     {
-        $uploadedFile = $trickMediaImageForm->get('content')->getData();
+        $uploadedFile = $form->get('image')->getData();
         if ($uploadedFile) {
             /** @var TrickMedia $trickMedia */
-            $trickMedia = $trickMediaImageForm->getData();
+            $trickMedia = $form->getData();
             $trickMedia->setContent($imageUploader->upload($uploadedFile));
             $trick->addTrickMedium($trickMedia);
         }
@@ -54,6 +54,7 @@ class ManageTrick
 
     public function update(Trick $trick)
     {
+        $trick->addContributor($this->security->getUser());
         $this->em->persist($trick);
         $this->em->flush();
     }
@@ -81,9 +82,7 @@ class ManageTrick
         }
     }
 
-    public function updateTrick($trick, $form, $flash)
-    {
+    public function deleteImage(TrickMedia $media){
 
     }
-
 }

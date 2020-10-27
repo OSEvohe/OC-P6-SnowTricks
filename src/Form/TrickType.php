@@ -55,26 +55,12 @@ class TrickType extends AbstractType
                 'choice_label' => 'name',
                 'label' => 'Groupe'
             ])
-            ->add('cover', TrickMediaImageType::class, [
+            ->add('cover', MediaType::class, [
                 'label' => 'Image principale'
             ])
             ->add('trickMedia', CollectionType::class, [
-                'entry_type' => TrickMediaType::class,
+                'entry_type' => MediaType::class,
                 'mapped' => true,
-                'label' => false,
-            ])
-            ->add('trickMediaPicture', CollectionType::class, [
-                'entry_type' => TrickMediaImageType::class,
-                'mapped' => false,
-                'allow_add' => true,
-                'prototype' => true,
-                'label' => false,
-            ])
-            ->add('trickMediaVideo', CollectionType::class, [
-                'entry_type' => TrickMediaVideoType::class,
-                'mapped' => false,
-                'allow_add' => true,
-                'prototype' => true,
                 'label' => false,
             ]);
     }

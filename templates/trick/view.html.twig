@@ -8,7 +8,11 @@
             <section class="trick-name row">
                 <div class="col-12">
                     <div class="trick-image">
-                        <img src="{{ asset("uploads/tricks/"~trick.cover.content) }}" alt="figure1">
+                        {% if trick.cover is not null %}
+                            <img src="{{ asset("uploads/tricks/"~trick.cover.content) }}" alt="figure1">
+                        {% else %}
+                            <img src="{{ asset("build/images/figure1.jpg") }}" alt="figure1" />
+                        {% endif %}
                         <div class="trick-action-button">
                             <a href="{{ path('trick_edit', {'slug' : trick.slug}) }}"><i class="fas fa-pen"></i></a>&nbsp;
                             <i class="fas fa-trash"></i>

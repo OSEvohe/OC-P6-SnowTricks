@@ -5,23 +5,22 @@ namespace App\Controller;
 
 use App\Entity\Comment;
 use App\Entity\Trick;
-use App\Entity\TrickMedia;
 use App\Form\CommentType;
 use App\Form\CoverType;
-use App\Form\TrickMediaImageType;
-use App\Form\TrickMediaVideoType;
+use App\Form\MediaType;
 use App\Form\TrickType;
 use App\Service\ImageUploader;
 use App\Service\ManageTrick;
 use App\Service\YoutubeHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class TrickController extends AbstractController
 {
+    const REDIRECT_POST_EDIT = 'trick_edit';
+
     /**
      * View single trick
      *
@@ -33,7 +32,9 @@ class TrickController extends AbstractController
      */
     public function view(Request $request, Trick $trick, YoutubeHelper $youtubeHelper): Response
     {
-        $this->checkTrickExists($trick);
+        if (!$trick) {
+            throw $this->createNotFoundException('Cette figure n\'existe pas');
+        }
 
         $commentForm = $this->createForm(CommentType::class);
         $commentForm->handleRequest($request);
@@ -67,43 +68,61 @@ class TrickController extends AbstractController
      * @param Trick $trick
      * @param Request $request
      * @param YoutubeHelper $youtubeHelper
-     * @param ManageTrick $manageTrickDatabase
+     * @param ManageTrick $manageTrick
      * @param ImageUploader $imageUploader
      * @return Response
      */
-    public function edit(Trick $trick, Request $request, YoutubeHelper $youtubeHelper, ManageTrick $manageTrickDatabase, ImageUploader $imageUploader): Response
+    public function update(Trick $trick, Request $request, YoutubeHelper $youtubeHelper, ManageTrick $manageTrick, ImageUploader $imageUploader): Response
     {
+        if (!$trick) {
+            throw $this->createNotFoundException('Cette figure n\'existe pas');
+        }
+
         $trickCover = $this->createForm(CoverType::class, $trick);
-        $trickMediaImageForm = $this->createForm(TrickMediaImageType::class);
-        $trickMediaVideoForm = $this->createForm(TrickMediaVideoType::class);
+        $formMedia = $this->createForm(MediaType::class, null, ['new' => true]);
         $form = $this->createForm(TrickType::class, $trick);
 
-        /**
-         * Only basic trick information with this form, Medias are handled separately
-         */
-        $form
-            ->remove('trickMediaPicture')
-            ->remove('trickMediaVideo');
+        /** Cover is handled separately */
+        $form->remove('cover');
 
         $trickCover->handleRequest($request);
-        $trickMediaImageForm->handleRequest($request);
-        $trickMediaVideoForm->handleRequest($request);
         $form->handleRequest($request);
+        $formMedia->handleRequest($request);
 
 
-        if ($this->processUpdateForm($trick, $form, 'Les informations de base du trick ont été modifiées', $manageTrickDatabase) ||
-            $this->processUpdateForm($trick, $trickCover, 'L\'image principale a été modifiée', $manageTrickDatabase) ||
-            $this->processUpdateForm($trick, $trickMediaImageForm, 'Une image a été ajoutée au trick', $manageTrickDatabase, $imageUploader) ||
-            $this->processUpdateForm($trick, $trickMediaVideoForm, 'Une vidéo a été ajoutée au trick', $manageTrickDatabase)
-        ) {
-            return $this->redirectToRoute('trick_detail', ['slug' => $trick->getSlug()]);
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var Trick $trick */
+            $trick = $form->getData();
+            $manageTrick->update($trick);
+
+            $this->addFlash('success', 'Le trick a été modifié');
+            return $this->redirectToRoute(self::REDIRECT_POST_EDIT, ['slug' => $trick->getSlug()]);
+        }
+
+        if ($formMedia->isSubmitted() && $formMedia->isValid()) {
+            if (!$formMedia->get('image')->isEmpty()) {
+                $manageTrick->addUploadedTrickMediaImage($trick, $formMedia, $imageUploader);
+            } else {
+                $trick->addTrickMedium($formMedia->getData());
+            }
+                $manageTrick->update($trick);
+
+                $this->addFlash('success', 'Un media a été ajouté au trick');
+                return $this->redirectToRoute(self::REDIRECT_POST_EDIT, ['slug' => $trick->getSlug()]);
+        }
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var Trick $trick */
+            $trick = $form->getData();
+            $manageTrick->update($trick);
+
+            return $this->redirectToRoute(self::REDIRECT_POST_EDIT, ['slug' => $trick->getSlug()]);
         }
 
 
         return $this->render('trick/edit.html.twig', [
             'form' => $form->createView(),
-            'formVideo' => $trickMediaVideoForm->createView(),
-            'formImage' => $trickMediaImageForm->createView(),
+            'formMedia' => $formMedia->createView(),
             'formCover' => $trickCover->createView(),
             'trick' => $trick,
             'youtube' => $youtubeHelper,
@@ -119,7 +138,7 @@ class TrickController extends AbstractController
      * @param ImageUploader $imageUploader
      * @return Response
      */
-    public function add(Request $request, ManageTrick $manageTrickDatabase, ImageUploader $imageUploader): Response
+    public function create(Request $request, ManageTrick $manageTrickDatabase, ImageUploader $imageUploader): Response
     {
         $trick = new Trick();
 
@@ -150,35 +169,5 @@ class TrickController extends AbstractController
     public function delete(string $slug): Response
     {
 
-    }
-
-    private function checkTrickExists($trick)
-    {
-        if (!$trick) {
-            throw $this->createNotFoundException('Cette figure n\'existe pas');
-        }
-    }
-
-
-    private function processUpdateForm(Trick $trick, FormInterface $form, string $flash, ManageTrick $manageTrickDatabase, ImageUploader $imageUploader = null)
-    {
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            if ($imageUploader){
-                $manageTrickDatabase->addUploadedTrickMediaImage($trick, $form, $imageUploader);
-            } elseif (get_class($form->getConfig()->getType()->getInnerType()) == TrickMediaVideoType::class) {
-                $trick->addTrickMedium($form->getData());
-            } else {
-                $trick = $form->getData();
-            }
-
-            $trick->addContributor($this->getUser());
-            $manageTrickDatabase->update($trick);
-
-            $this->addFlash('success', $flash);
-            return true;
-        }
-
-        return false;
     }
 }

@@ -8,35 +8,35 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            {{ form_start(formImage) }}
+            {{ form_start(formMedia) }}
             <div class="modal-body">
+                <div class="alert-danger">{{ form_errors(formMedia) }}</div>
+                {{ form_label(formMedia.type) }}
+                {{ form_widget(formMedia.type) }}
+                {{ form_errors(formMedia.type) }}
+            </div>
+            <div class="text-center">
+            </div>
+            <div class="modal-body" id="modal-add-image">
                 <h5>Ajout d'une Image</h5>
-                {{ form_row(formImage.content, {'attr' : {'class': 'form-control-file'}}) }}
-                {{ form_row(formImage.alt, {'attr' : {'class': 'form-control'}}) }}
-                {{ form_row(formImage.type) }}
+                {{ form_widget(formMedia.image) }}
+                {{ form_errors(formMedia.image) }}
             </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Ajouter</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+            <div class="modal-body" id="modal-add-video">
+                <h5>Ajout d'une video</h5>
+                {{ form_row(formMedia.content) }}
             </div>
-            {{ form_end(formImage) }}
             <div class="text-center">
                 <hr />
-                OU
-                <hr />
             </div>
-            {{ form_start(formImage) }}
             <div class="modal-body">
-                <h5>Ajout d'une video</h5>
-                {{ form_row(formVideo.content,{'attr' : {'class': 'form-control'}}) }}
-                {{ form_row(formVideo.alt,{'attr' : {'class': 'form-control'}}) }}
-                {{ form_row(formVideo.type) }}
+                {{ form_row(formMedia.alt) }}
             </div>
             <div class="modal-footer">
                 <button type="submit" class="btn btn-primary">Ajouter</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
             </div>
-            {{ form_end(formVideo) }}
+            {{ form_end(formMedia) }}
         </div>
     </div>
 </div>

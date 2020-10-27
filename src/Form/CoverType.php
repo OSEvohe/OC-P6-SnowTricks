@@ -31,7 +31,7 @@ class CoverType extends AbstractType
                     },
                     'label' => 'Image principale',
                     'expanded' => true,
-                    'multiple' => false
+                    'multiple' => false,
                 ));
             });
     }

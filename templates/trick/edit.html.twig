@@ -3,7 +3,7 @@
 {% form_theme formCover _self %}
 
 {% block _cover_cover_entry_label %}
-<img src="{{ asset("uploads/tricks/"~form.vars.label) }}" style="max-width: 100px; max-height: 100px" alt="{{ form.parent.vars.data.cover.cover.alt}}" />
+<img src="{{ asset("uploads/tricks/"~form.vars.label) }}" style="max-width: 100px; max-height: 100px" alt="" />
 {% endblock %}
 
 
@@ -15,10 +15,14 @@
             <section class="trick-name row">
                 <div class="col-12">
                     <div class="trick-image">
-                        <img src="{{ asset("uploads/tricks/"~trick.cover.content) }}" alt="figure1">
+                        {% if trick.cover is not null %}
+                            <img src="{{ asset("uploads/tricks/"~trick.cover.content) }}" alt="figure1">
+                        {% else %}
+                            <img src="{{ asset("build/images/figure1.jpg") }}" alt="figure1" />
+                        {% endif %}
                         <div class="trick-action-button">
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#selectTrickCoverModal"><i class="fas fa-pen"></i></button>
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deleteModal" data-id='{"id":"1", "type":"val", "selector":"modal-form-id"}'
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deleteModal" data-link='{"value":"{{ path('cover_delete', { 'slug' : trick.slug}) }}", "type":"href", "selector":".btn-delete"}'
                                     data-name='{"value":"Media 1","selector":".modal-title"}'><i class="fas fa-trash"></i></button>
                         </div>
                     </div>
@@ -33,27 +37,26 @@
                     Voir les médias
                 </button>
             </div>
+            {{ form_start(form) }}
             <section class="collapse" id="media-list">
                 <div class="trick-media-list row d-flex justify-content-center pb-5">
-                    {% for trickMedia in trick.trickMedia %}
+                    {% for media in form.trickMedia %}
                         <div class="trick-media-item col-md-2 pb-sm-3 mb-3">
-                            {% if trickMedia.type == 1 %}
-                                <a data-toggle="modal" data-target="#imageModal" data-src='{"value":"{{ asset("uploads/tricks/"~trickMedia.content) }}", "type":"src", "selector":".modal-image-img"}'
-                                   data-alt='{"value":"{{ trickMedia.alt }}", "selector":".modal-image-img"}' href="{{ asset("uploads/tricks/"~trickMedia.content) }}" title="{{ trickMedia.alt }}"
-                                   style="background-image: url('{{ asset("uploads/tricks/"~trickMedia.content) }}')">
-                                </a>
-                            {% elseif trickMedia.type == 2 %}
-                                <a data-toggle="modal" data-target="#youtubeModal" data-src='{"value":"https://www.youtube.com/embed/{{ youtube.getId(trickMedia.content) }}", "type":"src", "selector":".modal-video-iframe"}'
-                                   style="background-image: url('https://img.youtube.com/vi/{{ youtube.getId(trickMedia.content) }}/mqdefault.jpg')">
+                            {% if media.vars.data.type == 1 %}
+                                <a style="background-image: url('{{ asset("uploads/tricks/"~media.vars.data.content) }}')"></a>
+                            {% elseif media.vars.data.type == 2 %}
+                                <a style="background-image: url('https://img.youtube.com/vi/{{ youtube.getId(media.vars.data.content) }}/mqdefault.jpg')">
                                     <i class="fab fa-youtube"></i>
                                 </a>
                             {% endif %}
+                            <div class="small">{{ media.vars.data.alt }}</div>
                             <div class="trick-action-button">
-                                <button class="btn btn-primary"><i class="fas fa-pen"></i></button>&nbsp;
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deleteModal" data-title='{"value":"Supprimer: {{ trickMedia.alt }} ?","selector":".modal-title"}'
-                                        data-id='{"value":"{{ trickMedia.id }}","type":"value","selector":".modal-form-id"}'><i class="fas fa-trash"></i></button>
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editMedia__{{ media.vars.data.id }}"><i class="fas fa-pen"></i></button>&nbsp;
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deleteModal" data-title='{"value":"Supprimer: {{ media.vars.data.alt }} ?","selector":".modal-title"}'
+                                        data-id='{"value":"{{ media.vars.data.id }}","type":"value","selector":".modal-form-id"}'><i class="fas fa-trash"></i></button>
                             </div>
                         </div>
+                        {% include 'modals/editMedia.html.twig' %}
                     {% endfor %}
                     <div class="trick-media-item col-md-2 pb-sm-3 pb-md-0">
                         <div class="trick-media-item-content">
@@ -62,7 +65,6 @@
                     </div>
                 </div>
             </section>
-            {{ form_start(form) }}
             <section class="trick-description row pb-5">
                 <div class="col-sm-12 offset-md-1 col-md-6">
                     <div class="form-group">
