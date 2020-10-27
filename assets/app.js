@@ -45,14 +45,12 @@ $(document).ready(function () {
     /** Display additional media form **/
 
     // set containers
-    let addMediaImagePrototype = $('div#trick_trickMediaPicture')
-    let addMediaVideoPrototype = $('div#trick_trickMediaVideo')
+    let addMediaPrototype = $('div#trick_trickMedia')
     let addMediaContainer = $('div#additional_medias')
     let index = {nb: addMediaContainer.find('.trick-media-form').length}
 
     // bind addLink event for each Media type
-    bindAddLink(addMediaVideoPrototype,addMediaContainer, $('#add_trickMediaVideo'), index )
-    bindAddLink(addMediaImagePrototype,addMediaContainer, $('#add_trickMediaPicture'), index )
+    bindAddLink(addMediaPrototype,addMediaContainer, $('#add_trickMedia'), index )
 
     // add delete link to already existing media type
     addMediaContainer.find('.trick-media-form').each(function() {

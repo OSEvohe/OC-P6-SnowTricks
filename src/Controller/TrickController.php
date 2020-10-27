@@ -142,14 +142,14 @@ class TrickController extends AbstractController
     {
         $trick = new Trick();
 
-        $form = $this->createForm(TrickType::class, $trick);
+        $form = $this->createForm(TrickType::class, $trick, ['new' => true]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $trick->setUser($this->getUser());
             $manageTrickDatabase->addCover($form, $imageUploader);
             $manageTrickDatabase->addTrickMediaCollection($form, $imageUploader);
-            $manageTrickDatabase->update($form);
+            $manageTrickDatabase->update($trick);
 
             $this->addFlash('success', 'Le Trick a été crée');
             return $this->redirectToRoute('trick_detail', ['slug' => $trick->getSlug()]);

@@ -1,17 +1,36 @@
 {% macro trickMedia(children) %}
     <div class="px-5 py-2 mx-auto bg-primary text-light mt-1 trick-media-form">
-        {% for row in children %}
-            <div class="form-group">
-                {{ form_label(row) }}
-                {{ form_widget(row) }}
-                <div class="alert-danger">{{ form_errors(row) }}</div>
-            </div>
-        {% endfor %}
+        <div class="form-group">
+            {{ form_label(children.type) }}
+            {{ form_widget(children.type) }}
+            <div class="alert-danger">{{ form_errors(children.type) }}</div>
+        </div>
+        <div class="form-group">
+            {{ form_label(children.image) }}
+            {{ form_widget(children.image) }}
+            <div class="alert-danger">{{ form_errors(children.image) }}</div>
+        </div>
+        <div class="form-group">
+            {{ form_label(children.content) }}
+            {{ form_widget(children.content) }}
+            <div class="alert-danger">{{ form_errors(children.content) }}</div>
+        </div>
+        <div>
+            <hr class="text-light"/>
+            OU
+            <hr class="text-light"/>
+        </div>
+        <div class="form-group">
+            {{ form_label(children.alt) }}
+            {{ form_widget(children.alt) }}
+            <div class="alert-danger">{{ form_errors(children.alt) }}</div>
+        </div>
+
     </div>
 {% endmacro %}
 
-{% macro trickMediaPrototype (type, prototype, form) %}
-    <div id="trick_trickMedia{{ type }}" data-prototype="{{ _self.trickMedia(prototype.children)|e('html_attr') }}">
+{% macro trickMediaPrototype (prototype, form) %}
+    <div id="trick_trickMedia" data-prototype="{{ _self.trickMedia(prototype.children)|e('html_attr') }}">
     </div>
     {% for childForm in form.children %}
         {{ _self.trickMedia(childForm.children) }}

@@ -6,6 +6,7 @@ use App\Entity\TrickMedia;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -43,8 +44,8 @@ class MediaType extends AbstractType
                 $media = $event->getData();
                 $form = $event->getForm();
 
-                // When we create a new media
-                if (!$media) {
+                // When we create a new media or cover
+                if ($form->getConfig()->getOption('new') || $form->getConfig()->getOption('cover')) {
                     $form->add('image', FileType::class, [
                         'attr' => ['class' => 'form-control-file'],
                         'label' => false,
@@ -66,20 +67,34 @@ class MediaType extends AbstractType
                             ])
                         ]
 
-                    ])
-                        ->add('type', ChoiceType::class, [
-                            'label' => 'Type de Media',
-                            'choices' => [
-                                'Image' => TrickMedia::MEDIA_TYPE_IMAGE,
-                                'Vidéo' => TrickMedia::MEDIA_TYPE_VIDEO
-                            ],
-                            'expanded' => true,
-                            'multiple' => false,
-                        ]);
+                    ]);
+                }
+                // add radio button for new media
+                if ($form->getConfig()->getOption('new')) {
+                    $form->add('type', ChoiceType::class, [
+                        'label' => 'Type de Media',
+                        'choices' => [
+                            'Image' => TrickMedia::MEDIA_TYPE_IMAGE,
+                            'Vidéo' => TrickMedia::MEDIA_TYPE_VIDEO
+                        ],
+                        'expanded' => true,
+                        'multiple' => false,
+                        'required' => true,
+                        'constraints' => [
+                            new NotBlank(['message' => 'Vous devez choisir un type de media'])
+                        ]
+                    ]);
+                }
+
+                // force type to image when creating a cover
+                if ($form->getConfig()->getOption('cover')) {
+                    $form->add('type', HiddenType::class, [
+                        'empty_data' => 1
+                    ]);
                 }
 
                 // Display URL input only when editing a video media or creating a new media
-                if (!$media || $media->getType() == TrickMedia::MEDIA_TYPE_VIDEO) {
+                if ($form->getConfig()->getOption('new') || ($media && $media->getType() == TrickMedia::MEDIA_TYPE_VIDEO)) {
                     $form->add('content', UrlType::class, [
                         'label' => 'URI de la vidéo',
                         'attr' => ['class' => 'form-control'],
@@ -103,16 +118,17 @@ class MediaType extends AbstractType
         $resolver->setDefaults([
             'data_class' => TrickMedia::class,
             'new' => false,
+            'cover' => false,
 
-            'validation_groups' => function(FormInterface $form){
-                if ($form->getConfig()->getOption('new')){
-                    if ($form->get('image')->isEmpty() && !$form->get('content')->isEmpty()){
+            'validation_groups' => function (FormInterface $form) {
+                if ($form->getConfig()->getOption('new')) {
+                    if ($form->get('image')->isEmpty() && !$form->get('content')->isEmpty()) {
                         return ['Default', 'video'];
                     }
-                    if ($form->get('content')->isEmpty() && !$form->get('image')->isEmpty()){
+                    if ($form->get('content')->isEmpty() && !$form->get('image')->isEmpty()) {
                         return ['Default', 'image'];
                     }
-                    if (!$form->get('content')->isEmpty() && !$form->get('image')->isEmpty()){
+                    if (!$form->get('content')->isEmpty() && !$form->get('image')->isEmpty()) {
                         $form->addError(new FormError('Les champs URL et Image sont tous les deux renseignés, vous devez ajouter soit une image soit une vidéo'));
                         return ['Default', 'image', 'video'];
                     }

@@ -71,14 +71,13 @@ class ManageTrick
         $trick = $form->getData();
 
         /** Process additional TrickMedia */
-        $collectionOfImage = $form->get('trickMediaPicture');
+        $collectionOfImage = $form->get('trickMedia');
         foreach ($collectionOfImage as $trickMedia) {
-            $this->addUploadedTrickMediaImage($trick, $trickMedia, $imageUploader);
-        }
-
-        $collectionOfVideo = $form->get('trickMediaVideo');
-        foreach ($collectionOfVideo as $trickMedia) {
-            $trick->addTrickMedium($trickMedia->getData());
+            if ($trickMedia->getData()->getType() == TrickMedia::MEDIA_TYPE_IMAGE) {
+                $this->addUploadedTrickMediaImage($trick, $trickMedia, $imageUploader);
+            } else {
+                $trick->addTrickMedium($trickMedia->getData());
+            }
         }
     }
 
