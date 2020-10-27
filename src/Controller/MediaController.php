@@ -16,6 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class MediaController extends AbstractController
 {
     /**
+     * Remove a media as a cover, media is not deleted
      * @Route ("trick/{slug}/cover/delete", name="cover_delete", methods={"GET"})
      * @param Trick $trick
      * @param ManageTrick $manageTrick
@@ -35,6 +36,7 @@ class MediaController extends AbstractController
     }
 
     /**
+     * Delete a media
      * @Route ("media/{id}/delete", name="media_delete", methods={"GET"})
      * @param TrickMedia $media
      * @param ImageUploader $imageUploader
