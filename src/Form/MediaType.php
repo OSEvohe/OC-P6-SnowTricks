@@ -144,7 +144,6 @@ class MediaType extends AbstractType
                     // all field are empty
                     if (!$form->get('content')->isEmpty() && !$form->get('image')->isEmpty()) {
                         $form->get('type')->addError(new FormError(self::INVALID_MEDIA_TYPE));
-                        return ['Default', 'image', 'video'];
                     }
                 }
                 return ['Default', 'image', 'video'];
