@@ -40,20 +40,20 @@ class Trick
     private $description;
 
     /**
-     * @ORM\ManyToOne(targetEntity=TrickGroup::class, inversedBy="tricks", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity=TrickGroup::class, inversedBy="tricks", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $trickGroup;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="tricks", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="tricks", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
 
 
     /**
-     * @ORM\OneToMany(targetEntity=TrickMedia::class, mappedBy="trick", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=TrickMedia::class, mappedBy="trick", cascade={"persist", "remove"})
      */
     private $trickMedia;
 
@@ -64,7 +64,7 @@ class Trick
     private $cover;
 
     /**
-     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="trick")
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="trick", cascade={"remove"})
      */
     private $comments;
 

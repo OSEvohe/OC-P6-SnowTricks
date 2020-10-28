@@ -5,6 +5,7 @@ namespace App\Controller;
 
 use App\Entity\Comment;
 use App\Entity\Trick;
+use App\Entity\TrickMedia;
 use App\Form\CommentType;
 use App\Form\CoverType;
 use App\Form\MediaType;
@@ -161,13 +162,27 @@ class TrickController extends AbstractController
 
     /**
      *
-     * @Route ("trick/{slug}/delete", name="trick_delete", priority="2", methods={"POST"})
+     * @Route ("trick/{slug}/delete", name="trick_delete", priority="2", methods={"GET"})
      *
-     * @param string $slug
+     * @param Trick $trick
+     * @param ImageUploader $imageUploader
      * @return Response
      */
-    public function delete(string $slug): Response
+    public function delete(Trick $trick, ImageUploader $imageUploader): Response
     {
+        $entityManager = $this->getDoctrine()->getManager();
 
+        foreach ($trick->getTrickMedia() as $media){
+            if ($media->getType() == TrickMedia::MEDIA_TYPE_IMAGE){
+                $imageUploader->deleteFile($media->getContent());
+            }
+        }
+
+        $entityManager->remove($trick);
+
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Trick supprimé');
+        return $this->redirectToRoute('home');
     }
 }
