@@ -172,6 +172,8 @@ a {
     }
   }
 
+
+
   .trick-meta {
 
     li {
@@ -239,6 +241,13 @@ a {
       img {
         width: 48px;
       }
+    }
+  }
+
+  .form-group {
+
+    #trick_description.form-control {
+      height:13rem;
     }
   }
 

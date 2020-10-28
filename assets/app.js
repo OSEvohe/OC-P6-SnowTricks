@@ -26,6 +26,22 @@ $(document).ready(function () {
         }
     })
 
+    // Edit media Modal
+    // Add new media modal, show only the selected media type
+    $('#modal-add-image').css('display', 'none')
+    $('#modal-add-video').css('display', 'none')
+
+    $('#media_type_0').click(function(){
+        $('#modal-add-image').css('display', 'block')
+        $('#modal-add-video').css('display', 'none')
+    })
+
+    $('#media_type_1').click(function(){
+        $('#modal-add-image').css('display', 'none')
+        $('#modal-add-video').css('display', 'block')
+    })
+
+
     /** Display additional media form **/
 
     // set containers
@@ -45,7 +61,6 @@ $(document).ready(function () {
 
     function addTrickMedia(prototype, container, index) {
         index.nb++
-        console.log(index)
         let template = prototype.attr('data-prototype')
             .replace(/__name__label__/g, 'Media')
             .replace(/__name__/g, index.nb);
@@ -97,9 +112,6 @@ function showMediaList() {
  */
 function setModalValue(event, field, modal) {
     let item = modal.find(field.selector)
-    console.log(field)
-    console.log(field.type)
-    console.log(field.value)
     if (field.type) {
         item.attr(field.type, field.value)
     } else {

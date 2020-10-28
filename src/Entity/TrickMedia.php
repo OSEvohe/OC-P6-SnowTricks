@@ -47,19 +47,10 @@ class TrickMedia
     private $trick;
 
     /**
-     * @ORM\OneToMany(targetEntity=Trick::class, mappedBy="cover")
-     */
-    private $tricks;
-
-    /**
-     * @ORM\OneToOne(targetEntity=Trick::class, mappedBy="cover", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=Trick::class, mappedBy="cover", cascade={"persist"})
      */
     private $cover;
 
-    public function __construct()
-    {
-        $this->tricks = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -114,37 +105,6 @@ class TrickMedia
         return $this;
     }
 
-    /**
-     * @return Collection|Trick[]
-     */
-    public function getTricks(): Collection
-    {
-        return $this->tricks;
-    }
-
-    public function addTrick(Trick $trick): self
-    {
-        if (!$this->tricks->contains($trick)) {
-            $this->tricks[] = $trick;
-            $trick->setCover($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTrick(Trick $trick): self
-    {
-        if ($this->tricks->contains($trick)) {
-            $this->tricks->removeElement($trick);
-            // set the owning side to null (unless already changed)
-            if ($trick->getCover() === $this) {
-                $trick->setCover(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getCover(): ?Trick
     {
         return $this->cover;
@@ -162,4 +122,17 @@ class TrickMedia
 
         return $this;
     }
+
+    /** Additional setters & getters to map image field in form */
+
+    public function getImage()
+    {
+        return $this->getContent();
+    }
+
+    public function setImage($image)
+    {
+        $this->setContent($image);
+    }
+
 }

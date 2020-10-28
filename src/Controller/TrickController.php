@@ -6,9 +6,11 @@ namespace App\Controller;
 use App\Entity\Comment;
 use App\Entity\Trick;
 use App\Form\CommentType;
+use App\Form\CoverType;
+use App\Form\MediaType;
 use App\Form\TrickType;
 use App\Service\ImageUploader;
-use App\Service\ManageTrickDatabase;
+use App\Service\ManageTrick;
 use App\Service\YoutubeHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,6 +19,8 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class TrickController extends AbstractController
 {
+    const REDIRECT_POST_EDIT = 'trick_edit';
+
     /**
      * View single trick
      *
@@ -28,7 +32,9 @@ class TrickController extends AbstractController
      */
     public function view(Request $request, Trick $trick, YoutubeHelper $youtubeHelper): Response
     {
-        $this->checkTrickExists($trick);
+        if (!$trick) {
+            throw $this->createNotFoundException('Cette figure n\'existe pas');
+        }
 
         $commentForm = $this->createForm(CommentType::class);
         $commentForm->handleRequest($request);
@@ -61,14 +67,65 @@ class TrickController extends AbstractController
      *
      * @param Trick $trick
      * @param Request $request
+     * @param YoutubeHelper $youtubeHelper
+     * @param ManageTrick $manageTrick
+     * @param ImageUploader $imageUploader
      * @return Response
      */
-    public function edit(Trick $trick, Request $request): Response
+    public function update(Trick $trick, Request $request, YoutubeHelper $youtubeHelper, ManageTrick $manageTrick, ImageUploader $imageUploader): Response
     {
+        if (!$trick) {
+            throw $this->createNotFoundException('Cette figure n\'existe pas');
+        }
+
+        $trickCover = $this->createForm(CoverType::class, $trick);
+        $formMedia = $this->createForm(MediaType::class, null, ['new' => true]);
         $form = $this->createForm(TrickType::class, $trick);
+
+        /** Cover is handled separately */
+        $form->remove('cover');
+
+        $trickCover->handleRequest($request);
         $form->handleRequest($request);
+        $formMedia->handleRequest($request);
+
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var Trick $trick */
+            $trick = $form->getData();
+            $manageTrick->update($trick);
+
+            $this->addFlash('success', 'Le trick a été modifié');
+            return $this->redirectToRoute(self::REDIRECT_POST_EDIT, ['slug' => $trick->getSlug()]);
+        }
+
+        if ($formMedia->isSubmitted() && $formMedia->isValid()) {
+            if (!$formMedia->get('image')->isEmpty()) {
+                $manageTrick->addUploadedTrickMediaImage($trick, $formMedia, $imageUploader);
+            } else {
+                $trick->addTrickMedium($formMedia->getData());
+            }
+                $manageTrick->update($trick);
+
+                $this->addFlash('success', 'Un media a été ajouté au trick');
+                return $this->redirectToRoute(self::REDIRECT_POST_EDIT, ['slug' => $trick->getSlug()]);
+        }
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var Trick $trick */
+            $trick = $form->getData();
+            $manageTrick->update($trick);
+
+            return $this->redirectToRoute(self::REDIRECT_POST_EDIT, ['slug' => $trick->getSlug()]);
+        }
+
+
         return $this->render('trick/edit.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'formMedia' => $formMedia->createView(),
+            'formCover' => $trickCover->createView(),
+            'trick' => $trick,
+            'youtube' => $youtubeHelper,
         ]);
     }
 
@@ -77,25 +134,22 @@ class TrickController extends AbstractController
      *
      * @Route ("/trick/add", name="trick_add", priority="3")
      * @param Request $request
-     * @param ManageTrickDatabase $manageTrickDatabase
+     * @param ManageTrick $manageTrickDatabase
      * @param ImageUploader $imageUploader
      * @return Response
      */
-    public function add(Request $request, ManageTrickDatabase $manageTrickDatabase, ImageUploader $imageUploader): Response
+    public function create(Request $request, ManageTrick $manageTrickDatabase, ImageUploader $imageUploader): Response
     {
-        $form = $this->createForm(TrickType::class);
+        $trick = new Trick();
+
+        $form = $this->createForm(TrickType::class, $trick);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            /** @var Trick $trick */
-            $trick = $form->getData();
             $trick->setUser($this->getUser());
-
-            $manageTrickDatabase->addNewTrick($trick, $form, $imageUploader);
-
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($trick);
-            $em->flush();
+            $manageTrickDatabase->addCover($form, $imageUploader);
+            $manageTrickDatabase->addTrickMediaCollection($form, $imageUploader);
+            $manageTrickDatabase->update($form);
 
             $this->addFlash('success', 'Le Trick a été crée');
             return $this->redirectToRoute('trick_detail', ['slug' => $trick->getSlug()]);
@@ -112,17 +166,8 @@ class TrickController extends AbstractController
      * @param string $slug
      * @return Response
      */
-    public
-    function delete(string $slug): Response
+    public function delete(string $slug): Response
     {
 
-    }
-
-    private
-    function checkTrickExists($trick)
-    {
-        if (!$trick) {
-            throw $this->createNotFoundException('Cette figure n\'existe pas');
-        }
     }
 }

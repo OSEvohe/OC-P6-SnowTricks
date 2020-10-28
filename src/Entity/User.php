@@ -45,11 +45,6 @@ class User implements UserInterface
     private $tricks;
 
     /**
-     * @ORM\OneToMany(targetEntity=UserTrick::class, mappedBy="user")
-     */
-    private $userTricks;
-
-    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $photo;
@@ -64,11 +59,17 @@ class User implements UserInterface
      */
     private $comments;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Trick::class, inversedBy="contributors")
+     * @ORM\JoinTable(name="trick_contributors")
+     */
+    private $contributions;
+
     public function __construct()
     {
         $this->tricks = new ArrayCollection();
-        $this->userTricks = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->contributions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -95,7 +96,7 @@ class User implements UserInterface
      */
     public function getUsername(): string
     {
-        return (string) $this->email;
+        return (string)$this->email;
     }
 
     /**
@@ -122,7 +123,7 @@ class User implements UserInterface
      */
     public function getPassword(): string
     {
-        return (string) $this->password;
+        return (string)$this->password;
     }
 
     public function setPassword(string $password): self
@@ -180,44 +181,6 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @return Collection|UserTrick[]
-     */
-    public function getUserTricks(): Collection
-    {
-        return $this->userTricks;
-    }
-
-    public function addUserTrick(UserTrick $userTrick): self
-    {
-        if (!$this->userTricks->contains($userTrick)) {
-            $this->userTricks[] = $userTrick;
-            $userTrick->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUserTrick(UserTrick $userTrick): self
-    {
-        if ($this->userTricks->contains($userTrick)) {
-            $this->userTricks->removeElement($userTrick);
-            // set the owning side to null (unless already changed)
-            if ($userTrick->getUser() === $this) {
-                $userTrick->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
-    public function setUsername(string $username): self
-    {
-        $this->username = $username;
-
-        return $this;
-    }
-
     public function getPhoto(): ?string
     {
         return $this->photo;
@@ -268,6 +231,32 @@ class User implements UserInterface
             if ($comment->getUser() === $this) {
                 $comment->setUser(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Trick[]
+     */
+    public function getContributions(): Collection
+    {
+        return $this->contributions;
+    }
+
+    public function addContribution(Trick $contribution): self
+    {
+        if (!$this->contributions->contains($contribution)) {
+            $this->contributions[] = $contribution;
+        }
+
+        return $this;
+    }
+
+    public function removeContribution(Trick $contribution): self
+    {
+        if ($this->contributions->contains($contribution)) {
+            $this->contributions->removeElement($contribution);
         }
 
         return $this;
