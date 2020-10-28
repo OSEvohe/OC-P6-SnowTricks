@@ -13,6 +13,7 @@ use App\Form\TrickType;
 use App\Service\ImageUploader;
 use App\Service\ManageTrick;
 use App\Service\YoutubeHelper;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -163,6 +164,7 @@ class TrickController extends AbstractController
     /**
      *
      * @Route ("trick/{slug}/delete", name="trick_delete", priority="2", methods={"GET"})
+     * @IsGranted("TRICK_DELETE", subject="trick")
      *
      * @param Trick $trick
      * @param ImageUploader $imageUploader
