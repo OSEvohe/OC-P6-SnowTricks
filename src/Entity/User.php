@@ -14,6 +14,9 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class User implements UserInterface
 {
+
+    const USER_VERIFIED = "ROLE_USER_VERIFIED";
+
     use TimestampableEntity;
 
     /**
@@ -64,6 +67,7 @@ class User implements UserInterface
      * @ORM\JoinTable(name="trick_contributors")
      */
     private $contributions;
+
 
     public function __construct()
     {
@@ -116,6 +120,11 @@ class User implements UserInterface
         $this->roles = $roles;
 
         return $this;
+    }
+
+    public function addRole(string $role)
+    {
+        $this->roles[] = $role;
     }
 
     /**
