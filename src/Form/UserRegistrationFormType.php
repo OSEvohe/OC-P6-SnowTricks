@@ -26,7 +26,7 @@ class UserRegistrationFormType extends AbstractType
                 'constraints' => [
                     new Email(['message'=>'"{{ value }}" n\'est pas une adresse e-mail valide.']),
                     new NotBlank(['message' => self::NOTEMPTY_MESSAGE])]])
-            ->add('password', PasswordType::class, [
+            ->add('plainPassword', PasswordType::class, [
                 'empty_data' => '',
                 'constraints' => [
                     new Length([
@@ -64,7 +64,7 @@ class UserRegistrationFormType extends AbstractType
         ]);
     }
 
-    private function passwordRequirement()
+    public function passwordRequirement()
     {
         return new PasswordRequirements([
             'minLength' => 8,
