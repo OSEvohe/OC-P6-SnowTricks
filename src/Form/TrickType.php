@@ -56,18 +56,22 @@ class TrickType extends AbstractType
                 'label' => 'Groupe'
             ])
             ->add('cover', MediaType::class, [
-                'label' => 'Image principale'
+                'label' => 'Image principale',
+                'cover' => true,
             ])
             ->add('trickMedia', CollectionType::class, [
                 'entry_type' => MediaType::class,
-                'mapped' => true,
+                'mapped' => !$options['new'],
                 'label' => false,
+                'allow_add' => true,
+                'entry_options' => ['new' => $options['new']]
             ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
+            'new' => false,
             'data_class' => Trick::class,
             'constraints' => [
                 new UniqueEntity([

@@ -4,8 +4,9 @@
 
 {% import 'prototypes/trickMedia_prototype.html.twig' as formPrototype %}
 
-{% block _trick_trickMediaPicture_row %}{{ formPrototype.trickMediaPrototype('Picture', prototype, form) }}{% endblock %}
-{% block _trick_trickMediaVideo_row %}{{ formPrototype.trickMediaPrototype('Video', prototype, form) }}{% endblock %}
+{% block _trick_trickMedia_row %}
+    {{  formPrototype.trickMediaPrototype(prototype, form) }}
+{% endblock %}
 
 {% block title %}Trick Name - {{ parent() }}{% endblock %}
 
@@ -44,9 +45,9 @@
                 <div class="col-11 px-5 py-2 mx-auto bg-primary text-light mt-4 border border-dark">
                     <div class="text-center"><h2>{{ form_label(form.cover) }}</h2></div>
                     <div class="form-group">
-                        {{ form_label(form.cover.content) }}
-                        {{ form_widget(form.cover.content,{'attr' : {'class': 'form-control-file'}}) }}
-                        <div class="alert-danger">{{ form_errors(form.cover.content) }}</div>
+                        {{ form_label(form.cover.image) }}
+                        {{ form_widget(form.cover.image,{'attr' : {'class': 'form-control-file'}}) }}
+                        <div class="alert-danger">{{ form_errors(form.cover.image) }}</div>
                     </div>
                     <div class="form-group">
                         {{ form_label(form.cover.alt) }}
@@ -60,12 +61,10 @@
                     <div class="text-center">
                         <h2>Medias supplémentaires</h2>
                     </div>
-                    <a id="add_trickMediaPicture" href="#" class="text-light">Ajouter une image</a>
-                    <a id="add_trickMediaVideo" href="#" class="text-light">Ajouter une video</a>
+                    <a id="add_trickMedia" href="#" class="text-light">Ajouter un media</a>
                 </div>
                 <div id="additional_medias" class="col-11 p-0 mx-auto">
-                    {{ form_row(form.trickMediaPicture) }}
-                    {{ form_row(form.trickMediaVideo) }}
+                    {{ form_row(form.trickMedia) }}
                 </div>
                 <div class="col-12 text-center p-3">
                     <div class="form-group">
