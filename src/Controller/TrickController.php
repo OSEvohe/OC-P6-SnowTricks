@@ -113,9 +113,9 @@ class TrickController extends AbstractController
                 return $this->redirectToRoute(self::REDIRECT_POST_EDIT, ['slug' => $trick->getSlug()]);
         }
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($trickCover->isSubmitted() && $trickCover->isValid()) {
             /** @var Trick $trick */
-            $trick = $form->getData();
+            $trick = $trickCover->getData();
             $manageTrick->update($trick);
 
             return $this->redirectToRoute(self::REDIRECT_POST_EDIT, ['slug' => $trick->getSlug()]);
