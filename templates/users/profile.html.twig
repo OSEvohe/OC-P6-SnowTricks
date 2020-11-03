@@ -1,0 +1,78 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Mon Profil - {{ parent() }}{% endblock %}
+
+{% block body %}
+    <section class="container py-5">
+        <div class="row justify-content-center">
+            <div class="bg-dark text-light col-12 col-md-10 p-4">
+
+
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
+                        <div class="row justify-content-center mb-2 mb-md-0">
+                            <div class="col-12 text-center pb-4">
+                                <h3>Mon Compte</h3>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center mb-2 mb-md-0">
+                            <div class="col-12 col-md-4 text-center text-md-right"><strong>E-mail :</strong></div>
+                            <div class="col-12 col-md-8 text-center text-md-left">{{ user.email }}</div>
+                        </div>
+                        <div class="row justify-content-center mb-2 mb-md-0">
+                            <div class="col-12 col-md-4 text-center text-md-right"><strong>Pseudo :</strong></div>
+                            <div class="col-12 col-md-8 text-center text-md-left">{{ user.displayName }}</div>
+                        </div>
+                        <div class="row justify-content-center mb-2 mb-md-0">
+                            <div class="col-12 col-md-4 text-center text-md-right"><strong>Statut :</strong></div>
+                            <div class="col-12 col-md-8 text-center text-md-left">
+                                {% if is_granted('ROLE_USER_VERIFIED') %}
+                                    <span class="text-success">Compte activé</span>
+                                {% elseif is_granted('ROLE_USER_') %}
+                                    <span class="text-danger">Compte non activé</span><br/><a class="text-light btn btn-primary" href="{{ path('app_resend_verify') }}">Activer mon adresse email</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% if user.photo %}
+                        <div class="row justify-content-center mb-2 mb-md-0">
+                            <div class="col-12 text-center"><img style="max-width: 200px; max-height: 200px" src="{{ asset('/uploads/profiles/'~user.photo) }}"  alt="Avatar de {{ user.displayName }}"/></div>
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="col-sm-12 col-md-6">
+                        {{ form_start(form) }}
+                        <div class="row justify-content-center mb-2 mb-md-0">
+                            <div class="col-12 text-center pb-4">
+                                <h3>Editer mon profil</h3>
+                            </div>
+                        </div>
+
+                        <div class="row justify-content-center mb-2 mb-md-0">
+                            <div class="col-8 form-group">
+                                <strong>{{ form_label(form.displayName) }}</strong>
+                                {{ form_help(form.displayName) }}
+                                {{ form_widget(form.displayName) }}
+                                <div class="alert-danger"> {{ form_errors(form.displayName) }}</div>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center mb-2 mb-md-0">
+                            <div class="col-8 form-group">
+                                <strong>{{ form_label(form.photo) }}</strong>
+                                {{ form_widget(form.photo) }}
+                                <div class="alert-danger">{{ form_errors(form.photo) }}</div>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center mb-2 mb-md-0">
+                            <div class="col-8">
+                                <button type="submit" role="button" class="btn btn-success">Valider</button>
+                            </div>
+                        </div>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

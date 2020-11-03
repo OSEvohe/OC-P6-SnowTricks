@@ -49,6 +49,11 @@ class ImageUploader
         return $this->targetDirectory;
     }
 
+    public function setTargetDirectory(string $target)
+    {
+        $this->targetDirectory = $target;
+    }
+
 
     public function deleteFile($file)
     {
