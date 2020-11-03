@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use SymfonyCasts\Bundle\VerifyEmail\Model\VerifyEmailSignatureComponents;
 use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 
 class AccountsHelper
@@ -45,15 +46,10 @@ class AccountsHelper
         $this->em = $em;
     }
 
+
     public function register(User $user)
     {
-        $user->setPassword($this->passwordEncoder->encodePassword(
-            $user,
-            $user->getPassword()
-        ));
-
-        $this->em->persist($user);
-        $this->em->flush();
+        $this->updatePassword($user);
 
         $signatureComponents = $this->verifyEmailHelper->generateSignature(
             'registration_confirmation_route',
@@ -61,20 +57,46 @@ class AccountsHelper
             $user->getEmail()
         );
 
-        $email = new TemplatedEmail();
-        $email->to($user->getEmail());
-        $email->sender('sebastien@o-pa.fr');
-        $email->subject("Bienvenue Dans la communauté Snowtricks");
-        $email->htmlTemplate('security/confirmation_email.html.twig');
-        $email->context(['signedUrl' => $signatureComponents->getSignedUrl()]);
-
+        $email = $this->prepareMailSigned($user, $signatureComponents, "Bienvenue Dans la communauté Snowtricks", "security/confirmation_email.html.twig");
         $this->mailer->send($email);
     }
+
+
+    /**
+     * @param User $user
+     */
+    public function updatePassword(User $user){
+        $user->setPassword($this->passwordEncoder->encodePassword(
+            $user,
+            $user->getPlainPassword()
+        ));
+
+        $this->em->persist($user);
+        $this->em->flush();
+    }
+
 
     public function verify(User $user)
     {
         $user->addRole(User::USER_VERIFIED);
         $this->em->persist($user);
         $this->em->flush();
+    }
+
+
+    /**
+     * @param User $user
+     * @param VerifyEmailSignatureComponents $signatureComponents
+     * @return TemplatedEmail
+     */
+    private function prepareMailSigned(User $user, VerifyEmailSignatureComponents $signatureComponents, string $subject, string $htmlTemplate): TemplatedEmail
+    {
+        $email = new TemplatedEmail();
+        $email->to($user->getEmail());
+        $email->sender('sebastien@o-pa.fr');
+        $email->subject($subject);
+        $email->htmlTemplate($htmlTemplate);
+        $email->context(['signedUrl' => $signatureComponents->getSignedUrl()]);
+        return $email;
     }
 }

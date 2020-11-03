@@ -4,19 +4,13 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserRegistrationFormType;
-use App\Security\LoginFormAuthenticator;
 use App\Service\AccountsHelper;
 use LogicException;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
-use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
@@ -93,8 +87,8 @@ class SecurityController extends AbstractController
         try {
             $verifyEmailHelper->validateEmailConfirmation($request->getUri(), $user->getId(), $user->getEmail());
         } catch (VerifyEmailExceptionInterface $e) {
-            $this->addFlash('verify_email_error', $e->getReason());
-            return $this->redirectToRoute('app_register');
+            $this->addFlash('error','Le lien envoyé à votre adresse email semble invalide, veuillez recommencer');
+            return $this->redirectToRoute('home');
         }
 
         $accountsHelper->verify($user);
