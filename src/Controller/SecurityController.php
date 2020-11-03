@@ -81,6 +81,11 @@ class SecurityController extends AbstractController
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
+        if ($this->isGranted('ROLE_USER_VERIFIED')){
+            $this->addFlash('success', 'Votre compte est déjà activé !');
+            return $this->redirectToRoute('home');
+        }
+
         /** @var User $user */
         $user = $this->getUser();
 
