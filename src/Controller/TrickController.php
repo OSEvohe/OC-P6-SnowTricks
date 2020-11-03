@@ -5,6 +5,7 @@ namespace App\Controller;
 
 use App\Entity\Comment;
 use App\Entity\Trick;
+use App\Entity\TrickMedia;
 use App\Form\CommentType;
 use App\Form\CoverType;
 use App\Form\MediaType;
@@ -12,6 +13,7 @@ use App\Form\TrickType;
 use App\Service\ImageUploader;
 use App\Service\ManageTrick;
 use App\Service\YoutubeHelper;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -161,13 +163,28 @@ class TrickController extends AbstractController
 
     /**
      *
-     * @Route ("trick/{slug}/delete", name="trick_delete", priority="2", methods={"POST"})
+     * @Route ("trick/{slug}/delete", name="trick_delete", priority="2", methods={"GET"})
+     * @IsGranted("TRICK_DELETE", subject="trick")
      *
-     * @param string $slug
+     * @param Trick $trick
+     * @param ImageUploader $imageUploader
      * @return Response
      */
-    public function delete(string $slug): Response
+    public function delete(Trick $trick, ImageUploader $imageUploader): Response
     {
+        $entityManager = $this->getDoctrine()->getManager();
 
+        foreach ($trick->getTrickMedia() as $media){
+            if ($media->getType() == TrickMedia::MEDIA_TYPE_IMAGE){
+                $imageUploader->deleteFile($media->getContent());
+            }
+        }
+
+        $entityManager->remove($trick);
+
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Trick supprimé');
+        return $this->redirectToRoute('home');
     }
 }

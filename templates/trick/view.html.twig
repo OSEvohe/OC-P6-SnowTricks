@@ -14,8 +14,9 @@
                             <img src="{{ asset("build/images/figure1.jpg") }}" alt="figure1" />
                         {% endif %}
                         <div class="trick-action-button">
-                            <a href="{{ path('trick_edit', {'slug' : trick.slug}) }}"><i class="fas fa-pen"></i></a>&nbsp;
-                            <i class="fas fa-trash"></i>
+                            <a class="btn btn-primary" href="{{ path('trick_edit', {'slug' : trick.slug}) }}"><i class="fas fa-pen"></i></a>&nbsp;
+                            <a class="btn btn-primary" role="button" data-toggle="modal" data-target="#deleteModal" data-id='{"value":"{{ path('trick_delete', {'slug' : trick.slug}) }}", "type":"href", "selector":".btn-delete"}'
+                               data-title='{"value":"Supprimer Trick : {{ trick.name }}?", "selector":".modal-title"}'><i class="fas fa-trash"></i></a>
                         </div>
                     </div>
                     <h1>{{ trick.name }}</h1>
@@ -119,6 +120,7 @@
         </div>
     </div>
 
+    {% include 'modals/delete.html.twig' %}
     {% include 'modals/viewImage.html.twig' %}
     {% include 'modals/viewYoutubeVideo.html.twig' %}
 {% endblock %}
