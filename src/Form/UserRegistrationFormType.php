@@ -34,7 +34,7 @@ class UserRegistrationFormType extends AbstractType
                         'max' => 255, 'maxMessage' => 'Le mot de passe ne doit pas dépasser {{limit}} caractères',
                         'allowEmptyString' => false,
                     ]),
-                    $this->passwordRequirement(),
+                    self::passwordRequirement(),
                     new NotBlank(['message' => self::NOTEMPTY_MESSAGE])]])
             ->add('displayName', TextType::class, [
                 'constraints' => [
@@ -64,7 +64,7 @@ class UserRegistrationFormType extends AbstractType
         ]);
     }
 
-    public function passwordRequirement()
+    public static function passwordRequirement()
     {
         return new PasswordRequirements([
             'minLength' => 8,
