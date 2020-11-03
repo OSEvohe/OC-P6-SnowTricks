@@ -11,7 +11,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Validator\Constraints\NotBlank;
 
 class ProfileType extends AbstractType
 {
@@ -20,7 +19,7 @@ class ProfileType extends AbstractType
         $builder
             ->add('photo', FileType::class, [
                 'attr' => ['class' => 'form-control-file'],
-                'label' => 'Photo du profil',
+                'label' => 'Nouvelle photo du profil',
                 'required' => false,
                 'mapped' => false,
                 'constraints' => [
@@ -33,14 +32,14 @@ class ProfileType extends AbstractType
                         ],
                         'mimeTypesMessage' => 'Type de fichier invalide, les formats acceptés sont JPG, GIF et PNG.',
                     ]),
-                    new NotBlank([
-                        'message' => UserRegistrationFormType::NOTEMPTY_MESSAGE,
-                    ])
                 ]
             ])
             ->add('displayName', TextType::class, [
                 'attr' => ['class' => 'form-control'],
-                'required' => true,
+                'label' => 'Nouveau pseudo',
+                'help_attr' => ['class' => 'small'],
+                'help' => 'Laissez vide pour ne pas le modifier.',
+                'required' => false,
                 'constraints' => [
                     new Length([
                         'normalizer' => 'trim',
@@ -48,7 +47,6 @@ class ProfileType extends AbstractType
                         'max' => 30, 'maxMessage' => 'Le Pseudo doit contenir au maximum {{ limit }} caractères',
                         'allowEmptyString' => false
                     ]),
-                    new NotBlank(['message' => UserRegistrationFormType::NOTEMPTY_MESSAGE])
                 ],
             ]);
     }

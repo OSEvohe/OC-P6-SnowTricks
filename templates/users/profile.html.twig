@@ -11,7 +11,7 @@
                 <div class="row">
                     <div class="col-sm-12 col-md-6">
                         <div class="row justify-content-center mb-2 mb-md-0">
-                            <div class="col-12 text-center">
+                            <div class="col-12 text-center pb-4">
                                 <h3>Mon Compte</h3>
                             </div>
                         </div>
@@ -33,26 +33,34 @@
                                 {% endif %}
                             </div>
                         </div>
+                        {% if user.photo %}
+                        <div class="row justify-content-center mb-2 mb-md-0">
+                            <div class="col-12 text-center"><img style="max-width: 200px; max-height: 200px" src="{{ asset('/uploads/profiles/'~user.photo) }}"  alt="Avatar de {{ user.displayName }}"/></div>
+                        </div>
+                        {% endif %}
                     </div>
 
                     <div class="col-sm-12 col-md-6">
                         {{ form_start(form) }}
                         <div class="row justify-content-center mb-2 mb-md-0">
-                            <div class="col-12 text-center">
+                            <div class="col-12 text-center pb-4">
                                 <h3>Editer mon profil</h3>
                             </div>
                         </div>
 
                         <div class="row justify-content-center mb-2 mb-md-0">
                             <div class="col-8 form-group">
-                                <strong>{{ form_label(form.displayName,'Pseudo') }}</strong>
+                                <strong>{{ form_label(form.displayName) }}</strong>
+                                {{ form_help(form.displayName) }}
                                 {{ form_widget(form.displayName) }}
+                                <div class="alert-danger"> {{ form_errors(form.displayName) }}</div>
                             </div>
                         </div>
                         <div class="row justify-content-center mb-2 mb-md-0">
                             <div class="col-8 form-group">
-                                <strong>{{ form_label(form.photo, 'Photo du profil') }}</strong>
+                                <strong>{{ form_label(form.photo) }}</strong>
                                 {{ form_widget(form.photo) }}
+                                <div class="alert-danger">{{ form_errors(form.photo) }}</div>
                             </div>
                         </div>
                         <div class="row justify-content-center mb-2 mb-md-0">
