@@ -7,6 +7,9 @@ namespace App\Service;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Model\VerifyEmailSignatureComponents;
@@ -38,11 +41,11 @@ class AccountsHelper
      * @param UserPasswordEncoderInterface $passwordEncoder
      * @param EntityManagerInterface $em
      */
-    public function __construct(VerifyEmailHelperInterface $helper, MailerInterface $mailer,  UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $em)
+    public function __construct(VerifyEmailHelperInterface $helper, MailerInterface $mailer, UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $em)
     {
         $this->verifyEmailHelper = $helper;
         $this->mailer = $mailer;
-        $this->passwordEncoder= $passwordEncoder;
+        $this->passwordEncoder = $passwordEncoder;
         $this->em = $em;
     }
 
@@ -50,22 +53,15 @@ class AccountsHelper
     public function register(User $user)
     {
         $this->updatePassword($user);
-
-        $signatureComponents = $this->verifyEmailHelper->generateSignature(
-            'registration_confirmation_route',
-            $user->getId(),
-            $user->getEmail()
-        );
-
-        $email = $this->prepareMailSigned($user, $signatureComponents, "Bienvenue Dans la communauté Snowtricks", "security/confirmation_email.html.twig");
-        $this->mailer->send($email);
+        $this->sendVerifyEmail($user);
     }
 
 
     /**
      * @param User $user
      */
-    public function updatePassword(User $user){
+    public function updatePassword(User $user)
+    {
         $user->setPassword($this->passwordEncoder->encodePassword(
             $user,
             $user->getPlainPassword()
@@ -98,5 +94,21 @@ class AccountsHelper
         $email->htmlTemplate($htmlTemplate);
         $email->context(['signedUrl' => $signatureComponents->getSignedUrl()]);
         return $email;
+    }
+
+    /**
+     * @param User $user
+     * @throws TransportExceptionInterface
+     */
+    public function sendVerifyEmail(User $user): void
+    {
+        $signatureComponents = $this->verifyEmailHelper->generateSignature(
+            'registration_confirmation_route',
+            $user->getId(),
+            $user->getEmail()
+        );
+
+        $email = $this->prepareMailSigned($user, $signatureComponents, "Bienvenue Dans la communauté Snowtricks", "security/confirmation_email.html.twig");
+        $this->mailer->send($email);
     }
 }
