@@ -26,12 +26,12 @@ class AccountController extends AbstractController
         /** @var User $user */
         $user = $this->getUser();
 
-        $form = $this->createForm(ProfileType::class);
+        $form = $this->createForm(ProfileType::class, $user);
 
 
         return $this->render("users/profile.html.twig", [
             'user' => $user,
-            'form' => $form
+            'form' => $form->createView()
         ]);
     }
 
