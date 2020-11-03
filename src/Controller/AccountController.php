@@ -5,6 +5,7 @@ namespace App\Controller;
 
 
 use App\Entity\User;
+use App\Form\ProfileType;
 use App\Service\AccountsHelper;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -25,9 +26,12 @@ class AccountController extends AbstractController
         /** @var User $user */
         $user = $this->getUser();
 
+        $form = $this->createForm(ProfileType::class);
+
 
         return $this->render("users/profile.html.twig", [
-            'user' => $user
+            'user' => $user,
+            'form' => $form
         ]);
     }
 
