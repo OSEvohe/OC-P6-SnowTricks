@@ -3,10 +3,18 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
+use App\Entity\Trick;
+use App\Repository\CommentRepository;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * Class CommentController
@@ -16,16 +24,31 @@ class CommentController extends AbstractController
 {
 
     /**
-     * @Route ("/comments/load-more", name="load_more_comments", methods={"GET"})
+     * @Route ("/comments/{slug}/load-more/{offset}/{limit}", name="load_more_comments", methods={"GET"})
      *
+     * @param Trick $trick
+     * @param CommentRepository $em
+     * @param SerializerInterface $serializer
+     * @param int $offset
+     * @param int $limit
      * @return Response
      */
-    public function loadMore(): Response
+    public function loadMore(Trick $trick, CommentRepository $em, SerializerInterface $serializer, int $offset, int $limit): Response
     {
-        $response = new Response(json_encode(array())); /** TODO : array will be filled with comments data */
-        $response->headers->set('Content-Type', 'application/json');
+        $comments = $em->findBy(['trick' => $trick], ['createdAt' => 'DESC'], $limit , $offset);
 
-        return $response;
+        return new JsonResponse(
+            $serializer->serialize($comments, 'json', [
+                AbstractNormalizer::ATTRIBUTES => [
+                    'content',
+                    'updatedAt',
+                    'createdAt',
+                    'user' => ['displayName', 'photo']
+                ]
+            ])
+            , JsonResponse::HTTP_OK, [], true
+        );
+
     }
 
     /**
