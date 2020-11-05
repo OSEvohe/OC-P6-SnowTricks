@@ -2,33 +2,34 @@ const $ = require('jquery');
 const avatarPath = '/uploads/profiles/';
 const defaultAvatar = require('../assets/images/user-icon-image-18.jpg');
 
-
-function endOfData(container, loadMoreButton){
-    $(loadMoreButton).hide();
-}
-
 export function initLoadMore(container, loadMoreButton, htmlPrototype, appendCallback) {
 
     let jsonRoute = loadMoreButton.data('jsonroute');
+    // set the amount limit of items requested equal to the amount of items displayed when page is loaded
     let limit = container.children().length;
     let offset = limit;
 
     loadMoreButton.click(function (e) {
         let jsonUrl = jsonRoute + '/' + offset + '/' + limit;
 
+        // immediately display a loading icon while loading data
         let loading = $('<div class="spinner-border spinner-border-sm" role="status"><span class="sr-only">Chargement...</span></div>').prependTo(loadMoreButton);
+
         $.getJSON(jsonUrl, function (data) {
+            // get the html code from the element used as a "template"
             let html = htmlPrototype.get(0);
 
-            // loop on json result
+            // loop on json result and call the specified callBack for each
             data.forEach(function (item) {
                 appendCallback(item, html, container);
             })
 
-            // disable button if end of results reached
+            // Hide button if last record is reached
             if (data.length < limit){
-                endOfData(container, loadMoreButton);
+                $(loadMoreButton).hide();
             }
+
+            // data are loaded, we remove the loading icon
             loading.remove();
         });
         offset = offset + limit;
