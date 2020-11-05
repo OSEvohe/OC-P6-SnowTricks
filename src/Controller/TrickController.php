@@ -32,7 +32,7 @@ class TrickController extends AbstractController
      * @param YoutubeHelper $youtubeHelper
      * @return Response
      */
-    public function view(Request $request, Trick $trick, YoutubeHelper $youtubeHelper): Response
+    public function read(Request $request, Trick $trick, YoutubeHelper $youtubeHelper): Response
     {
         if (!$trick) {
             throw $this->createNotFoundException('Cette figure n\'existe pas');

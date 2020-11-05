@@ -227,20 +227,26 @@ a {
     }
   }
 
-  .comment-item {
+  .comments-list {
+    .comment-item {
 
-    .user-photo {
-      div {
-        width: 48px;
-        height: 48px;
-        border-radius: 24px;
-        overflow: hidden;
-        border: $dark-color solid 1px;
-      }
+      .user-photo {
+        div {
+          width: 48px;
+          height: 48px;
+          border-radius: 24px;
+          overflow: hidden;
+          border: $dark-color solid 1px;
+        }
 
-      img {
-        width: 48px;
+        img {
+          width: 48px;
+        }
       }
+    }
+
+    .end-list {
+      text-align: center;
     }
   }
 
