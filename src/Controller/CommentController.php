@@ -6,6 +6,7 @@ namespace App\Controller;
 use App\Entity\Comment;
 use App\Entity\Trick;
 use App\Repository\CommentRepository;
+use DateTime;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -33,9 +34,14 @@ class CommentController extends AbstractController
      * @param int $limit
      * @return Response
      */
-    public function loadMore(Trick $trick, CommentRepository $em, SerializerInterface $serializer, int $offset, int $limit): Response
+    public function loadMore(Trick $trick, CommentRepository $em, SerializerInterface $serializer, int $offset = 0, int $limit = 10): Response
     {
         $comments = $em->findBy(['trick' => $trick], ['createdAt' => 'DESC'], $limit , $offset);
+
+        $dateCallback = function ($value, $object, string $attributeName, string $format = null, array $context = [])
+        {
+            return $value instanceof DateTime ? $value->format('d/m/Y à H:i') : '';
+        };
 
         return new JsonResponse(
             $serializer->serialize($comments, 'json', [
@@ -44,6 +50,10 @@ class CommentController extends AbstractController
                     'updatedAt',
                     'createdAt',
                     'user' => ['displayName', 'photo']
+                ],
+                AbstractNormalizer::CALLBACKS => [
+                    'updatedAt' => $dateCallback,
+                    'createdAt' => $dateCallback
                 ]
             ])
             , JsonResponse::HTTP_OK, [], true
