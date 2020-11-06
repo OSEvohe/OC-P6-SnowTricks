@@ -18,10 +18,12 @@ $(document).ready(function () {
     // Display a modal
     $('.modal').on('show.bs.modal', function (event) {
         event.stopPropagation();
-        let data = $(event.relatedTarget).data()
+        let trigger = $(event.relatedTarget);
+        let data = trigger.data()
         for (let key in data) {
-            if (data.hasOwnProperty(key) && data[key].selector !== undefined) {
-                setModalValue(event, data[key], $(this))
+            console.log(key + ':' + data[key].selector);
+            if (data[key].selector !== undefined) {
+                setModalValue(event, data[key], $(this), trigger)
             }
         }
     })
@@ -93,6 +95,13 @@ $(document).ready(function () {
         $('.comment-item').last(),
         loadMore.appendComment,
     )
+
+    loadMore.initLoadMore(
+        $('#tricks-list-container'),
+        $('#loadmoretricks'),
+        $('.trick-item').last(),
+        loadMore.appendTrick,
+    )
 });
 
 
@@ -114,11 +123,15 @@ function showMediaList() {
  *                  JS :  {value: '1', type: 'value', selector: '.my-id'}
  * modal            The modal
  */
-function setModalValue(event, field, modal) {
+function setModalValue(event, field, modal, trigger) {
     let item = modal.find(field.selector)
-    if (field.type) {
-        item.attr(field.type, field.value)
+    if (field.type === 'text'){
+        item.text(trigger.find('.text').text());
     } else {
-        item.text(field.value)
+        if (field.type) {
+            item.attr(field.type, field.value)
+        } else {
+            item.text(field.value)
+        }
     }
 }
