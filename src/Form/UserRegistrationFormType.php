@@ -8,6 +8,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -17,25 +18,35 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 class UserRegistrationFormType extends AbstractType
 {
-    const NOTEMPTY_MESSAGE ="Ce champ ne doit pas être vide.";
+    const NOTEMPTY_MESSAGE = "Ce champ ne doit pas être vide.";
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('email', EmailType::class, [
                 'constraints' => [
-                    new Email(['message'=>'"{{ value }}" n\'est pas une adresse e-mail valide.']),
+                    new Email(['message' => '"{{ value }}" n\'est pas une adresse e-mail valide.']),
                     new NotBlank(['message' => self::NOTEMPTY_MESSAGE])]])
-            ->add('plainPassword', PasswordType::class, [
-                'empty_data' => '',
-                'constraints' => [
-                    new Length([
-                        'normalizer' => 'trim',
-                        'max' => 255, 'maxMessage' => 'Le mot de passe ne doit pas dépasser {{limit}} caractères',
-                        'allowEmptyString' => false,
-                    ]),
-                    self::passwordRequirement(),
-                    new NotBlank(['message' => self::NOTEMPTY_MESSAGE])]])
+            ->add('plainPassword', RepeatedType::class, [
+                'type' => PasswordType::class,
+                'first_options' => [
+                    'empty_data' => '',
+                    'constraints' => [
+                        new Length([
+                            'normalizer' => 'trim',
+                            'max' => 255, 'maxMessage' => 'Le mot de passe ne doit pas dépasser {{limit}} caractères',
+                            'allowEmptyString' => false,
+                        ]),
+                        self::passwordRequirement(),
+                        new NotBlank(['message' => self::NOTEMPTY_MESSAGE])
+                    ],
+                    'label' => 'Mot de passe'
+                ],
+                'second_options' => [
+                    'label' => 'Confirmation du mot de passe',
+                ],
+                'invalid_message' => 'Les mots de passes ne sont pas identiques',
+            ])
             ->add('displayName', TextType::class, [
                 'constraints' => [
                     new Length([
