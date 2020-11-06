@@ -17,11 +17,18 @@
                 <h2 class="text-center pb-5">Les Tricks</h2>
             </div>
         </div>
-        <div class="row tricks-list">
+        <div class="row tricks-list" id="tricks-list-container">
             {% for trick in tricks %}
                 {% include 'trick/partials/trick_lisit_item.html.twig' %}
             {% endfor %}
         </div>
+        {% if countTotal > tricks|length %}
+            <div class="row">
+                <div class="col-12 text-center pb-5">
+                    <button id="loadmoretricks" class="btn btn-primary" data-jsonroute="{{ path('load_more_tricks') }}">Voir plus...</button>
+                </div>
+            </div>
+        {% endif %}
     </section>
 
     {% include 'modals/delete.html.twig' %}
