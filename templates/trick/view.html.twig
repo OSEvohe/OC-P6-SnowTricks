@@ -11,7 +11,7 @@
                         {% if trick.cover is not null %}
                             <img src="{{ asset("uploads/tricks/"~trick.cover.content) }}" alt="figure1">
                         {% else %}
-                            <img src="{{ asset("build/images/figure1.jpg") }}" alt="figure1" />
+                            <img src="{{ asset("build/images/figure1.jpg") }}" alt="figure1"/>
                         {% endif %}
                         <div class="trick-action-button">
                             <a class="btn btn-primary" href="{{ path('trick_edit', {'slug' : trick.slug}) }}"><i class="fas fa-pen"></i></a>&nbsp;
@@ -92,31 +92,38 @@
             <section class="row justify-content-center pb-5 comments-list">
                 <div class="col-sm-12 col-md-9 col-lg-6">
                     <h2 class="text-center mb-4">Commentaires</h2>
-                    {% for comment in trick.comments %}
-                        <div class="comment-item row">
-                            <div class="user-photo d-inline-block p-2 col-2">
-                                <div>
-                                    <img src="{{ asset("build/images/user-icon-image-18.jpg") }}" alt=""/>
+                    <div id="comments-list-container">
+                        {% for comment in trick.comments({'maxResults' : 5}) %}
+                            <div class="comment-item row">
+                                <div class="user-photo d-inline-block p-2 col-2">
+                                    <div>
+                                        {% if comment.user.photo %}
+                                            <img src="{{ asset("uploads/profiles/"~comment.user.photo) }}" class="_photo_" alt=""/>
+                                        {% else %}
+                                            <img src="{{ asset("build/images/user-icon-image-18.jpg") }}" class="_photo_" alt=""/>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="comment d-inline-block p-2 col-10">
+                                    <div class="comment-meta small text-muted">
+                                        Message de <span class="_displayName_">{{ comment.user.displayName }}</span> le <span class="_createdAt_">{{ comment.createdAt.format('d/m/Y à H:i') }}</span>
+                                    </div>
+                                    <div class="comment-content _content_">
+                                        {{ comment.content }}
+                                    </div>
                                 </div>
                             </div>
-                            <div class="comment d-inline-block p-2 col-10">
-                                <div class="comment-meta">
-                                    Message de {{ comment.user.displayName }} le {{ comment.createdAt.format('d/m/Y à H:i') }}
-                                </div>
-                                <div class="comment-content">
-                                    {{ comment.content }}
-                                </div>
-                            </div>
-                        </div>
-                    {% endfor %}
+                        {% endfor %}
+                    </div>
                 </div>
             </section>
-            <div class="row">
-                <div class="col-12 text-center pb-5">
-                    <button id="loadmorecomment" class="btn-primary">Voir plus...</button>
+            {% if trick.comments.count > 5 %}
+                <div class="row">
+                    <div class="col-12 text-center pb-5">
+                        <button id="loadmorecomment" class="btn btn-primary" data-jsonroute="{{ path('load_more_comments', {'slug' : trick.slug}) }}">Voir plus...</button>
+                    </div>
                 </div>
-            </div>
-
+            {% endif %}
         </div>
     </div>
 

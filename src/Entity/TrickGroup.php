@@ -35,7 +35,7 @@ class TrickGroup
     private $slug;
 
     /**
-     * @ORM\OneToMany(targetEntity=Trick::class, mappedBy="trickgroup")
+     * @ORM\OneToMany(targetEntity=Trick::class, mappedBy="trickGroup")
      */
     private $tricks;
 

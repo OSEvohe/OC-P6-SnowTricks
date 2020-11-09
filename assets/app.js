@@ -2,7 +2,7 @@ import './styles/global.scss';
 
 const $ = require('jquery');
 require('bootstrap');
-
+const loadMore = require('./loadmore');
 
 $(document).ready(function () {
     $('[data-toggle="popover"]').popover();
@@ -31,12 +31,12 @@ $(document).ready(function () {
     $('#modal-add-image').css('display', 'none')
     $('#modal-add-video').css('display', 'none')
 
-    $('#media_type_0').click(function(){
+    $('#media_type_0').click(function () {
         $('#modal-add-image').css('display', 'block')
         $('#modal-add-video').css('display', 'none')
     })
 
-    $('#media_type_1').click(function(){
+    $('#media_type_1').click(function () {
         $('#modal-add-image').css('display', 'none')
         $('#modal-add-video').css('display', 'block')
     })
@@ -44,16 +44,16 @@ $(document).ready(function () {
 
     /** Display additional media form **/
 
-    // set containers
+        // set containers
     let addMediaPrototype = $('div#trick_trickMedia')
     let addMediaContainer = $('div#additional_medias')
     let index = {nb: addMediaContainer.find('.trick-media-form').length}
 
     // bind addLink event for each Media type
-    bindAddLink(addMediaPrototype,addMediaContainer, $('#add_trickMedia'), index )
+    bindAddLink(addMediaPrototype, addMediaContainer, $('#add_trickMedia'), index)
 
     // add delete link to already existing media type
-    addMediaContainer.find('.trick-media-form').each(function() {
+    addMediaContainer.find('.trick-media-form').each(function () {
         addDeleteLink($(this));
     });
 
@@ -68,7 +68,7 @@ $(document).ready(function () {
         container.append(form);
     }
 
-    function bindAddLink(prototype, container, link, index){
+    function bindAddLink(prototype, container, link, index) {
         $(link).click(function (e) {
             addTrickMedia(prototype, container, index);
             e.preventDefault();
@@ -87,6 +87,12 @@ $(document).ready(function () {
         })
     }
 
+    loadMore.initLoadMore(
+        $('#comments-list-container'),
+        $('#loadmorecomment'),
+        $('.comment-item').last(),
+        loadMore.appendComment,
+    )
 });
 
 

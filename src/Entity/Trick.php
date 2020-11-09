@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\TrickRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
@@ -191,11 +192,19 @@ class Trick
     }
 
     /**
+     * @param array $options
      * @return Collection|Comment[]
      */
-    public function getComments(): Collection
+    public function getComments(array $options = []): Collection
     {
-        return $this->comments;
+        $criteria = Criteria::create()
+            ->orderBy(array('createdAt' => Criteria::DESC));
+
+        if (isset($options['maxResults'])) {
+            $criteria->setMaxResults($options['maxResults']);
+        }
+
+       return $this->comments->matching($criteria);
     }
 
     public function addComment(Comment $comment): self
