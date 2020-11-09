@@ -28,7 +28,7 @@
                             <div class="col-12 col-md-8 text-center text-md-left">
                                 {% if is_granted('ROLE_USER_VERIFIED') %}
                                     <span class="text-success">Compte activé</span>
-                                {% elseif is_granted('ROLE_USER_') %}
+                                {% elseif is_granted('ROLE_USER') %}
                                     <span class="text-danger">Compte non activé</span><br/><a class="text-light btn btn-primary" href="{{ path('app_resend_verify') }}">Activer mon adresse email</a>
                                 {% endif %}
                             </div>

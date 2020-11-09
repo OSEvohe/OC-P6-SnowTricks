@@ -15,6 +15,7 @@ use App\Service\ManageTrick;
 use App\Service\YoutubeHelper;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -66,6 +67,7 @@ class TrickController extends AbstractController
      * Edit trick
      *
      * @Route ("/trick/{slug}/edit" , name="trick_edit", priority="2")
+     * @IsGranted("ROLE_USER_VERIFIED")
      *
      * @param Trick $trick
      * @param Request $request
@@ -135,6 +137,7 @@ class TrickController extends AbstractController
      * Add trick
      *
      * @Route ("/trick/add", name="trick_add", priority="3")
+     * @IsGranted("ROLE_USER_VERIFIED")
      * @param Request $request
      * @param ManageTrick $manageTrickDatabase
      * @param ImageUploader $imageUploader
@@ -164,6 +167,7 @@ class TrickController extends AbstractController
     /**
      *
      * @Route ("trick/{slug}/delete", name="trick_delete", priority="2", methods={"GET"})
+     * @IsGranted("ROLE_USER_VERIFIED")
      * @IsGranted("TRICK_DELETE", subject="trick")
      *
      * @param Trick $trick
@@ -186,5 +190,16 @@ class TrickController extends AbstractController
 
         $this->addFlash('success', 'Trick supprimé');
         return $this->redirectToRoute('home');
+    }
+
+    /**
+     * @Route ("/trick/{slug}/delete-denied" , name="trick_delete_denied")
+     * @param Trick $trick
+     * @return RedirectResponse
+     */
+    public function deleteDenied(Trick $trick): Response{
+
+        $this->addFlash('error', 'Seul le créateur d\'un trick est autorisé à le supprimer');
+        return $this->redirectToRoute('trick_detail', ['slug' => $trick->getSlug()]);
     }
 }

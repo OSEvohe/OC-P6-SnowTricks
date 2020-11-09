@@ -14,7 +14,7 @@
                     <a class="_href_detail_route_" href="{{ path("trick_detail", {'slug' : trick.slug}) }}"><span class="_name_">{{ trick.name }}</a>
                 </div>
             </div>
-            {% if is_granted('ROLE_USER') %}
+            {% if is_granted('ROLE_USER_VERIFIED') %}
                 <div class="trick-action-button">
                     <a class="btn btn-primary _href_edit_route_" role="button" href="{{ path("trick_edit", {'slug' : trick.slug}) }}"><i class="fas fa-pen"></i></a>
                     <a class="btn btn-primary _btn_delete_" role="button" data-toggle="modal" data-target="#deleteModal" data-id='{"value":"{{ path('trick_delete', {'slug' : trick.slug}) }}", "type":"href", "selector":".btn-delete"}'
