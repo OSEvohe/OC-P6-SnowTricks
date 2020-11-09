@@ -32,9 +32,9 @@ class CommentController extends AbstractController
      * @param SerializerInterface $serializer
      * @param int $offset
      * @param int $limit
-     * @return Response
+     * @return JsonResponse
      */
-    public function loadMore(Trick $trick, CommentRepository $em, SerializerInterface $serializer, int $offset = 0, int $limit = 10): Response
+    public function loadMore(Trick $trick, CommentRepository $em, SerializerInterface $serializer, int $offset = 0, int $limit = 10): JsonResponse
     {
         $comments = $em->findBy(['trick' => $trick], ['createdAt' => 'DESC'], $limit , $offset);
 
@@ -59,16 +59,5 @@ class CommentController extends AbstractController
             , JsonResponse::HTTP_OK, [], true
         );
 
-    }
-
-    /**
-     * @Route ("/comment/add", name="add_comment", methods={"POST", "GET"})
-     *
-     * @param Request $request
-     * @return Response
-     */
-    public function add(Request $request): Response
-    {
-        return $this->redirectToRoute("trick_detail", ['slug' => $request->request->get('slug')]);
     }
 }

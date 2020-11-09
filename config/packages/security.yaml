@@ -23,6 +23,7 @@ security:
                     - App\Security\LoginFormAuthenticator
             logout:
                 path: app_logout
+            access_denied_handler: App\Security\AccessDeniedHandler
 
             remember_me:
                 secret: '%kernel.secret%'

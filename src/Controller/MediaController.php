@@ -9,6 +9,7 @@ use App\Entity\TrickMedia;
 use App\Service\ImageUploader;
 use App\Service\ManageTrick;
 use Doctrine\ORM\EntityManager;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,6 +19,7 @@ class MediaController extends AbstractController
     /**
      * Remove a media as a cover, media is not deleted
      * @Route ("trick/{slug}/cover/delete", name="cover_delete", methods={"GET"})
+     * @IsGranted("ROLE_USER_VERIFIED")
      * @param Trick $trick
      * @param ManageTrick $manageTrick
      * @return Response
@@ -38,6 +40,7 @@ class MediaController extends AbstractController
     /**
      * Delete a media
      * @Route ("media/{id}/delete", name="media_delete", methods={"GET"})
+     * @IsGranted("ROLE_USER_VERIFIED")
      * @param TrickMedia $media
      * @param ImageUploader $imageUploader
      * @return Response

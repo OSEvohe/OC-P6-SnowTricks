@@ -75,7 +75,4 @@ class HomeController extends AbstractController
             , JsonResponse::HTTP_OK, [], true
         );
     }
-
-
-
 }
