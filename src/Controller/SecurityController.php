@@ -100,4 +100,12 @@ class SecurityController extends AbstractController
         $this->addFlash('success', 'Votre adresse mail est verifiée, votre compte est actif.');
         return $this->redirectToRoute('home');
     }
+
+    /**
+     * Error page when user have to be verified
+     * @Route ("/access-denied/unverified", name="app_denied_unverified")
+     */
+    public function unVerifiedUser(){
+        return $this->render('security/denied_unverified.html.twig');
+    }
 }
