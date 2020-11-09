@@ -80,9 +80,7 @@
                 <div class="col-sm-12 col-md-6">
                     {% if is_granted('ROLE_USER_VERIFIED') %}
                         {{ form_start(commentForm) }}
-                        <div class="form-group">
-                            {{ form_widget(commentForm.content) }}
-                        </div>
+                        {{ form_row(commentForm.content) }}
                         <div class="form-group text-center">
                             <button class="btn btn-lg btn-primary" type="submit">
                                 Laisser un commentaire

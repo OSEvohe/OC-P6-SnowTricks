@@ -18,7 +18,6 @@ class ProfileType extends AbstractType
     {
         $builder
             ->add('photo', FileType::class, [
-                'attr' => ['class' => 'form-control-file'],
                 'label' => 'Nouvelle photo du profil',
                 'required' => false,
                 'mapped' => false,

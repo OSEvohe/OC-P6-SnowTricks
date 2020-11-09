@@ -14,13 +14,9 @@
         <div class="row">
             <div class="col-sm-12 col-md-9 col-lg-6 m-auto bg-dark text-light p-5">
 
-                {{ form_start(requestForm) }}
+                {{ form_start(requestForm , {attr: {'novalidate': 'novalidate'}}) }}
                 <h1 class="h3 mb-4 font-weight-normal">Mot de passe oublié</h1>
-                <div class="form-group">
-                    {{ form_label(requestForm.email) }}
-                    <div class="form-text alert-danger">{{ form_errors(requestForm.email) }}</div>
-                    {{ form_widget(requestForm.email,{'attr': {'class' : 'form-control'}}) }}
-                </div>
+                    {{ form_row(requestForm.email) }}
                 <p>Saisissez l'adresse email que vous avez utilisée pour créer votre compte afin de recevoir un lien de réinitialisation de mot de passe.</p>
                 <button class="btn btn-lg btn-primary btn-block" type="submit">
                     Envoyer

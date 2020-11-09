@@ -24,6 +24,7 @@ class UserRegistrationFormType extends AbstractType
     {
         $builder
             ->add('email', EmailType::class, [
+                'label' => 'Votre adresse email',
                 'constraints' => [
                     new Email(['message' => '"{{ value }}" n\'est pas une adresse e-mail valide.']),
                     new NotBlank(['message' => self::NOTEMPTY_MESSAGE])]])
@@ -40,14 +41,17 @@ class UserRegistrationFormType extends AbstractType
                         self::passwordRequirement(),
                         new NotBlank(['message' => self::NOTEMPTY_MESSAGE])
                     ],
-                    'label' => 'Mot de passe'
+                    'label' => 'Mot de passe',
                 ],
                 'second_options' => [
                     'label' => 'Confirmation du mot de passe',
+                    'attr' => ['class' => 'form-control']
                 ],
                 'invalid_message' => 'Les mots de passes ne sont pas identiques',
             ])
             ->add('displayName', TextType::class, [
+                'label' => 'Pseudo',
+                'attr' => ['class' => 'form-control'],
                 'constraints' => [
                     new Length([
                         'normalizer' => 'trim',

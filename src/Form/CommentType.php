@@ -20,7 +20,7 @@ class CommentType extends AbstractType
                     'class' => 'form-control',
                     'placeholder' => 'Laissez un commentaire...'
                 ],
-                'label' => 'Commentaire',
+                'label' => false,
                 'constraints' => [
                     new Length([
                         'normalizer' => 'trim',

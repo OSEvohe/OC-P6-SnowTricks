@@ -1,31 +1,14 @@
 {% macro trickMedia(children) %}
     <div class="px-5 py-2 mx-auto bg-primary text-light mt-1 trick-media-form">
-        <div class="form-group">
-            {{ form_label(children.type) }}
-            {{ form_widget(children.type) }}
-            <div class="alert-danger">{{ form_errors(children.type) }}</div>
-        </div>
-        <div class="form-group">
-            {{ form_label(children.image) }}
-            {{ form_widget(children.image) }}
-            <div class="alert-danger">{{ form_errors(children.image) }}</div>
-        </div>
-        <div class="form-group">
-            {{ form_label(children.content) }}
-            {{ form_widget(children.content) }}
-            <div class="alert-danger">{{ form_errors(children.content) }}</div>
-        </div>
+        {{ form_row(children.type) }}
+        {{ form_row(children.image) }}
+        {{ form_row(children.content) }}
         <div>
             <hr class="text-light"/>
             OU
             <hr class="text-light"/>
         </div>
-        <div class="form-group">
-            {{ form_label(children.alt) }}
-            {{ form_widget(children.alt) }}
-            <div class="alert-danger">{{ form_errors(children.alt) }}</div>
-        </div>
-
+        {{ form_row(children.alt) }}
     </div>
 {% endmacro %}
 

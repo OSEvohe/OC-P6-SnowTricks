@@ -50,17 +50,15 @@
 
                         <div class="row justify-content-center mb-2 mb-md-0">
                             <div class="col-8 form-group">
-                                <strong>{{ form_label(form.displayName) }}</strong>
+                                {{ form_label(form.displayName) }}
                                 {{ form_help(form.displayName) }}
                                 {{ form_widget(form.displayName) }}
-                                <div class="alert-danger"> {{ form_errors(form.displayName) }}</div>
                             </div>
                         </div>
                         <div class="row justify-content-center mb-2 mb-md-0">
-                            <div class="col-8 form-group">
-                                <strong>{{ form_label(form.photo) }}</strong>
+                            <div class="col-8">
+                                {{ form_label(form.photo) }}
                                 {{ form_widget(form.photo) }}
-                                <div class="alert-danger">{{ form_errors(form.photo) }}</div>
                             </div>
                         </div>
                         <div class="row justify-content-center mb-2 mb-md-0">
