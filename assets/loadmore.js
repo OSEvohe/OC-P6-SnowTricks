@@ -1,6 +1,10 @@
 const $ = require('jquery');
+
 const avatarPath = '/uploads/profiles/';
+const coverPath = '/uploads/tricks/';
+
 const defaultAvatar = require('../assets/images/user-icon-image-18.jpg');
+const defaultCover = require('../assets/images/figure1.jpg');
 
 export function initLoadMore(container, loadMoreButton, htmlPrototype, appendCallback) {
 
@@ -21,11 +25,12 @@ export function initLoadMore(container, loadMoreButton, htmlPrototype, appendCal
 
             // loop on json result and call the specified callBack for each
             data.forEach(function (item) {
-                appendCallback(item, html, container);
+                // clone the original html element so we don't modify it
+                appendCallback(item, $(html).clone(), container);
             })
 
             // Hide button if last record is reached
-            if (data.length < limit){
+            if (data.length < limit) {
                 $(loadMoreButton).hide();
             }
 
@@ -36,9 +41,7 @@ export function initLoadMore(container, loadMoreButton, htmlPrototype, appendCal
     });
 }
 
-export function appendComment(item, prototype, container) {
-    // clone the original html element so we don't modify it
-    let html = $(prototype).clone();
+export function appendComment(item, html, container) {
 
     $(html).find('._content_').text(item.content);
     $(html).find('._displayName_').text(item.user.displayName);
@@ -47,15 +50,34 @@ export function appendComment(item, prototype, container) {
     if (item.user.photo) {
         $(html).find('._photo_').attr('src', avatarPath + item.user.photo)
     } else {
-        $(html).find('._photo_').attr('src',defaultAvatar.default);
+        $(html).find('._photo_').attr('src', defaultAvatar.default);
     }
 
-    // comments are added to the page with a fadeIn animation
-    $(html).hide();
-    $(container).append(html)
-    $(html).fadeIn(800)
+    append(html,container);
 }
 
-export function appendTrick(item, html) {
-   // TODO
+export function appendTrick(item, html, container) {
+
+    $(html).find('._name_').text(item.name);
+    $(html).find('._title_name_').attr('title', item.name);
+    $(html).find('._href_detail_route_').attr('href', item.slug.detail_route);
+    $(html).find('._href_edit_route_').attr('href', item.slug.edit_route);
+    $(html).find('._btn_delete_').attr('data-id', '{"value":"' + item.slug.delete_route + '", "type":"href", "selector":".btn-delete"}');
+    $(html).find('._btn_delete_ span').text('Supprimer Trick : ' + item.name);
+
+    if (item.cover) {
+        $(html).find('._cover_content_').css('background-image', 'url(' + coverPath + item.cover.content + ')');
+    } else {
+        $(html).find('._cover_content_').css('background-image', 'url(' + defaultCover.default + ')');
+    }
+
+    append(html,container);
+}
+
+function append(html, container){
+
+    // new elements are added to the page with a fadeIn animation
+    $(html).hide();
+    $(container).append(html)
+    $(html).fadeIn(1000)
 }
