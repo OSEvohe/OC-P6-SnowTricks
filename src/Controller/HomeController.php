@@ -23,15 +23,15 @@ class HomeController extends AbstractController
      * View Homepage
      *
      * @Route ("/", name="home")
-     * @param TrickRepository $em
+     * @param TrickRepository $repository
      * @return Response
      */
-    public function index(TrickRepository $em): Response
+    public function index(TrickRepository $repository): Response
     {
-        $tricks = $em->findBy([], ['updatedAt' => 'DESC'],12);
+        $tricks = $repository->findBy([], ['updatedAt' => 'DESC'],12);
         return $this->render('index.html.twig', [
             'tricks' => $tricks,
-            'countTotal' => $em->count([])
+            'countTotal' => $repository->count([])
         ]);
     }
 
@@ -40,15 +40,15 @@ class HomeController extends AbstractController
      * Fetch more trick in JSON response
      *
      * @Route ("/trick/load-more/{offset}/{limit}", name="load_more_tricks")
-     * @param TrickRepository $em
+     * @param TrickRepository $repository
      * @param SerializerInterface $serializer
      * @param int $offset
      * @param int $limit
      * @return Response
      */
-    public function loadMore(TrickRepository $em, SerializerInterface $serializer, int $offset = 0, int $limit = 15): Response
+    public function loadMore(TrickRepository $repository, SerializerInterface $serializer, int $offset = 0, int $limit = 15): Response
     {
-        $tricks = $em->findBy([], ['updatedAt' => 'DESC'], $limit, $offset);
+        $tricks = $repository->findBy([], ['updatedAt' => 'DESC'], $limit, $offset);
 
         // Return an array with the slug, trick detail route and trick delete route
         $slugCallback = function ($value, $object, string $attributeName, string $format = null, array $context = [])

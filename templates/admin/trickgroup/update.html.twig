@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    Edition du groupe "{{ trickgroup.name }}" - {{ parent() }}
+{% endblock %}
+
+{% block body %}
+<section class="container py-5">
+    <div class="row">
+        <div class="col-sm-12 col-md-9 col-lg-6 m-auto p-5">
+            <h2 class="text-center pb-5">Edition d'un groupe</h2>
+            {{ form(form) }}
+
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+
+

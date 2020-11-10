@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des Groupes de tricks - {{ parent() }}{% endblock %}
+
+{% block body %}
+    <section class="container py-5">
+        <div class="row">
+            <div class="col-sm-12 col-md-9 col-lg-6 m-auto p-5">
+                <h2 class="text-center pb-5">Gestion des groupes de tricks</h2>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Nom du groupe</th>
+                        <th># Tricks</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for group in trickgroups %}
+                        <tr>
+                            <td>{{ group.name }}</td>
+                            <td>{{ group.tricks.count }}</td>
+                            <td>
+                                <a href="{{ path('app_admin_trickgroup_update', {'slug' : group.slug}) }}"><i class="fas fa-pen"></i></a>
+                                <a href="#" data-toggle="modal" data-target="#deleteModal" data-id='{"value":"{{ path('app_admin_trickgroup_delete', {'slug' : group.slug}) }}", "type":"href", "selector":".btn-delete"}' data-title='{"type":"text", "selector":".modal-title"}'><span class="d-none text">Supprimer le groupe : {{ group.name }}?</span><i class="fas fa-trash ml-2"></i></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    {% include 'modals/delete.html.twig' %}
+{% endblock %}

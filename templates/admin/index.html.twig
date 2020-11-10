@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin - {{ parent() }}{% endblock %}
+
+{% block body %}
+    <section class="container py-5">
+        <div class="row">
+            <div class="col-sm-12 col-md-9 col-lg-6 m-auto p-5">
+                <h2 class="text-center pb-5">Administration du site</h2>
+                <ul class="list-unstyled text-center">
+                    <li><a href="{{ path('app_admin_trickgroup_index') }}">Gestion des groupes de tricks</a></li>
+                    <li><a href="#">Gestion des commentaires</a></li>
+                    <li><a href="#">Gestion des utilisateurs</a></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+{% endblock %}
