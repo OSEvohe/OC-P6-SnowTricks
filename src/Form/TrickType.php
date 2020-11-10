@@ -62,7 +62,7 @@ class TrickType extends AbstractType
             ->add('trickMedia', CollectionType::class, [
                 'entry_type' => MediaType::class,
                 'mapped' => !$options['new'],
-                'label' => false,
+                'label' => 'Medias associés au trick',
                 'allow_add' => true,
                 'entry_options' => ['new' => $options['new']]
             ]);

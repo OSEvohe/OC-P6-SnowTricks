@@ -10,15 +10,12 @@
             </div>
             {{ form_start(formMedia) }}
             <div class="modal-body">
-                <div class="alert-danger">{{ form_errors(formMedia) }}</div>
-                {{ form_label(formMedia.type) }}
-                {{ form_widget(formMedia.type) }}
-            </div>
-            <div class="text-center">
+                {{ form_errors(formMedia) }}
+                {{ form_row(formMedia.type) }}
             </div>
             <div class="modal-body" id="modal-add-image">
                 <h5>Ajout d'une Image</h5>
-                {{ form_widget(formMedia.image) }}
+                {{ form_row(formMedia.image) }}
             </div>
             <div class="modal-body" id="modal-add-video">
                 <h5>Ajout d'une video</h5>

@@ -18,6 +18,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\Url;
 
 class MediaType extends AbstractType
@@ -51,7 +52,7 @@ class MediaType extends AbstractType
                 if ($form->getConfig()->getOption('new') || $form->getConfig()->getOption('cover')) {
                     $form->add('image', FileType::class, [
                         'attr' => ['class' => 'form-control-file'],
-                        'label' => false,
+                        'label' => 'Importer une image',
                         'required' => false,
                         'mapped' => false,
                         'constraints' => [
@@ -104,6 +105,7 @@ class MediaType extends AbstractType
                         'trim' => true,
                         'required' => false,
                         'constraints' => [
+                            new Regex('%^(?:https?://)?(?:www\.)?(?:youtube\.com/watch\?v=([^&\n]+)(&.*)?|youtu\.be/([a-zA-Z\d]+))$%iu'),
                             new Url(['message' => 'Ceci n\'est pas une URL valide']),
                             new NotBlank([
                                 'message' => TrickType::NOTEMPTY_MESSAGE,

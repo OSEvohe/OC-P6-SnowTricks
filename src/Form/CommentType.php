@@ -17,18 +17,17 @@ class CommentType extends AbstractType
         $builder
             ->add('content', TextareaType::class, [
                 'attr' => [
-                    'class' => 'form-control',
                     'placeholder' => 'Laissez un commentaire...'
                 ],
                 'label' => false,
                 'constraints' => [
                     new Length([
                         'normalizer' => 'trim',
-                        'min' => 4, 'minMessage' => 'Le commentaire est trop court, {{ limit }} caractère au minimum',
+                        'min' => 4, 'minMessage' => 'Le commentaire est trop court, {{ limit }} caractères au minimum',
                         'max' => 200, 'maxMessage' => 'Le commentaire ne doit pas depasser {{ limit }} caractères',
                         'allowEmptyString' => false,
                     ]),
-                    new NotBlank(['message' => 'Ce champ ne doit pas être vide.'])
+                    new NotBlank(['message' => 'Ce champs ne doit pas être vide.'])
                 ],
             ])
         ;
