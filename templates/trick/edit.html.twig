@@ -2,7 +2,7 @@
 
 {% form_theme formCover _self %}
 
-{% block _cover_cover_entry_label %}
+{% block _cover_cover_entry_help %}
     <img src="{{ asset("uploads/tricks/"~form.vars.label) }}" style="max-width: 100px; max-height: 100px" alt=""/>
 {% endblock %}
 
@@ -22,9 +22,10 @@
                         {% endif %}
                         <div class="trick-action-button">
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#selectTrickCoverModal"><i class="fas fa-pen"></i></button>
-                            {% if trick.cover is not null %}<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deleteModal" data-title='{"value" : "Supprimer l&#39;image principale", "selector" : ".modal-title"}'
-                                    data-link='{"value":"{{ path('cover_delete', { 'slug' : trick.slug}) }}", "type":"href", "selector":".btn-delete"}'
-                                    data-name='{"value":"Media 1","selector":".modal-title"}'><i class="fas fa-trash"></i></button>{% endif %}
+                            {% if trick.cover is not null %}
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deleteModal" data-title='{"value" : "Supprimer l&#39;image principale", "selector" : ".modal-title"}'
+                                        data-link='{"value":"{{ path('cover_delete', { 'slug' : trick.slug}) }}", "type":"href", "selector":".btn-delete"}'
+                                        data-name='{"value":"Media 1","selector":".modal-title"}'><i class="fas fa-trash"></i></button>{% endif %}
                         </div>
                     </div>
                     <h1>{{ trick.name }}</h1>
@@ -57,38 +58,40 @@
                                         data-id='{"value":"{{ path('media_delete', {'id' : media.vars.data.id }) }}","type":"href","selector":".btn-delete"}'><i class="fas fa-trash"></i></button>
                             </div>
                             {% include 'modals/editMedia.html.twig' %}
+                            {% if media.vars.valid != true %}
+                                <span class="invalid-feedback d-block"><span class="d-block">
+                    <span class="form-error-icon badge badge-danger text-uppercase">Erreur</span>
+                </span></span>
+                            {% endif %}
                         </div>
                     {% endfor %}
                     <div class="trick-media-item col-md-2 pb-sm-3 pb-md-0">
                         <div class="trick-media-item-content">
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addMediaModal"><i class="fa fa-plus-circle"></i></button>
+                            {% if formMedia.vars.valid != true %}
+                                <span class="invalid-feedback d-block"><span class="d-block">
+                    <span class="form-error-icon badge badge-danger text-uppercase">Erreur</span> <span class="form-error-message">Cliquez pour corriger</span>
+                </span></span>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
             </section>
             <section class="trick-description row pb-5">
                 <div class="col-sm-12 offset-md-1 col-md-6">
-                    <div class="form-group">
-                        {{ form_widget(form.name,{'attr' : {'class': 'form-control'}}) }}
-                        <div class="alert-danger">{{ form_errors(form.name) }}</div>
-                    </div>
+                    {{ form_row(form.name) }}
                 </div>
                 <div class="col-sm-12 offset-md-1 col-md-10">
-                    <div class="form-group">
-                        {{ form_widget(form.description,{'attr' : {'class': 'form-control'}}) }}
-                        <div class="alert-danger">{{ form_errors(form.description) }}</div>
-                    </div>
+                    {{ form_row(form.description) }}
                 </div>
                 <div class="form-group col-sm-12 offset-md-1 col-md-6 col-lg-3">
-                    <div class="form-group">
-                        {{ form_widget(form.trickGroup,{'attr' : {'class': 'form-control'}}) }}
-                    </div>
+                    {{ form_row(form.trickGroup) }}
                 </div>
-                <div class="text-right col-sm-11 col-md-4 col-lg-7">
-                    <button type="button" class="btn btn-danger">Supprimer</button>
+                <div class="text-center col-12">
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" data-title='{"value":"Supprimer le trick ?","selector":".modal-title"}'
+                            data-id='{"value":"{{ path('trick_delete', {'slug' : trick.slug }) }}","type":"href","selector":".btn-delete"}'>Supprimer</button>
                     <button type="submit" class="btn btn-primary">Enregistrer</button>
                 </div>
-
             </section>
             {{ form_end(form) }}
 

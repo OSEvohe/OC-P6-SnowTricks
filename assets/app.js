@@ -67,6 +67,7 @@ $(document).ready(function () {
 
         let form = $(template);
         addDeleteLink(form);
+        showBootstrapFileInputValue($(form).find('.custom-file-input'));
         container.append(form);
     }
 
@@ -102,6 +103,8 @@ $(document).ready(function () {
         $('.trick-item').last(),
         loadMore.appendTrick,
     )
+
+    showBootstrapFileInputValue($('.custom-file-input'));
 });
 
 
@@ -125,7 +128,7 @@ function showMediaList() {
  */
 function setModalValue(event, field, modal, trigger) {
     let item = modal.find(field.selector)
-    if (field.type === 'text'){
+    if (field.type === 'text') {
         item.text(trigger.find('.text').text());
     } else {
         if (field.type) {
@@ -134,4 +137,11 @@ function setModalValue(event, field, modal, trigger) {
             item.text(field.value)
         }
     }
+}
+
+function showBootstrapFileInputValue(fileInput) {
+    $(fileInput).change(function (e) {
+        let value = $(e.target).val().replace('C:\\fakepath\\', '').trim();
+        $(e.target).next(".custom-file-label").html(value);
+    })
 }

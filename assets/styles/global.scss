@@ -254,3 +254,7 @@ a {
   }
 
 }
+
+.custom-file-label::after {
+  content:"Parcourir"!important;
+}

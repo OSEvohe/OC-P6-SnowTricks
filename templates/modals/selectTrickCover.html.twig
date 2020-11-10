@@ -10,12 +10,9 @@
             </div>
             {{ form_start(formCover) }}
             <div class="modal-body">
-
                 {% for cover in formCover.cover %}
                     <div>
-                        {{ form_widget(cover) }}
-                        {{ form_label(cover) }}
-                        {{ form_errors(cover) }}
+                        {{ form_row(cover) }}
                     </div>
                 {% endfor %}
             </div>

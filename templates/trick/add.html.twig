@@ -5,7 +5,7 @@
 {% import 'prototypes/trickMedia_prototype.html.twig' as formPrototype %}
 
 {% block _trick_trickMedia_row %}
-    {{  formPrototype.trickMediaPrototype(prototype, form) }}
+    {{ formPrototype.trickMediaPrototype(prototype, form) }}
 {% endblock %}
 
 {% block title %}Trick Name - {{ parent() }}{% endblock %}
@@ -27,35 +27,15 @@
             <div class="row pb-5">
                 <div class="col-11 px-5 py-2 mx-auto bg-primary text-light">
                     <div class="text-center"><h2>Description du Trick</h2></div>
-                    <div class="form-group">
-                        {{ form_label(form.name) }}
-                        {{ form_widget(form.name,{'attr' : {'class': 'form-control'}}) }}
-                        <div class="alert-danger">{{ form_errors(form.name) }}</div>
-                    </div>
-                    <div class="form-group">
-                        {{ form_label(form.description) }}
-                        {{ form_widget(form.description,{'attr' : {'class': 'form-control'}}) }}
-                        <div class="alert-danger">{{ form_errors(form.description) }}</div>
-                    </div>
-                    <div class="form-group">
-                        {{ form_label(form.trickGroup) }}
-                        {{ form_widget(form.trickGroup,{'attr' : {'class': 'form-control'}}) }}
-                    </div>
+                    {{ form_row(form.name) }}
+                    {{ form_row(form.description) }}
+                    {{ form_row(form.trickGroup) }}
                 </div>
                 <div class="col-11 px-5 py-2 mx-auto bg-primary text-light mt-4 border border-dark">
                     <div class="text-center"><h2>{{ form_label(form.cover) }}</h2></div>
-                    <div class="form-group">
-                        {{ form_label(form.cover.image) }}
-                        {{ form_widget(form.cover.image,{'attr' : {'class': 'form-control-file'}}) }}
-                        <div class="alert-danger">{{ form_errors(form.cover.image) }}</div>
-                    </div>
-                    <div class="form-group">
-                        {{ form_label(form.cover.alt) }}
-                        {{ form_widget(form.cover.alt,{'attr' : {'class': 'form-control-file'}}) }}
-                        <div class="alert-danger">{{ form_errors(form.cover.alt) }}</div>
-                        {{ form_widget(form.cover.type) }}
-
-                    </div>
+                    {{ form_row(form.cover.image) }}
+                    {{ form_row(form.cover.alt) }}
+                    {{ form_row(form.cover.type) }}
                 </div>
                 <div class="col-11 px-5 py-2 mx-auto bg-primary text-light mt-4">
                     <div class="text-center">

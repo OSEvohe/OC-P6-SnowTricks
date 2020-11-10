@@ -10,19 +10,13 @@
             </div>
             <div class="modal-body text-center">
                 {% if media.vars.data.type == 1 %}
-                    <img src="{{ asset("uploads/tricks/" ~ media.vars.data.content) }}" width="300px" alt="{{ media.vars.data.alt }}"/>
+                    <img class="mb-2" src="{{ asset("uploads/tricks/" ~ media.vars.data.content) }}" width="300px" alt="{{ media.vars.data.alt }}"/>
                 {% endif %}
                 {% if media.vars.data.type == 2 %}
-                    <img src="https://img.youtube.com/vi/{{ youtube.getId(media.vars.data.content) }}/mqdefault.jpg" alt="{{ media.vars.data.alt }}"/>
-                    <div class="form-group mt-2">
-                        {{ form_label(media.children.content) }}
-                        {{ form_widget(media.children.content) }}
-                    </div>
+                    <img class="mb-2" src="https://img.youtube.com/vi/{{ youtube.getId(media.vars.data.content) }}/mqdefault.jpg" alt="{{ media.vars.data.alt }}"/>
+                    {{ form_row(media.children.content) }}
                 {% endif %}
-                <div class="form-group mt-2">
-                    {{ form_label(media.children.alt) }}
-                    {{ form_widget(media.children.alt) }}
-                </div>
+                    {{ form_row(media.children.alt) }}
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary btn-close" data-dismiss="modal" data-id="{{ media.vars.data.id }}">Fermer</button>
