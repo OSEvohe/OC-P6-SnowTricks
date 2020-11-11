@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    Edition d'un utilisateur - {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <ol class="breadcrumb m-0 col-12 small">
+                <li class="breadcrumb-item"><a href="{{ path('app_admin_index') }}">Administration du site</a></li>
+                <li class="breadcrumb-item"><a href="{{ path('app_admin_user_index') }}">Gestion des utilisateurs</a></li>
+                <li class="breadcrumb-item">Edition d'un utilisateur</li>
+            </ol>
+        </div>
+    </div>
+    <section class="container py-5">
+        <div class="row">
+            <div class="col-sm-12 col-md-9 col-lg-6 m-auto p-5">
+                <h2 class="text-center pb-5">Edition d'un utilisateur</h2>
+                <table class="table">
+                    <tr>
+                        <td colspan="2" class="text-center">
+                            {% if user.photo %}
+                                <img src="{{ asset("uploads/profiles/"~user.photo) }}" alt=""/>
+                            {% else %}
+                                <img src="{{ asset("build/images/user-icon-image-18.jpg") }}" alt=""/>
+                            {% endif %}
+                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" data-title='{"value":"Supprimer la photo ?","selector":".modal-title"}'
+                                    data-id='{"value":"{{ path('app_admin_user_delete_photo', {'id' : user.id }) }}","type":"href","selector":".btn-delete"}'>Supprimer la photo</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>ID :</td>
+                        <td>{{ user.id }}</td>
+                    </tr>
+                    <tr>
+                        <td>Pseudo :</td>
+                        <td>{{ user.displayName }}</td>
+                    </tr>
+                    <tr>
+                        <td>Email :</td>
+                        <td>{{ user.email }}</td>
+                    </tr>
+                    <tr>
+                        <td>Inscrit le :</td>
+                        <td>{{ user.createdAt.format('d/m/Y à H:i') }}</td>
+                    </tr>
+                    <tr>
+                        <td>Contributions</td>
+                        <td>
+                            {{ user.contributions.count }} contributions dont {{ user.tricks.count }} trick(s) crée(s)<br />
+                            {{ user.comments.count }} commentaires
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Status :</td>
+                        <td>
+                            {% if 'ROLE_ADMIN' in user.roles %}<span class="text-warning">Admin</span>, {% endif %}
+                            {% if 'ROLE_USER_VERIFIED' in user.roles %}<span class="text-success">Verifié</span>
+                            {% else %}<span class="text-danger">Non verifié</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="text-center">
+                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" data-title='{"value":"Supprimer {{ user.displayName }} ? Ses commentaires seront supprimés et la propriété de ses tricks vous sera transférée.","selector":".modal-title"}'
+                                    data-id='{"value":"{{ path('app_admin_user_delete', {'id' : user.id }) }}","type":"href","selector":".btn-delete"}'>Supprimer ce compte</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-md-9 col-lg-6 m-auto p-5">
+                {{ form(form, {'attr': {'novalidate': 'novalidate'}}) }}
+            </div>
+        </div>
+    </section>
+    {% include 'modals/delete.html.twig' %}
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des utilisateurs - {{ parent() }}{% endblock %}
+
+
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <ol class="breadcrumb m-0 col-12 small">
+                <li class="breadcrumb-item"><a href="{{ path('app_admin_index') }}">Administration du site</a></li>
+                <li class="breadcrumb-item">Gestion des utilisateurs</li>
+            </ol>
+        </div>
+    </div>
+
+
+    <section class="container py-5">
+        <div class="row">
+            <div class="col-sm-12 col-md-10 m-auto p-5">
+                <h2 class="text-center pb-5">Gestion des utilisateurs</h2>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Pseudo</th>
+                        <th>Email</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <td>{{ user.displayName }}</td>
+                            <td>
+                                {{ user.email }}
+                                {% if 'ROLE_ADMIN' in user.roles %}<span class="badge badge-warning">Admin</span>{% endif %}
+                                {% if 'ROLE_USER_VERIFIED' in user.roles %}<span class="badge badge-success">Verifié</span>
+                                {% else %}<span class="badge badge-danger">Non verifié</span>
+                                {% endif %}
+                            </td>
+                            <td><a href="{{ path('app_admin_user_update', {'id' : user.id}) }}"><i class="fas fa-pen"></i></a></td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    {% include 'modals/delete.html.twig' %}
+{% endblock %}
