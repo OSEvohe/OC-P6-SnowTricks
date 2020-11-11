@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    Edition d'un groupe - {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <ol class="breadcrumb m-0 col-12 small">
+                <li class="breadcrumb-item"><a href="{{ path('app_admin_index') }}">Administration du site</a></li>
+                <li class="breadcrumb-item"><a href="{{ path('app_admin_trickgroup_index') }}">Gestion des groupes de tricks</a></li>
+                <li class="breadcrumb-item">Edition d'un groupe</li>
+            </ol>
+        </div>
+    </div>
+    <section class="container py-5">
+        <div class="row">
+            <div class="col-sm-12 col-md-9 col-lg-6 m-auto p-5">
+                <h2 class="text-center pb-5">Edition d'un groupe</h2>
+                {{ form(form) }}
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+
+

@@ -28,15 +28,15 @@ class CommentController extends AbstractController
      * @Route ("/comments/{slug}/load-more/{offset}/{limit}", name="load_more_comments", methods={"GET"})
      *
      * @param Trick $trick
-     * @param CommentRepository $em
+     * @param CommentRepository $repository
      * @param SerializerInterface $serializer
      * @param int $offset
      * @param int $limit
      * @return JsonResponse
      */
-    public function loadMore(Trick $trick, CommentRepository $em, SerializerInterface $serializer, int $offset = 0, int $limit = 10): JsonResponse
+    public function loadMore(Trick $trick, CommentRepository $repository, SerializerInterface $serializer, int $offset = 0, int $limit = 10): JsonResponse
     {
-        $comments = $em->findBy(['trick' => $trick], ['createdAt' => 'DESC'], $limit , $offset);
+        $comments = $repository->findBy(['trick' => $trick], ['createdAt' => 'DESC'], $limit , $offset);
 
         $dateCallback = function ($value, $object, string $attributeName, string $format = null, array $context = [])
         {
