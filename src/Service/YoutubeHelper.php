@@ -61,4 +61,11 @@ class YoutubeHelper
         }
         return false;
     }
+
+    public function getVideoInfo(string $id)
+    {
+        $url = 'https://www.youtube.com/get_video_info?video_id='.$id;
+        parse_str(file_get_contents($url), $data);
+        return json_decode($data['player_response'])->videoDetails;
+    }
 }

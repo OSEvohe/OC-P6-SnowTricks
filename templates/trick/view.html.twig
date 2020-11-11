@@ -45,7 +45,7 @@
                                 </a>
                             {% elseif trickMedia.type == 2 %}
                                 <a data-toggle="modal" data-target="#youtubeModal" data-src='{"value":"https://www.youtube.com/embed/{{ youtube.getId(trickMedia.content) }}", "type":"src", "selector":".modal-video-iframe"}'
-                                   style="background-image: url('https://img.youtube.com/vi/{{ youtube.getId(trickMedia.content) }}/mqdefault.jpg')">
+                                   style="background-image: url('https://img.youtube.com/vi/{{ youtube.getId(trickMedia.content) }}/mqdefault.jpg')" title="{{ youtube.videoInfo(youtube.id(trickMedia.content)).title }}">
                                     <i class="fab fa-youtube"></i>
                                 </a>
                             {% endif %}
