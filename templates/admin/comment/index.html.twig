@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des Groupes de tricks - {{ parent() }}{% endblock %}
+
+
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <ol class="breadcrumb m-0 col-12 small">
+                <li class="breadcrumb-item"><a href="{{ path('app_admin_index') }}">Administration du site</a></li>
+                <li class="breadcrumb-item"><a href="{{ path('app_admin_comment_index') }}">Gestion des commentaires</a></li>
+            </ol>
+        </div>
+    </div>
+
+
+    <section class="container py-5">
+        <div class="row">
+            <div class="col-sm-12 col-md-10 m-auto p-5">
+                <h2 class="text-center pb-5">Gestion des commentaires</h2>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Commentaire</th>
+                        <th>Auteur</th>
+                        <th>Trick</th>
+                        <th>Date</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for comment in comments %}
+                        <tr>
+                            <td>{{ comment.id }}</td>
+                            <td>{{ comment.content|slice(0,20)}}...</td>
+                            <td>{{ comment.user.displayName}}</td>
+                            <td><a href="{{ path('app_admin_comment_index_filterby_trick', {'slug' : comment.trick.slug}) }}">{{ comment.trick.name }}</a></td>
+                            <td>{{ comment.updatedAt.format('d/m/Y à H:i') }}</td>
+                            <td><a href="{{ path('app_admin_comment_detail', {'id' : comment.id}) }}"><i class="fas fa-eye"></i></a></td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    {% include 'modals/delete.html.twig' %}
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    Détails d'un commentaire - {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <ol class="breadcrumb m-0 col-12 small">
+                <li class="breadcrumb-item"><a href="{{ path('app_admin_index') }}">Administration du site</a></li>
+                <li class="breadcrumb-item"><a href="{{ path('app_admin_comment_index') }}">Gestion des commentaires</a></li>
+                <li class="breadcrumb-item">Détails d'un commentaire</li>
+            </ol>
+        </div>
+    </div>
+    <section class="container py-5">
+        <div class="row">
+            <div class="col-sm-12 col-md-9 col-lg-6 m-auto p-5">
+                <h2 class="text-center pb-5">Détail du commentaire #{{ comment.id }}</h2>
+                <table class="table">
+                    <tr>
+                        <td>ID :</td>
+                        <td>{{ comment.id }}</td>
+                    </tr>
+                    <tr>
+                        <td>Auteur :</td>
+                        <td>{{ comment.user.displayName }}</td>
+                    </tr>
+                    <tr>
+                        <td>Trick :</td>
+                        <td>{{ comment.trick.name }}</td>
+                    </tr>
+                    <tr>
+                        <td>Crée le  :</td>
+                        <td>{{ comment.updatedAt.format('d/m/Y à H:i') }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            {{ comment.content }}
+                        </td>
+                    </tr>
+                </table>
+                <div class="text-center">
+                    <a class="btn btn-danger" href="{{ path('app_admin_comment_delete', {'id' : comment.id}) }}">Supprimer</a>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+
+

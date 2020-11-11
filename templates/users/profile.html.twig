@@ -41,32 +41,9 @@
                     </div>
 
                     <div class="col-sm-12 col-md-6">
-                        {{ form_start(form) }}
                         <div class="row justify-content-center mb-2 mb-md-0">
-                            <div class="col-12 text-center pb-4">
-                                <h3>Editer mon profil</h3>
-                            </div>
+                        {{ form(form) }}
                         </div>
-
-                        <div class="row justify-content-center mb-2 mb-md-0">
-                            <div class="col-8 form-group">
-                                {{ form_label(form.displayName) }}
-                                {{ form_help(form.displayName) }}
-                                {{ form_widget(form.displayName) }}
-                            </div>
-                        </div>
-                        <div class="row justify-content-center mb-2 mb-md-0">
-                            <div class="col-8">
-                                {{ form_label(form.photo) }}
-                                {{ form_widget(form.photo) }}
-                            </div>
-                        </div>
-                        <div class="row justify-content-center mb-2 mb-md-0">
-                            <div class="col-8">
-                                <button type="submit" role="button" class="btn btn-success">Valider</button>
-                            </div>
-                        </div>
-                        {{ form_end(form) }}
                     </div>
                 </div>
             </div>

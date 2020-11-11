@@ -15,7 +15,9 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class User implements UserInterface
 {
 
+    const USER_REGISTERED = "ROLE_USER";
     const USER_VERIFIED = "ROLE_USER_VERIFIED";
+    const USER_ADMIN = "ROLE_ADMIN";
 
     use TimestampableEntity;
 
@@ -58,7 +60,7 @@ class User implements UserInterface
     private $displayName;
 
     /**
-     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="user")
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="user", cascade={"remove"})
      */
     private $comments;
 
