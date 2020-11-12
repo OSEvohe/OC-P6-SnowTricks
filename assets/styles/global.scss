@@ -107,6 +107,18 @@ a {
   }
 }
 
+.scroll-up {
+  color: $light-color;
+
+  a {
+    display:none;
+  }
+
+  i {
+    font-size: 60px;
+  }
+}
+
 
 /** Tricks section */
 .tricks-list {

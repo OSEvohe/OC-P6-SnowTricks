@@ -6,7 +6,7 @@ const coverPath = '/uploads/tricks/';
 const defaultAvatar = require('../assets/images/user-icon-image-18.jpg');
 const defaultCover = require('../assets/images/figure1.jpg');
 
-export function initLoadMore(container, loadMoreButton, htmlPrototype, appendCallback) {
+export function initLoadMore(container, loadMoreButton, htmlPrototype, appendCallback, scrollUp = false) {
 
     let jsonRoute = loadMoreButton.data('jsonroute');
     // set the amount limit of items requested equal to the amount of items displayed when page is loaded
@@ -36,6 +36,11 @@ export function initLoadMore(container, loadMoreButton, htmlPrototype, appendCal
 
             // data are loaded, we remove the loading icon
             loading.remove();
+
+            // display the scroll up button if scrollUp si set to true
+            if (scrollUp){
+                console.log($('.scroll-up a').show());
+            }
         });
         offset = offset + limit;
     });

@@ -102,6 +102,7 @@ $(document).ready(function () {
         $('#loadmoretricks'),
         $('.trick-item').last(),
         loadMore.appendTrick,
+        true
     )
 
     showBootstrapFileInputValue($('.custom-file-input'));
