@@ -107,6 +107,9 @@ class TrickController extends AbstractController
             if (!$formMedia->get('image')->isEmpty()) {
                 $manageTrick->addUploadedTrickMediaImage($trick, $formMedia, $imageUploader);
             } else {
+                /** @var TrickMedia $trickMedia */
+                $trickMedia = $formMedia->getData();
+                $trickMedia->setAlt($youtubeHelper->getVideoInfo($trickMedia->getContent())->title);
                 $trick->addTrickMedium($formMedia->getData());
             }
                 $manageTrick->update($trick);

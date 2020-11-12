@@ -62,10 +62,10 @@ class YoutubeHelper
         return false;
     }
 
-    public function getVideoInfo(string $id)
+    public function getVideoInfo(string $url)
     {
-        $url = 'https://www.youtube.com/get_video_info?video_id='.$id;
-        parse_str(file_get_contents($url), $data);
+        $urlData = 'https://www.youtube.com/get_video_info?video_id='.$this->getId($url);
+        parse_str(file_get_contents($urlData), $data);
         return json_decode($data['player_response'])->videoDetails;
     }
 }
