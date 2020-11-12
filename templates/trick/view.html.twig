@@ -88,9 +88,9 @@
                         </div>
                         {{ form_end(commentForm) }}
                     {% elseif is_granted('ROLE_USER') %}
-                        <p class="text-center">Veuillez activer votre compte pour ecrire un nouveau commentaire</p>
+                        <p class="text-center">Veuillez <a class="font-weight-bolder" href="{{ path('user_profile') }}">activer votre compte</a> pour ecrire un nouveau commentaire</p>
                     {% else %}
-                        <p class="text-center">Veuillez vous inscrire pour ecrire un nouveau commentaire</p>
+                        <p class="text-center">Veuillez vous <a class="font-weight-bolder" href="{{ path('app_register') }}">inscrire</a> pour ecrire un nouveau commentaire</p>
                     {% endif %}
                 </div>
             </section>
