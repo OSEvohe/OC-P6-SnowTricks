@@ -25,6 +25,11 @@ class TrickVoter extends Voter
             return false;
         }
 
+        // if the user is admin, always return true
+        if (false !== array_search('ROLE_ADMIN', $user->getRoles())){
+            return true;
+        }
+
         // ... (check conditions and return true to grant permission) ...
         switch ($attribute) {
             case 'TRICK_DELETE':
