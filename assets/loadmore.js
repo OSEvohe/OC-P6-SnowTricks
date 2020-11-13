@@ -39,7 +39,7 @@ export function initLoadMore(container, loadMoreButton, htmlPrototype, appendCal
 
             // display the scroll up button if scrollUp si set to true
             if (scrollUp){
-                console.log($('.scroll-up a').show());
+                $('.scroll-up a').show();
             }
         });
         offset = offset + limit;

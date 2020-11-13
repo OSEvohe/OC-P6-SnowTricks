@@ -270,3 +270,7 @@ a {
 .custom-file-label::after {
   content:"Parcourir"!important;
 }
+
+.form-add-image-fields, .form-add-video-fields {
+  display:none;
+}
