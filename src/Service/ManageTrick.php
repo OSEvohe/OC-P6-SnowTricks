@@ -74,16 +74,17 @@ class ManageTrick
 
     public function addTrickMediaCollection(FormInterface $form, ImageUploader $imageUploader)
     {
+        /** @var Trick $trick */
         $trick = $form->getData();
 
-        /** Process additional TrickMedia */
+        /** @var TrickMedia[] $collectionOfImage */
         $collectionOfImage = $form->get('trickMedia');
+
+        /** Process additional TrickMedia */
         foreach ($collectionOfImage as $trickMedia) {
             if ($trickMedia->getData()->getType() == TrickMedia::MEDIA_TYPE_IMAGE) {
                 $this->addUploadedTrickMediaImage($trick, $trickMedia, $imageUploader);
             } else {
-                /** @var TrickMedia $trickMedia */
-                $trickMedia->getData()->setAlt($this->youtubeHelper->getVideoInfo($trickMedia->getData()->getContent())->title);
                 $trick->addTrickMedium($trickMedia->getData());
             }
         }

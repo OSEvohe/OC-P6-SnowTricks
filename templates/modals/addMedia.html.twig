@@ -9,23 +9,18 @@
                 </button>
             </div>
             {{ form_start(formMedia) }}
-            <div class="modal-body">
+            <div class="modal-body form-media-type-select">
                 {{ form_errors(formMedia) }}
                 {{ form_row(formMedia.type) }}
             </div>
-            <div class="modal-body" id="modal-add-image">
+            <div class="modal-body form-add-image-fields" id="modal-add-image">
                 <h5>Ajout d'une Image</h5>
                 {{ form_row(formMedia.image) }}
+                {{ form_row(formMedia.alt) }}
             </div>
-            <div class="modal-body" id="modal-add-video">
+            <div class="modal-body form-add-video-fields" id="modal-add-video">
                 <h5>Ajout d'une video</h5>
                 {{ form_row(formMedia.content) }}
-            </div>
-            <div class="text-center">
-                <hr />
-            </div>
-            <div class="modal-body">
-                {{ form_row(formMedia.alt) }}
             </div>
             <div class="modal-footer">
                 <button type="submit" class="btn btn-primary">Ajouter</button>

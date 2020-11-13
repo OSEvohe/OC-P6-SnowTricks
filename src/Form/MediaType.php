@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\TrickMedia;
+use App\Service\YoutubeHelper;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -24,6 +25,19 @@ use Symfony\Component\Validator\Constraints\Url;
 class MediaType extends AbstractType
 {
     const INVALID_MEDIA_TYPE = "Le media renseigné est different du type selectionné";
+    /**
+     * @var YoutubeHelper
+     */
+    private $youtubeHelper;
+
+    /**
+     * MediaType constructor.
+     * @param YoutubeHelper $youtubeHelper
+     */
+    public function __construct(YoutubeHelper $youtubeHelper)
+    {
+        $this->youtubeHelper = $youtubeHelper;
+    }
 
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -31,7 +45,9 @@ class MediaType extends AbstractType
         $builder
             ->add('alt', TextType::class, [
                 'attr' => ['class' => 'form-control'],
-                'label' => 'Description de l\'image (Alt)',
+                'label' => 'Description',
+                'required' => false,
+                'empty_data' => '',
                 'constraints' => [
                     new Length([
                         'normalizer' => 'trim',
@@ -43,6 +59,16 @@ class MediaType extends AbstractType
                     new NotBlank(['message' => TrickType::NOTEMPTY_MESSAGE])
                 ],
             ])
+            ->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
+                /** @var TrickMedia $media */
+                $media = $event->getData();
+
+                // When creating a new video media, load the title from youtube
+                if ($event->getForm()->getConfig()->getOption('new') && isset($media['type']) && $media['type'] == TrickMedia::MEDIA_TYPE_VIDEO && $infos = $this->youtubeHelper->getVideoInfo($media['content'])) {
+                    $media['alt'] = $infos->title;
+                    $event->setData($media);
+                }
+            })
             ->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $event) {
                 /** @var TrickMedia $media */
                 $media = $event->getData();
@@ -129,7 +155,7 @@ class MediaType extends AbstractType
                 if ($form->getConfig()->getOption('new')) {
                     // video type is selected and a url is submitted in 'content' field
                     if ($form->get('image')->isEmpty() && !$form->get('content')->isEmpty()) {
-                        if ($form->get('type')->getData() != TrickMedia::MEDIA_TYPE_VIDEO){
+                        if ($form->get('type')->getData() != TrickMedia::MEDIA_TYPE_VIDEO) {
                             $form->get('type')->addError(new FormError(self::INVALID_MEDIA_TYPE));
                         }
                         return ['Default', 'video'];
@@ -137,7 +163,7 @@ class MediaType extends AbstractType
 
                     //image type is selected and a file is submitted in 'image' field
                     if ($form->get('content')->isEmpty() && !$form->get('image')->isEmpty()) {
-                        if ($form->get('type')->getData() != TrickMedia::MEDIA_TYPE_IMAGE){
+                        if ($form->get('type')->getData() != TrickMedia::MEDIA_TYPE_IMAGE) {
                             $form->get('type')->addError(new FormError(self::INVALID_MEDIA_TYPE));
                         }
                         return ['Default', 'image'];

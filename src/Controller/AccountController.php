@@ -43,6 +43,10 @@ class AccountController extends AbstractController
                 $user->setDisplayName($displayName);
             }
 
+            if ($email = $form->get('email')->getData()) {
+                $user->setEmail($email);
+            }
+
             if ($uploadedFile = $form->get('photo')->getData()) {
                 $imageUploader->setTargetDirectory($parameterBag->get('kernel.project_dir') . '/public/uploads/profiles');
 

@@ -15,6 +15,7 @@
                 {% if media.vars.data.type == 2 %}
                     <img class="mb-2" src="https://img.youtube.com/vi/{{ youtube.getId(media.vars.data.content) }}/mqdefault.jpg" alt="{{ media.vars.data.alt }}"/>
                     {{ form_row(media.children.content) }}
+                    <button type="button" data-json="{{ path('media_video_info', {'id' : youtube.getId(media.vars.data.content)}) }}" class="btn btn-primary reloadVideoAlt" title="">Alt automatique</button>
                 {% endif %}
                     {{ form_row(media.children.alt) }}
             </div>

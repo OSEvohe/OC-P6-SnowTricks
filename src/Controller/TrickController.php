@@ -107,14 +107,11 @@ class TrickController extends AbstractController
             if (!$formMedia->get('image')->isEmpty()) {
                 $manageTrick->addUploadedTrickMediaImage($trick, $formMedia, $imageUploader);
             } else {
-                /** @var TrickMedia $trickMedia */
-                $trickMedia = $formMedia->getData();
-                $trickMedia->setAlt($youtubeHelper->getVideoInfo($trickMedia->getContent())->title);
                 $trick->addTrickMedium($formMedia->getData());
             }
                 $manageTrick->update($trick);
 
-                $this->addFlash('success', 'Un media a été ajouté au trick');
+                $this->addFlash('success', 'Un media a été ajouté au trick !');
                 return $this->redirectToRoute(self::REDIRECT_POST_EDIT, ['slug' => $trick->getSlug()]);
         }
 
@@ -139,7 +136,7 @@ class TrickController extends AbstractController
     /**
      * Add trick
      *
-     * @Route ("/trick/add", name="trick_add", priority="3")
+     * @Route ("/trick/add", name="trick_create", priority="3")
      * @IsGranted("ROLE_USER_VERIFIED")
      * @param Request $request
      * @param ManageTrick $manageTrickDatabase
