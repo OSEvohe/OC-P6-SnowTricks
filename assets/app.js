@@ -28,20 +28,22 @@ $(document).ready(function () {
         }
     })
 
-    // Edit media Modal
-    // Add new media modal, show only the selected media type
-    $('#modal-add-image').css('display', 'none')
-    $('#modal-add-video').css('display', 'none')
+    $('.reloadVideoAlt').click(function (e) {
+        let button = $(e.target);
+        let alt = button.parent().find("[id$=_alt]");
+        let loading = $('<div class="spinner-border spinner-border-sm" role="status"><span class="sr-only">Chargement...</span></div>').prependTo(button);
+        $.getJSON(button.data('json'), function (data) {
+            alt.val(data.title);
+            loading.remove();
+        })
 
-    $('#media_type_0').click(function () {
-        $('#modal-add-image').css('display', 'block')
-        $('#modal-add-video').css('display', 'none')
     })
 
-    $('#media_type_1').click(function () {
-        $('#modal-add-image').css('display', 'none')
-        $('#modal-add-video').css('display', 'block')
-    })
+
+    // New media : show only the selected media type
+    $('.form-media-type-select').each(function () {
+        bindShowSelectedMediaType($(this))
+    });
 
 
     /** Display additional media form **/
@@ -49,18 +51,23 @@ $(document).ready(function () {
         // set containers
     let addMediaPrototype = $('div#trick_trickMedia')
     let addMediaContainer = $('div#additional_medias')
-    let index = {nb: addMediaContainer.find('.trick-media-form').length}
+
+    let index = {nb: 1}
 
     // bind addLink event for each Media type
     bindAddLink(addMediaPrototype, addMediaContainer, $('#add_trickMedia'), index)
 
     // add delete link to already existing media type
-    addMediaContainer.find('.trick-media-form').each(function () {
+    addMediaContainer.find('.new-trick-media-form').each(function () {
         addDeleteLink($(this));
     });
 
     function addTrickMedia(prototype, container, index) {
-        index.nb++
+        // increment index until we find a not used one
+        while ($('#trick_trickMedia_' + index.nb + '_type').length) {
+            index.nb++
+        }
+
         let template = prototype.attr('data-prototype')
             .replace(/__name__label__/g, 'Media')
             .replace(/__name__/g, index.nb);
@@ -68,6 +75,7 @@ $(document).ready(function () {
         let form = $(template);
         addDeleteLink(form);
         showBootstrapFileInputValue($(form).find('.custom-file-input'));
+        bindShowSelectedMediaType($(form).find('.form-media-type-select'));
         container.append(form);
     }
 
@@ -102,6 +110,7 @@ $(document).ready(function () {
         $('#loadmoretricks'),
         $('.trick-item').last(),
         loadMore.appendTrick,
+        true
     )
 
     showBootstrapFileInputValue($('.custom-file-input'));
@@ -144,4 +153,35 @@ function showBootstrapFileInputValue(fileInput) {
         let value = $(e.target).val().replace('C:\\fakepath\\', '').trim();
         $(e.target).next(".custom-file-label").html(value);
     })
+}
+
+function bindShowSelectedMediaType(container) {
+    let type_0 = container.find('[id$=_type_0]');
+    let type_1 = container.find('[id$=_type_1]');
+
+    if (type_0.is(':checked')) {
+        toggleMediaType(container, 0)
+    }
+    type_0.click(function () {
+        toggleMediaType(container, 0)
+    })
+
+    if (type_1.is(':checked')) {
+        toggleMediaType(container, 1)
+    }
+    type_1.click(function () {
+        toggleMediaType(container, 1)
+    })
+}
+
+function toggleMediaType(container, type) {
+    if (type === 0) {
+        container.parent().find('.form-add-image-fields').css('display', 'block')
+        container.parent().find('.form-add-video-fields').css('display', 'none')
+    }
+
+    if (type === 1) {
+        container.parent().find('.form-add-image-fields').css('display', 'none')
+        container.parent().find('.form-add-video-fields').css('display', 'block')
+    }
 }

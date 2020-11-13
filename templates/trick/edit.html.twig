@@ -88,9 +88,9 @@
                     {{ form_row(form.trickGroup) }}
                 </div>
                 <div class="text-center col-12">
-                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" data-title='{"value":"Supprimer le trick ?","selector":".modal-title"}'
-                            data-id='{"value":"{{ path('trick_delete', {'slug' : trick.slug }) }}","type":"href","selector":".btn-delete"}'>Supprimer</button>
-                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                    {% if is_granted('TRICK_DELETE', trick) %}<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" data-title='{"value":"Supprimer le trick ?","selector":".modal-title"}'
+                            data-id='{"value":"{{ path('trick_delete', {'slug' : trick.slug }) }}","type":"href","selector":".btn-delete"}'>Supprimer</button>{% endif %}
+                   <button type="submit" class="btn btn-primary">Enregistrer</button>
                 </div>
             </section>
             {{ form_end(form) }}

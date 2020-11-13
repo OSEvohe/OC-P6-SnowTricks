@@ -8,9 +8,11 @@ use App\Entity\Trick;
 use App\Entity\TrickMedia;
 use App\Service\ImageUploader;
 use App\Service\ManageTrick;
+use App\Service\YoutubeHelper;
 use Doctrine\ORM\EntityManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -61,5 +63,18 @@ class MediaController extends AbstractController
 
         $this->addFlash('success', 'Media supprimé');
         return $this->redirectToRoute(TrickController::REDIRECT_POST_EDIT, ['slug' => $media->getTrick()->getSlug()]);
+    }
+
+
+    /**
+     * Return Youtube video information as json response
+     * @Route("media/video-info-{id}", name="media_video_info")
+     *
+     * @param string $id
+     * @param YoutubeHelper $youtubeHelper
+     * @return JsonResponse
+     */
+    public function youtubeVideoInfo(string $id, YoutubeHelper $youtubeHelper): JsonResponse{
+        return new JsonResponse($youtubeHelper->getVideoInfo($youtubeHelper->getUrlFromId($id)), JsonResponse::HTTP_OK,[], false);
     }
 }

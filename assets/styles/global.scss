@@ -107,6 +107,18 @@ a {
   }
 }
 
+.scroll-up {
+  color: $light-color;
+
+  a {
+    display:none;
+  }
+
+  i {
+    font-size: 60px;
+  }
+}
+
 
 /** Tricks section */
 .tricks-list {
@@ -257,4 +269,8 @@ a {
 
 .custom-file-label::after {
   content:"Parcourir"!important;
+}
+
+.form-add-image-fields, .form-add-video-fields {
+  display:none;
 }

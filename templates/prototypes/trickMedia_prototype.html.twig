@@ -1,14 +1,16 @@
 {% macro trickMedia(children) %}
-    <div class="px-5 py-2 mx-auto bg-primary text-light mt-1 trick-media-form">
-        {{ form_row(children.type) }}
-        {{ form_row(children.image) }}
-        {{ form_row(children.content) }}
-        <div>
-            <hr class="text-light"/>
-            OU
-            <hr class="text-light"/>
+    <div class="px-5 py-2 mx-auto bg-primary text-light mt-1 new-trick-media-form">
+
+        <div class="form-media-type-select">
+            {{ form_row(children.type) }}
         </div>
-        {{ form_row(children.alt) }}
+        <div class="form-add-image-fields">
+            {{ form_row(children.image) }}
+            {{ form_row(children.alt) }}
+        </div>
+        <div class="form-add-video-fields">
+            {{ form_row(children.content) }}
+        </div>
     </div>
 {% endmacro %}
 

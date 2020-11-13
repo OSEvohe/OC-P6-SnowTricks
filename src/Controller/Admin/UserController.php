@@ -54,7 +54,16 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em->persist($form->getData());
+            if ($displayName = $form->get('displayName')->getData()) {
+                $user->setDisplayName($displayName);
+            }
+
+            if ($email = $form->get('email')->getData()) {
+                $user->setEmail($email);
+            }
+
+
+            $em->persist($user);
             $em->flush();
 
             $this->addFlash('success', 'L\'utilisateur a été modifié');

@@ -20,18 +20,24 @@ class ManageTrick
 
     /** @var Security */
     private $security;
+    /**
+     * @var YoutubeHelper
+     */
+    private $youtubeHelper;
 
     /**
      * ManageTrickDatabase constructor.
      * @param ImageUploader $imageUploader
      * @param EntityManagerInterface $em
      * @param Security $security
+     * @param YoutubeHelper $youtubeHelper
      */
-    public function __construct(ImageUploader $imageUploader, EntityManagerInterface $em, Security $security)
+    public function __construct(ImageUploader $imageUploader, EntityManagerInterface $em, Security $security, YoutubeHelper $youtubeHelper)
     {
         $this->imageUploader = $imageUploader;
         $this->em = $em;
         $this->security = $security;
+        $this->youtubeHelper = $youtubeHelper;
     }
 
 
@@ -68,10 +74,13 @@ class ManageTrick
 
     public function addTrickMediaCollection(FormInterface $form, ImageUploader $imageUploader)
     {
+        /** @var Trick $trick */
         $trick = $form->getData();
 
-        /** Process additional TrickMedia */
+        /** @var TrickMedia[] $collectionOfImage */
         $collectionOfImage = $form->get('trickMedia');
+
+        /** Process additional TrickMedia */
         foreach ($collectionOfImage as $trickMedia) {
             if ($trickMedia->getData()->getType() == TrickMedia::MEDIA_TYPE_IMAGE) {
                 $this->addUploadedTrickMediaImage($trick, $trickMedia, $imageUploader);

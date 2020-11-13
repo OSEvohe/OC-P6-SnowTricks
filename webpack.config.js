@@ -39,6 +39,11 @@ Encore
         to: 'images/[path][name].[ext]'
     })
 
+    .copyFiles({
+        from: './assets/samples',
+        to: '../uploads/tricks/[path][name].[ext]'
+    })
+
     /*
      * FEATURE CONFIG
      *

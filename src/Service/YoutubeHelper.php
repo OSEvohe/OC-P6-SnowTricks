@@ -62,10 +62,24 @@ class YoutubeHelper
         return false;
     }
 
-    public function getVideoInfo(string $id)
+    public function getVideoInfo(string $url)
     {
-        $url = 'https://www.youtube.com/get_video_info?video_id='.$id;
-        parse_str(file_get_contents($url), $data);
-        return json_decode($data['player_response'])->videoDetails;
+        $urlData = 'https://www.youtube.com/get_video_info?video_id=' . $this->getId($url);
+        parse_str(file_get_contents($urlData), $data);
+        if (isset($data['player_response'])) {
+            return json_decode($data['player_response'])->videoDetails;
+            }
+        return false;
+    }
+
+    public function getUrlFromId($id, $type = self::YOUTUBE_URL_EMBED)
+    {
+        switch ($type) {
+            case self::YOUTUBE_URL_SHORT:
+                return 'https://youtu.be/' . $id;
+            case self::YOUTUBE_URL_LONG:
+                return 'https://www.youtube.com/watch?v='.$id;
+            default: return 'https://www.youtube.com/embed/'.$id;
+        }
     }
 }
