@@ -2,8 +2,10 @@
 OpenClassRooms 6th Project
 Build a community website with symfony
 
-# PreRequis
-`npm install -g yarn`
+# Prerequisite
+* Php 7.3
+* Yarn (`npm install -g yarn`)
+* A Database engine (Mysql, PostgreSQL...)
 
 
 ## Installation
