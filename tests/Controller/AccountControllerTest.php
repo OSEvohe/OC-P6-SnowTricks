@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\controller;
+namespace App\Tests\Controller\Controller;
 
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -43,5 +43,23 @@ class AccountControllerTest extends WebTestCase
         $this->assertStringContainsString('Nouvelle photo du profil', $client->getResponse()->getContent());
     }
 
+    // Send verify email then redirect to profile page
+    public function testResendVerifyEmail(){
+        $client = static::createClient();
+        $userRepository = static::$container->get(UserRepository::class);
+        $testUser = $userRepository->findOneByEmail('user1@snowtricks');
+
+
+        $client->request('GET', '/resend-verify-email');
+        $this->assertTrue($client->getResponse()->isRedirect('/login'));
+
+        $client->loginUser($testUser);
+
+        $client->request('GET', '/resend-verify-email');
+        $this->assertTrue($client->getResponse()->isRedirect('/profile'));
+
+        $client->followRedirect();
+        $this->assertStringContainsString('Veuillez suivre le lien', $client->getResponse()->getContent());
+    }
 
 }
