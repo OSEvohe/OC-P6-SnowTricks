@@ -28,7 +28,7 @@ Code Climate
 * type `composer install`
 * type `yarn install`
 * type `yarn encore production` or `yarn encore dev` for development build
-* copy `.env` to `.env.local` and edit sql and smtp parameters
+* copy `.env` to `.env.local` and edit sql and mail parameters
 
 Now set the database :   
 `php bin/console doctrine:database:create`  
