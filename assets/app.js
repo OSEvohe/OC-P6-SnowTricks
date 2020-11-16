@@ -28,6 +28,11 @@ $(document).ready(function () {
         }
     })
 
+    $('.modal').on('hide.bs.modal', function (event) {
+        let trigger = $(event.relatedTarget);
+        $('#youtubeModal').find('iframe').attr('src', '');
+    });
+
     $('.reloadVideoAlt').click(function (e) {
         let button = $(e.target);
         let alt = button.parent().find("[id$=_alt]");
