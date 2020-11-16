@@ -40,8 +40,6 @@ class TricksFixture extends Fixture implements FixtureGroupInterface
      */
     public function load(ObjectManager $manager)
     {
-        $admin = $this->userRepository->findOneBy(['email' => 'Admin@snowtricks']);
-
         $user1 = new User();
         $user1->setDisplayName("User1");
         $user1->setEmail("user1@snowtricks");
@@ -105,7 +103,7 @@ class TricksFixture extends Fixture implements FixtureGroupInterface
 
     public static function getGroups(): array
     {
-        return ['sample_data'];
+        return ['samples_data'];
     }
 
     private function getSamplesTricks()
