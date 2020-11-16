@@ -3,6 +3,7 @@ OpenClassRooms 6th Project
 Build a community website with symfony
 
 # Prerequisite
+* A Web Server (Apache, Nginx...)
 * Php 7.3
 * Yarn (`npm install -g yarn`)
 * A Database engine (Mysql, PostgreSQL...)
