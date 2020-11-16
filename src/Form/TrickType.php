@@ -53,7 +53,7 @@ class TrickType extends AbstractType
             ->add('trickGroup', EntityType::class, [
                 'class' => TrickGroup::class,
                 'choice_label' => 'name',
-                'label' => 'Groupe'
+                'label' => 'Groupe',
             ])
             ->add('cover', MediaType::class, [
                 'label' => 'Image principale',

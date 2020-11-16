@@ -41,7 +41,7 @@ class MediaController extends AbstractController
 
     /**
      * Delete a media
-     * @Route ("media/{id}/delete", name="media_delete", methods={"GET"})
+     * @Route ("/media/{id}/delete", name="media_delete", methods={"GET"})
      * @IsGranted("ROLE_USER_VERIFIED")
      * @param TrickMedia $media
      * @param ImageUploader $imageUploader
@@ -68,7 +68,7 @@ class MediaController extends AbstractController
 
     /**
      * Return Youtube video information as json response
-     * @Route("media/video-info-{id}", name="media_video_info")
+     * @Route("/media/video-info-{id}", name="media_video_info")
      *
      * @param string $id
      * @param YoutubeHelper $youtubeHelper

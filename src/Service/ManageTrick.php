@@ -89,8 +89,4 @@ class ManageTrick
             }
         }
     }
-
-    public function deleteImage(TrickMedia $media){
-
-    }
 }
