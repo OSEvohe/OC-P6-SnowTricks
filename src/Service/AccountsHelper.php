@@ -85,9 +85,10 @@ class AccountsHelper
      */
     private function prepareMailSigned(User $user, VerifyEmailSignatureComponents $signatureComponents, string $subject, string $htmlTemplate): TemplatedEmail
     {
+        $sender = $_ENV['MAIL_SENDER'];
         $email = new TemplatedEmail();
         $email->to($user->getEmail());
-        $email->sender('sebastien@o-pa.fr');
+        $email->sender($sender);
         $email->subject($subject);
         $email->htmlTemplate($htmlTemplate);
         $email->context(['signedUrl' => $signatureComponents->getSignedUrl()]);
