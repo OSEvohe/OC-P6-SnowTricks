@@ -45,6 +45,6 @@ By default, you can log as admin with :
 `Admin@snowtricks / Password` at url `/_sntrks_admin/`
 
 #### Other users
-Samples data come with 2 additional users, both user `Password` as password :
+Samples data come with 2 additional users, both use `Password` as password :
 * john@snowtricks, a verified user, author of the 10 tricks
 * user1@snowtricks, a new unverified user  
