@@ -126,7 +126,7 @@ class MediaType extends AbstractType
                 // Display URL input only when editing a video media or creating a new media
                 if ($form->getConfig()->getOption('new') || (!is_null($media) && $media->getType() == TrickMedia::MEDIA_TYPE_VIDEO)) {
                     $form->add('content', UrlType::class, [
-                        'label' => 'URI de la vidéo',
+                        'label' => 'URI de la vidéo Youtube',
                         'attr' => ['class' => 'form-control'],
                         'trim' => true,
                         'required' => false,
