@@ -7,6 +7,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\ProfileType;
 use App\Service\AccountsHelper;
+use App\Service\ImageOptimizer;
 use App\Service\ImageUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -43,7 +44,7 @@ class AccountController extends AbstractController
                 $user->setDisplayName($displayName);
             }
 
-            if ($email = $form->get('email')->getData()) {
+            if ($form->has('email') && $email = $form->get('email')->getData()) {
                 $user->setEmail($email);
             }
 
@@ -55,6 +56,7 @@ class AccountController extends AbstractController
                     $imageUploader->deleteFile($user->getPhoto());
                 }
                 $user->setPhoto($imageUploader->upload($uploadedFile));
+                (new ImageOptimizer(200,200))->resizeAvatar($user, $imageUploader);
             }
 
             $em->persist($user);
