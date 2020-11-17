@@ -29,6 +29,7 @@ Code Climate
 * type `yarn install`
 * type `yarn encore production` or `yarn encore dev` for development build
 * copy `.env` to `.env.local` and edit sql and mail parameters
+* configure a new Virtual host in your web server configuration with `public/` folder as DocumentRoot
 
 Now set the database :   
 `php bin/console doctrine:database:create`  
