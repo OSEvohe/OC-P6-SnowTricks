@@ -28,7 +28,7 @@
                                         data-name='{"value":"Media 1","selector":".modal-title"}'><i class="fas fa-trash"></i></button>{% endif %}
                         </div>
                     </div>
-                    <h1>{{ trick.name }}</h1>
+                    <h1><a class="text-light" href="{{ path('trick_detail', {'slug' : trick.slug}) }}">{{ trick.name }}</a></h1>
                 </div>
             </section>
         </div>
